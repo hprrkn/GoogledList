@@ -13,5 +13,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="/Users/Hiroyuki/Downloads/mysql-connector-java-5.1.37/postgresql-9.4-1205.jdbc4.jar" sourcepath="src/com/prrknh"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
