@@ -27,7 +27,7 @@ public class MonthListViewServlet extends HttpServlet {
 		String addWord = request.getParameter("addWord");
 		String memo = request.getParameter("memo");
 	    
-		googledwordlistDao dao =new googledwordlistDao();
+		GoogledWordListDao dao =new GoogledWordListDao();
 		dao.addWord(addWord, memo);
 		List<GoogledWord> nowMonthList = dao.findNowMonthView();
 		request.setAttribute("nowMonthList", nowMonthList);

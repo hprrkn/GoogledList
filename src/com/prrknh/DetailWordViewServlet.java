@@ -1,7 +1,6 @@
 package com.prrknh;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,25 +9,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-@WebServlet("/MainViewServlet")
-public class MainViewServlet extends HttpServlet {
+@WebServlet("/detailWordViewServlet")
+public class DetailWordViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public MainViewServlet() {
+	public DetailWordViewServlet() {
         super();
     }
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		GoogledWordListDao dao =new GoogledWordListDao();
-		List<GoogledWord> wordlist = dao.findAll();
-		request.setAttribute("wordlist", wordlist);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mainview.jsp");
-		dispatcher.forward(request,response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		request.setCharacterEncoding("UTF-8");
+		
+		Integer selectedId = Integer.parseInt(request.getParameter("id"));
+		
+		GoogledWordListDao dao = new GoogledWordListDao(); 
+		GoogledWord detail = dao.findDetail(selectedId);
+		request.setAttribute("detail", detail);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/detailview.jsp");
+		dispatcher.forward(request, response);
 	}
 
 }
