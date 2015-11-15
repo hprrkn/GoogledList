@@ -5,20 +5,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>ググったリスト</title>
+<title>addedList</title>
 </head>
 <body>
-<form action="MonthListViewServlet" method="post">
-	<input type="text" name="addWord">
-	<input type="text" name="memo">
-	<input type="submit" value="add">
-</form>
-<div class="month-view-list">
-	<div class="month-view">
- 	<c:forEach var="wordlist" items="${wordlist}">
-	 ${wordlist.id}/${wordlist.word}/${wordlist.memo}/${wordlist.added_day}<br>
+
+<div class="addedWordComfirm">
+<h6>${addword}を追加しました。</h6>
+<p>memo:${memo}</p>
+</div>
+
+<div class="now_month_list">
+	<div class="list_view">
+ 	<c:forEach var="nowMonthWord" items="${nowMonthList}">
+		${nowMonthWord.id}/${nowMonthWord.word}/${nowMonthWord.memo}/${nowMonthWord.added_day}<br>
 	</c:forEach> 
 	</div>
 </div>
+
 </body>
 </html>
