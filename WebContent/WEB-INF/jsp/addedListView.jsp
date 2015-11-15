@@ -17,7 +17,7 @@
 <div class="now_month_list">
 	<div class="list_view">
  	<c:forEach var="nowMonthWord" items="${nowMonthList}">
-		${nowMonthWord.id}/${nowMonthWord.word}/${nowMonthWord.memo}/${nowMonthWord.added_day}<br>
+		${nowMonthWord.id}/${nowMonthWord.word}/${nowMonthWord.memo}/${nowMonthWord.added_day}<a href="">detail</a><br>
 	</c:forEach> 
 	</div>
 </div>
