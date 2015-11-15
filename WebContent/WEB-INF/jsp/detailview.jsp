@@ -9,7 +9,7 @@
 <body>
 ググったもの：${detail.word}<br>
 メモ：${detail.memo}<br>
-ググった日：${detail.added}<br>
+ググった日：${detail.added_day}<br>
 <br>
 <form action="editServlet" method="post">
 <input type="hidden" name="selectedId" value="${detail.id}"> 
