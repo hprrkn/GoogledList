@@ -186,4 +186,50 @@ public class GoogledWordListDao {
 		}
 		return googledWord;
 	}
+	
+	public void updateDetail(int id, String EditedWord, String EditedMemo){
+		Connection conn = null;
+		try{
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
+			String sql = "UPDATE searchhistory SET word = ' "+ EditedWord + "', memo = '"+ EditedMemo + "' WHERE id = " + id + ";";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}finally{
+			if(conn != null){
+				try{
+					conn.close();
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void deleteDetail(int id){
+		Connection conn = null;
+		try{
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
+			String sql = "DELETE FROM searchhistory WHERE id = " + id + ";";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}finally{
+			if(conn != null){
+				try{
+					conn.close();
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

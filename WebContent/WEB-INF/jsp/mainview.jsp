@@ -8,6 +8,7 @@
 <title>ググったリスト</title>
 </head>
 <body>
+<c:if test="${!empty msg}"><c:out value="${msg}"/></c:if>
 <form action="MonthListViewServlet" method="post">
 	<input type="text" name="addWord">
 	<input type="text" name="memo">

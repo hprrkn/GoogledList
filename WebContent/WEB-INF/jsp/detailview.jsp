@@ -11,7 +11,7 @@
 メモ：${detail.memo}<br>
 ググった日：${detail.added_day}<br>
 <br>
-<form action="editServlet" method="post">
+<form action="EditServlet" method="get">
 <input type="hidden" name="selectedId" value="${detail.id}"> 
 <input type="submit" value="編集・削除">
 </form>

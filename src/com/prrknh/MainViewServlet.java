@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+
 
 @WebServlet("/MainViewServlet")
 public class MainViewServlet extends HttpServlet {
@@ -20,6 +22,8 @@ public class MainViewServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String msg = request.getParameter("msg");
+		if (StringUtils.isNotEmpty(msg)) request.setAttribute("msg", msg);
 		GoogledWordListDao dao =new GoogledWordListDao();
 		List<GoogledWord> wordlist = dao.findAll();
 		request.setAttribute("wordlist", wordlist);
