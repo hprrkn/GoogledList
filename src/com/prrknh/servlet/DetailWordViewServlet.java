@@ -1,4 +1,4 @@
-package com.prrknh;
+package com.prrknh.servlet;
 
 import java.io.IOException;
 
@@ -8,6 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.prrknh.dao.GoogledWordListDao;
+import com.prrknh.entity.GoogledWord;
 
 @WebServlet("/detailWordViewServlet")
 public class DetailWordViewServlet extends HttpServlet {

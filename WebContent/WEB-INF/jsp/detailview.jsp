@@ -7,13 +7,13 @@
 <title>${detail.word}</title>
 </head>
 <body>
-ググったもの：${detail.word}<br>
-メモ：${detail.memo}<br>
-ググった日：${detail.added}<br>
-<br>
-<form action="editServlet" method="post">
-<input type="hidden" name="selectedId" value="${detail.id}"> 
-<input type="submit" value="編集・削除">
-</form>
+	<p>ググったもの：${detail.word}</p><br>
+	<p>メモ：${detail.memo}</p><br>
+	<p>ググった日：${detail.added_day}</p><br>
+	<br>
+	<form action="EditServlet" method="get">
+		<input type="hidden" name="selectedId" value="${detail.id}"> 
+		<input type="submit" value="編集・削除">
+	</form>
 </body>
 </html>

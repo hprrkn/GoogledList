@@ -1,4 +1,4 @@
-package com.prrknh;
+package com.prrknh.entity;
 
 import java.io.Serializable;
 import java.util.Date;
