@@ -46,4 +46,28 @@ public class UsersDao {
 		}
 		return userMaster;
 	}
+	
+	public void register(UserMaster registerUser){
+		Connection conn = null;
+		try{
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
+			String sql = "INSERT INTO users(user_name, user_pass) VALUES (" + registerUser.getUserName() + "," + registerUser.getUserPass() + ");";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.executeQuery();		
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+		}catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}finally{
+			if(conn != null){
+				try{
+					conn.close();
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }
