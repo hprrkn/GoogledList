@@ -20,10 +20,11 @@ public class UsersDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM users WHERE activation = t AND user_name = '" + paramName + "';";
+			String sql = "SELECT * FROM users WHERE activation = true AND user_name = '" + paramName + "';";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			ResultSet rs = pStmt.executeQuery();		
 			while(rs.next()){
+				userMaster.setUserId(rs.getInt("user_id"));
 				userMaster.setUserName(rs.getString("user_name"));
 				userMaster.setUserPass(rs.getString("pw"));
 			}

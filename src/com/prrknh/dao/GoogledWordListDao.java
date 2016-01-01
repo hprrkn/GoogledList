@@ -24,7 +24,7 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM searchhistory WHERE activation = t AND user_id = '" + userMaster.getUserId() + "';";
+			String sql = "SELECT * FROM searchhistory WHERE activation = true AND user_id = " + userMaster.getUserId() + ";";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			ResultSet rs = pStmt.executeQuery();		
 			while(rs.next()){
@@ -59,7 +59,7 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "INSERT INTO searchhistory(user_id, word,memo) VALUES('" +userMaster.getUserId() + "','" + addWord + "','" + memo + "');";
+			String sql = "INSERT INTO searchhistory(user_id, word,memo) VALUES(" + userMaster.getUserId() + ",'" + addWord + "','" + memo + "');";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			int result = pStmt.executeUpdate();
 			if (result != 1){
@@ -89,7 +89,7 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM searchhistory WHERE WHERE activation = t AND added_day >= DATE_TRUNC('month', now())::date AND added_day < (DATE_TRUNC('month', now() + '1 month'))::date";
+			String sql = "SELECT * FROM searchhistory WHERE WHERE activation = true AND added_day >= DATE_TRUNC('month', now())::date AND added_day < (DATE_TRUNC('month', now() + '1 month'))::date";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
@@ -125,7 +125,7 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM searchhistory WHERE WHERE user_id = " + "'" + userMaster.getUserId() + "'" + "AND activation = t AND added_day >= '" + year + "-" + month + " 01' AND added_day < (DATE_TRUNC('month', '" + year + "-" + month + " -01'::date + '1 month'))::date";
+			String sql = "SELECT * FROM searchhistory WHERE WHERE user_id = " + userMaster.getUserId() + " AND activation = true AND added_day >= '" + year + "-" + month + " 01' AND added_day < (DATE_TRUNC('month', '" + year + "-" + month + " -01'::date + '1 month'))::date";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
@@ -161,7 +161,7 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM searchhistory WHERE WHERE activation = t AND id = " + selectedId;
+			String sql = "SELECT * FROM searchhistory WHERE WHERE activation = true AND id = " + selectedId;
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
@@ -218,7 +218,7 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "UPDATE searchhistory SET activation = f WHERE id = " + id + ";";
+			String sql = "UPDATE searchhistory SET activation = false WHERE id = " + id + ";";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.executeUpdate();
 		}catch(SQLException e){
