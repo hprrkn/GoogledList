@@ -1,4 +1,4 @@
-package com.prrknh;
+package com.prrknh.servlet;
 
 import java.io.IOException;
 
@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+
+import com.prrknh.dao.GoogledWordListDao;
+import com.prrknh.entity.GoogledWord;
 
 
 @WebServlet("/EditServlet")

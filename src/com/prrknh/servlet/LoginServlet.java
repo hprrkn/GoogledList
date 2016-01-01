@@ -1,4 +1,4 @@
-package com.prrknh;
+package com.prrknh.servlet;
 
 import java.io.IOException;
 
@@ -9,26 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/detailWordViewServlet")
-public class DetailWordViewServlet extends HttpServlet {
+@WebServlet("/LoginServlet")
+public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	public DetailWordViewServlet() {
+       
+    public LoginServlet() {
         super();
     }
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	}
 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
+		dispatcher.forward(request,response);	
+	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		
-		Integer selectedId = Integer.parseInt(request.getParameter("id"));
-		
-		GoogledWordListDao dao = new GoogledWordListDao(); 
-		GoogledWord detail = dao.findDetail(selectedId);
-		request.setAttribute("detail", detail);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/detailview.jsp");
-		dispatcher.forward(request, response);
 	}
 
 }
