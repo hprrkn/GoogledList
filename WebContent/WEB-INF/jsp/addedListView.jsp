@@ -9,11 +9,10 @@
 </head>
 <body>
 
-<div class="addedWordComfirm">
 <h6>${addword}を追加しました。</h6>
 <p>memo:${memo}</p>
-</div>
 
+<p>今月のググったリスト</p>
 <div class="now_month_list">
 	<div class="list_view">
  	<c:forEach var="nowMonthWord" items="${nowMonthList}">

@@ -17,7 +17,7 @@
 	<div class="month-view-list">
 		<div class="month-view">
 		 	<c:forEach var="wordlist" items="${wordlist}">
-			 	${wordlist.id}/${wordlist.word}/${wordlist.memo}/${wordlist.added_day}<br>
+			 	${wordlist.word}/${wordlist.memo}/${wordlist.added_day}<br>
 			</c:forEach> 
 		</div>
 	</div>

@@ -56,9 +56,17 @@ public class MainViewServlet extends HttpServlet {
 			//月リストを取得
 			UsersDao usersDao = new UsersDao();
 			UserMaster userMaster = usersDao.getUserInfo(checkName);
+			
+			// sessionにユーザーマスターをセット
+			HttpSession session = request.getSession();
+			session.setAttribute("userMaster", userMaster);
+			
+			// 月次リスト取得
 			GoogledWordListDao dao =new GoogledWordListDao();
 			List<GoogledWord> wordlist = dao.findAll(userMaster);
 			request.setAttribute("wordlist", wordlist);
+			
+			// forward
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mainview.jsp");
 			dispatcher.forward(request,response);			
 		} else {
