@@ -29,21 +29,18 @@ public class RegisterServlet extends HttpServlet {
 		String registerName = request.getParameter("userName");
 		String registerPass = request.getParameter("userPass");
 		if (StringUtils.isBlank(registerName) || StringUtils.isBlank(registerPass)){
-			request.setAttribute("msg", "ユーザーネームとパスワードを正しく入力してください。");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
-			dispatcher.forward(request,response);			
+			request.setAttribute("msg", "ユーザーネームとパスワードを正しく入力してください。");		
+		} else { 
+			UserMaster regiterUser = new UserMaster(registerName, registerPass);
+			UsersDao usersDao = new UsersDao();
+			if (usersDao.register(regiterUser)){
+				request.setAttribute("msg", "新規登録できました。");
+			} else {
+				request.setAttribute("msg", "正しく登録できませんでした。");
+			}
 		}
-		UserMaster regiterUser = new UserMaster(registerName, registerPass);
-	
-		UsersDao usersDao = new UsersDao();
-		if (usersDao.register(regiterUser)){
-			request.setAttribute("msg", "新規登録できました。");
-		} else {
-			request.setAttribute("msg", "正しく登録できませんでした。");
-		}
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
-			dispatcher.forward(request,response);
-		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
+		dispatcher.forward(request,response);	
 	}
 
 }

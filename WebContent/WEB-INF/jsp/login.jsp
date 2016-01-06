@@ -11,7 +11,7 @@
 <c:if test="${!empty msg}"><p><c:out value="${msg}"/></p><br></c:if>
 
 <p>ログイン</p>
-<form action=MainViewServlet method=post>
+<form action=LoginServlet method=post>
 	ユーザーネーム：<input type=text name=userName>
 	パスワード：<input type=text name=userPass>
 	<input type=submit name=Login value="GO">

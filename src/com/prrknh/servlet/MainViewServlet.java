@@ -14,10 +14,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 
 import com.prrknh.dao.GoogledWordListDao;
-import com.prrknh.dao.UsersDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.UserMaster;
-import com.prrknh.logic.LoginCheck;
 
 
 @WebServlet("/MainViewServlet")
@@ -29,52 +27,40 @@ public class MainViewServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// セッションからユーザー情報を取得
-		HttpSession session = request.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		
-		// 更新後に戻ってきた時用のメッセージ設定
-		String msg = request.getParameter("msg");
-		if (StringUtils.isNotEmpty(msg)) request.setAttribute("msg", msg);
-		
-	    // 月リストを取得
-		GoogledWordListDao dao =new GoogledWordListDao();
-		List<GoogledWord> wordlist = dao.findAll(userMaster);
-		request.setAttribute("wordlist", wordlist);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mainview.jsp");
-		dispatcher.forward(request,response);
+		doBoth(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// ユーザー情報を取得
-		String checkName = request.getParameter("userName");
-		String checkPass = request.getParameter("userPass");
-		UserMaster checkUser = new UserMaster(checkName, checkPass);
-		
-		// ユーザーチェック
-		if(LoginCheck.checkUser(checkUser)){
-			//月リストを取得
-			UsersDao usersDao = new UsersDao();
-			UserMaster userMaster = usersDao.getUserInfo(checkName);
-			
-			// sessionにユーザーマスターをセット
-			HttpSession session = request.getSession();
-			session.setAttribute("userMaster", userMaster);
-			
-			// 月次リスト取得
-			GoogledWordListDao dao =new GoogledWordListDao();
-			List<GoogledWord> wordlist = dao.findAll(userMaster);
-			request.setAttribute("wordlist", wordlist);
-			
-			// forward
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mainview.jsp");
-			dispatcher.forward(request,response);			
-		} else {
-			request.setAttribute("msg", "ユーザーネームかパスワードが間違っています。");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
-			dispatcher.forward(request,response);	
+		doBoth(request, response);
+	}
+	
+	private void doBoth(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		// セッションからユーザー情報を取得
+		HttpSession session = request.getSession();
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
+		if (userMaster == null){
+			RequestDispatcher dispatcher = request.getRequestDispatcher("LoginServlet");
+			dispatcher.forward(request,response);
+			return;
 		}
-			
+		
+		// 更新後に戻ってきた時用のメッセージ設定
+		String msg = request.getParameter("msg");
+		if (StringUtils.isNotEmpty(msg)) {
+			request.setAttribute("msg", msg);
+		}
+		
+		setViewList(userMaster, request);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mainview.jsp");
+		dispatcher.forward(request,response);
+	}
+	
+	// 月次リスト取得	
+	private void setViewList(UserMaster userMaster, HttpServletRequest request){
+		GoogledWordListDao dao =new GoogledWordListDao();
+		List<GoogledWord> wordlist = dao.findAll(userMaster);
+		request.setAttribute("wordlist", wordlist);
 	}
 
 }
