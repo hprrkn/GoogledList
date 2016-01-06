@@ -17,11 +17,10 @@
 	<input type=submit name=Login value="GO">
 </form>
 <p>新規登録</p>
-<form action=MainViewServlet method=post>
+<form action=RegisterServlet method=post>
 	ユーザーネーム：<input type=text name=userName>
 	パスワード：<input type=text name=userPass>
-	<input type=submit
-	 name=Register value="GO">
+	<input type=submit name=Register value="GO">
 </form>
 </body>
 </html>

@@ -20,10 +20,12 @@ public class UsersDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM users WHERE activation = t AND user_name = '" + paramName + "';";
+			String sql = "SELECT * FROM users WHERE activation = true AND user_name = ?;";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setString(1,paramName);
 			ResultSet rs = pStmt.executeQuery();		
 			while(rs.next()){
+				userMaster.setUserId(rs.getInt("user_id"));
 				userMaster.setUserName(rs.getString("user_name"));
 				userMaster.setUserPass(rs.getString("pw"));
 			}
@@ -44,5 +46,35 @@ public class UsersDao {
 			}
 		}
 		return userMaster;
+	}
+	
+	public boolean register(UserMaster registerUser){
+		Connection conn = null;
+		try{
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
+			String sql = "INSERT INTO users(user_name, pw) VALUES ( ?, ? );";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setString(1, registerUser.getUserName());
+			pStmt.setString(2, registerUser.getUserPass());
+			int result = pStmt.executeUpdate();
+			if(result != 1) return false; 
+		}catch(SQLException e){
+			e.printStackTrace();
+			return false;
+		}catch(ClassNotFoundException e){
+			e.printStackTrace();
+			return false;
+		}finally{
+			if(conn != null){
+				try{
+					conn.close();
+				}catch(SQLException e){
+					e.printStackTrace();
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }

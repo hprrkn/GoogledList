@@ -7,16 +7,16 @@
 	<title>編集・削除</title>
 </head>
 <body>
-	<p>編集</p>p>
-	<form action="EditServlet" method="post"><br>
-		<input type="hidden" name="delete_flg" value="null">
+	<p>編集</p>
+	<form action="EditedServlet" method="GET"><br>
+		<input type="hidden" name="delete_flg" value="false">
 		<input type="hidden"  name="id" value="${googledWord.id}">
 		${googledWord.word}　→　<input type="text" name="editedword"><br>
 		${googledWord.memo}　→　<input type="text" name="editedmemo"><br>
 		<input type="submit" value="ok"> 
 	</form>
 
-	<form action="EditServlet" method="post"><br>
+	<form action="EditedServlet" method="GET"><br>
 		<input type="hidden"  name="id" value="${googledWord.id}">
 		<input type="hidden" name="delete_flg" value="true"><br>
 		<input type="submit" value="delete">

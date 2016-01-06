@@ -24,8 +24,9 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM searchhistory WHERE activation = t AND user_id = '" + userMaster.getUserId() + "';";
+			String sql = "SELECT * FROM searchhistory WHERE activation = true AND user_id = ?;";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, userMaster.getUserId());
 			ResultSet rs = pStmt.executeQuery();		
 			while(rs.next()){
 				int id = rs.getInt("id");
@@ -59,8 +60,11 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "INSERT INTO searchhistory(user_id, word,memo) VALUES('" +userMaster.getUserId() + "','" + addWord + "','" + memo + "');";
+			String sql = "INSERT INTO searchhistory(user_id, word, memo) VALUES(?, ?, ?);";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, userMaster.getUserId());
+			pStmt.setString(2, addWord);
+			pStmt.setString(3, memo);
 			int result = pStmt.executeUpdate();
 			if (result != 1){
 				return false;
@@ -89,8 +93,9 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM searchhistory WHERE WHERE activation = t AND added_day >= DATE_TRUNC('month', now())::date AND added_day < (DATE_TRUNC('month', now() + '1 month'))::date";
+			String sql = "SELECT * FROM searchhistory WHERE user_id = ? AND activation = true AND added_day >= DATE_TRUNC('month', now())::date AND added_day < (DATE_TRUNC('month', now() + '1 month'))::date";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, userMaster.getUserId());
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
 				int id = rs.getInt("id");
@@ -125,8 +130,13 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM searchhistory WHERE WHERE user_id = " + "'" + userMaster.getUserId() + "'" + "AND activation = t AND added_day >= '" + year + "-" + month + " 01' AND added_day < (DATE_TRUNC('month', '" + year + "-" + month + " -01'::date + '1 month'))::date";
+			String sql = "SELECT * FROM searchhistory WHERE WHERE user_id = ? AND activation = true AND added_day >= '?-?-01' AND added_day < (DATE_TRUNC('month', '?-?-01'::date + '1 month'))::date";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, userMaster.getUserId());
+			pStmt.setInt(2, year);
+			pStmt.setInt(3, month);
+			pStmt.setInt(4, year);
+			pStmt.setInt(5, month);
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
 				int id = rs.getInt("id");
@@ -161,8 +171,9 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM searchhistory WHERE WHERE activation = t AND id = " + selectedId;
+			String sql = "SELECT * FROM searchhistory WHERE activation = true AND id = ?;";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, selectedId);
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
 				int id = rs.getInt("id");
@@ -195,8 +206,11 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "UPDATE searchhistory SET word = ' "+ EditedWord + "', memo = '"+ EditedMemo + "' WHERE id = " + id + ";";
+			String sql = "UPDATE searchhistory SET word = ?, memo = ? WHERE id = ?;";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setString(1, EditedWord);
+			pStmt.setString(2, EditedMemo);
+			pStmt.setInt(3, id);
 			pStmt.executeUpdate();
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -218,8 +232,9 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "UPDATE searchhistory SET activation = f WHERE id = " + id + ";";
+			String sql = "UPDATE searchhistory SET activation = false WHERE id = ?;";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, id);
 			pStmt.executeUpdate();
 		}catch(SQLException e){
 			e.printStackTrace();

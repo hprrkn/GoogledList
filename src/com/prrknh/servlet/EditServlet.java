@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.entity.GoogledWord;
 
@@ -35,19 +33,5 @@ public class EditServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		int id = Integer.parseInt(request.getParameter("id"));
-		GoogledWordListDao dao = new GoogledWordListDao();
-		if (StringUtils.isNotEmpty(request.getParameter("delete_flg"))){
-			dao.deleteDetail(id);
-			request.setAttribute("msg", "削除しました。");
-		} else {
-			String editedWord = request.getParameter("editedword");
-			String editedMemo = request.getParameter("editedmemo");
-			dao.updateDetail(id, editedWord, editedMemo);
-			request.setAttribute("msg", "更新しました。");
-		}
-		RequestDispatcher dispathcer = request.getRequestDispatcher("/MainViewServlet");
-		dispathcer.forward(request,response);
 	}
 }

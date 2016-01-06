@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 
 import com.prrknh.dao.GoogledWordListDao;
+import com.prrknh.dao.UsersDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.UserMaster;
 import com.prrknh.logic.LoginCheck;
@@ -46,16 +47,26 @@ public class MainViewServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// ユーザー情報を取得
-		String userName = request.getParameter("userName");
-		String userPass = request.getParameter("userPass");
-		UserMaster userMaster = new UserMaster(userName, userPass);
+		String checkName = request.getParameter("userName");
+		String checkPass = request.getParameter("userPass");
+		UserMaster checkUser = new UserMaster(checkName, checkPass);
 		
 		// ユーザーチェック
-		if(LoginCheck.checkUser(userMaster)){
+		if(LoginCheck.checkUser(checkUser)){
 			//月リストを取得
+			UsersDao usersDao = new UsersDao();
+			UserMaster userMaster = usersDao.getUserInfo(checkName);
+			
+			// sessionにユーザーマスターをセット
+			HttpSession session = request.getSession();
+			session.setAttribute("userMaster", userMaster);
+			
+			// 月次リスト取得
 			GoogledWordListDao dao =new GoogledWordListDao();
 			List<GoogledWord> wordlist = dao.findAll(userMaster);
 			request.setAttribute("wordlist", wordlist);
+			
+			// forward
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mainview.jsp");
 			dispatcher.forward(request,response);			
 		} else {
