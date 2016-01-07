@@ -7,10 +7,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.UserMaster;
+import com.sun.javafx.collections.MappingChange.Map;
 
 public class GoogledWordListDao {
 	private final String DRIVER_NAME = "org.postgresql.Driver";
@@ -29,11 +31,7 @@ public class GoogledWordListDao {
 			pStmt.setInt(1, userMaster.getUserId());
 			ResultSet rs = pStmt.executeQuery();		
 			while(rs.next()){
-				int id = rs.getInt("id");
-				String word = rs.getString("word");
-				String memo = rs.getString("memo");
-				Date added_day = rs.getDate("added_day");
-				GoogledWord googledword = new GoogledWord(id, word, memo, added_day);
+				GoogledWord googledword = new GoogledWord(rs.getInt("id"), rs.getString("word"), rs.getString("memo"), rs.getDate("added_day"));
 				wordList.add(googledword);
 			}
 		}catch(SQLException e){
@@ -53,6 +51,37 @@ public class GoogledWordListDao {
 			}
 		}
 		return wordList;
+	}
+	
+	public HashMap<Date,Integer> countAllMonthWord(UserMaster userMaster){
+		Connection conn = null;
+		HashMap<Date, Integer> countList = new HashMap<Date, Integer>();
+		try{
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
+			String sql = "SELECT date_trunc('month',added_day) AS date, COUNT(id) AS count FROM searchhistory WHERE user_id = ? GROP BY date_trunc('month',added_day) ORDER BY date_trunc('month',added_day)";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, userMaster.getUserId());
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()){
+				countList.put(rs.getDate("date"),rs.getInt("count"));
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+			return null;
+		}catch(ClassNotFoundException e){
+			e.printStackTrace();
+			return null;
+		}finally{
+			if(conn != null){
+				try{
+					conn.close();
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+		return countList;
 	}
 	
 	public boolean addWord(UserMaster userMaster, String addWord, String memo){
@@ -98,11 +127,7 @@ public class GoogledWordListDao {
 			pStmt.setInt(1, userMaster.getUserId());
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
-				int id = rs.getInt("id");
-				String word = rs.getString("word");
-				String memo = rs.getString("memo");
-				Date added_day = rs.getDate("added_day");
-				GoogledWord googledword = new GoogledWord(id, word, memo, added_day);
+				GoogledWord googledword = new GoogledWord(rs.getInt("id"), rs.getString("word"), rs.getString("memo"), rs.getDate("added_day"));
 				monthList.add(googledword);
 			}
 		}catch(SQLException e){
@@ -139,11 +164,7 @@ public class GoogledWordListDao {
 			pStmt.setInt(5, month);
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
-				int id = rs.getInt("id");
-				String word = rs.getString("word");
-				String memo = rs.getString("memo");
-				Date added_day = rs.getDate("added_day");
-				GoogledWord googledword = new GoogledWord(id, word, memo, added_day);
+				GoogledWord googledword = new GoogledWord(rs.getInt("id"), rs.getString("word"), rs.getString("memo"), rs.getDate("added_day"));
 				monthList.add(googledword);
 			}
 		}catch(SQLException e){
@@ -176,11 +197,7 @@ public class GoogledWordListDao {
 			pStmt.setInt(1, selectedId);
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
-				int id = rs.getInt("id");
-				String word = rs.getString("word");
-				String memo = rs.getString("memo");
-				Date added_day = rs.getDate("added_day");
-				googledWord = new GoogledWord(id, word, memo, added_day);
+				googledWord = new GoogledWord(rs.getInt("id"), rs.getString("word"), rs.getString("memo"), rs.getDate("added_day"));
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
