@@ -1,7 +1,11 @@
 package com.prrknh.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,7 +19,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.entity.GoogledWord;
+import com.prrknh.entity.MonthCnt;
 import com.prrknh.entity.UserMaster;
+import com.sun.javafx.collections.MappingChange.Map;
 
 
 @WebServlet("/MainViewServlet")
@@ -44,13 +50,24 @@ public class MainViewServlet extends HttpServlet {
 			return;
 		}
 		
-		// 更新後に戻ってきた時用のメッセージ設定
-		String msg = request.getParameter("msg");
-		if (StringUtils.isNotEmpty(msg)) {
-			request.setAttribute("msg", msg);
-		}
+//		// 更新後に戻ってきた時用のメッセージ設定
+//		String msg = request.getParameter("msg");
+//		if (StringUtils.isNotEmpty(msg)) {
+//			request.setAttribute("msg", msg);
+//		}
 		
-		setViewList(userMaster, request);
+//		setViewList(userMaster, request);
+		
+		GoogledWordListDao dao = new GoogledWordListDao();
+		HashMap<Date,Integer> countMap = dao.countAllMonthWord(userMaster);
+		List<MonthCnt> monthCntList = new ArrayList<>();
+		
+		for (Entry<Date, Integer> entry : countMap.entrySet()){
+			MonthCnt mcs = new MonthCnt(entry.getKey().toString(),entry.getValue()); 	
+			monthCntList.add(mcs);
+		}
+		request.setAttribute("monthCntList", monthCntList);
+		
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mainview.jsp");
 		dispatcher.forward(request,response);

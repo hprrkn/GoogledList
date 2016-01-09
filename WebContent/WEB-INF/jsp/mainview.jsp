@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,8 +17,8 @@
 	</form>
 	<div class="month-view-list">
 		<div class="month-view">
-		 	<c:forEach var="wordlist" items="${wordlist}">
-			 	${wordlist.word}/${wordlist.memo}/${wordlist.added_day}<br>
+		 	<c:forEach var="monthCntList" items="${monthCntList}">
+		 		${monthCntList.yearMonth}:${monthCntList.cnt}<br>
 			</c:forEach> 
 		</div>
 	</div>

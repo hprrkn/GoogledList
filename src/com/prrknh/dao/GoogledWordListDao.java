@@ -12,7 +12,6 @@ import java.util.List;
 
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.UserMaster;
-import com.sun.javafx.collections.MappingChange.Map;
 
 public class GoogledWordListDao {
 	private final String DRIVER_NAME = "org.postgresql.Driver";
@@ -55,16 +54,16 @@ public class GoogledWordListDao {
 	
 	public HashMap<Date,Integer> countAllMonthWord(UserMaster userMaster){
 		Connection conn = null;
-		HashMap<Date, Integer> countList = new HashMap<Date, Integer>();
+		HashMap<Date, Integer> countMap = new HashMap<Date, Integer>();
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT date_trunc('month',added_day) AS date, COUNT(id) AS count FROM searchhistory WHERE user_id = ? GROP BY date_trunc('month',added_day) ORDER BY date_trunc('month',added_day)";
+			String sql = "SELECT date_trunc('month',added_day) AS date, COUNT(id) AS count FROM searchhistory WHERE user_id = ? GROUP BY date_trunc('month',added_day) ORDER BY date_trunc('month',added_day)";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userMaster.getUserId());
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
-				countList.put(rs.getDate("date"),rs.getInt("count"));
+				countMap.put(rs.getDate("date"),(rs.getInt("count")));
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -81,7 +80,7 @@ public class GoogledWordListDao {
 				}
 			}
 		}
-		return countList;
+		return countMap;
 	}
 	
 	public boolean addWord(UserMaster userMaster, String addWord, String memo){
