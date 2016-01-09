@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.prrknh.entity.GoogledWord;
@@ -52,9 +52,9 @@ public class GoogledWordListDao {
 		return wordList;
 	}
 	
-	public HashMap<Date,Integer> countAllMonthWord(UserMaster userMaster){
+	public LinkedHashMap<Date,Integer> countAllMonthWord(UserMaster userMaster){
 		Connection conn = null;
-		HashMap<Date, Integer> countMap = new HashMap<Date, Integer>();
+		LinkedHashMap<Date, Integer> countMap = new LinkedHashMap<Date, Integer>();
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);

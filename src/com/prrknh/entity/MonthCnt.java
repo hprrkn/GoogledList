@@ -8,7 +8,10 @@ public class MonthCnt implements Serializable{
 	private  String yearMonth;
 	private  int cnt;
 	
-	public MonthCnt(String yearMonth, int cnt){}
+	public MonthCnt(String yearMonth, int cnt){
+		this.yearMonth = yearMonth;
+		this.cnt = cnt;
+	}
 	
 	public String getYearMonth(){
 		return this.yearMonth;
