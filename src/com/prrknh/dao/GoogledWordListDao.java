@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.UserMaster;
@@ -52,13 +53,13 @@ public class GoogledWordListDao {
 		return wordList;
 	}
 	
-	public LinkedHashMap<Date,Integer> countAllMonthWord(UserMaster userMaster){
+	public Map<Date,Integer> countAllMonthWord(UserMaster userMaster){
 		Connection conn = null;
-		LinkedHashMap<Date, Integer> countMap = new LinkedHashMap<Date, Integer>();
+		Map<Date, Integer> countMap = new LinkedHashMap<Date, Integer>();
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT date_trunc('month',added_day) AS date, COUNT(id) AS count FROM searchhistory WHERE user_id = ? GROUP BY date_trunc('month',added_day) ORDER BY date_trunc('month',added_day)";
+			String sql = "SELECT date_trunc('month',added_day) AS date, COUNT(id) AS count FROM searchhistory WHERE user_id = ? GROUP BY date_trunc('month',added_day) ORDER BY date_trunc('month',added_day) DESC";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userMaster.getUserId());
 			ResultSet rs = pStmt.executeQuery();
@@ -148,19 +149,17 @@ public class GoogledWordListDao {
 		return monthList;
 	}
 	
-	public List<GoogledWord> findMonthList(UserMaster userMaster, int year, int month){
+	public List<GoogledWord> findMonthList(UserMaster userMaster, String strDate){
 		Connection conn = null;
 		List<GoogledWord> monthList = new ArrayList<GoogledWord>();
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM searchhistory WHERE WHERE user_id = ? AND activation = true AND added_day >= '?-?-01' AND added_day < (DATE_TRUNC('month', '?-?-01'::date + '1 month'))::date";
+			String sql = "SELECT * FROM searchhistory WHERE user_id = ? AND activation = true AND added_day >= to_date(?,'YYYY-MM-DD') AND added_day < (DATE_TRUNC('month', to_timestamp(?,'YYYY-MM-DD') + '1 month'))::date";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userMaster.getUserId());
-			pStmt.setInt(2, year);
-			pStmt.setInt(3, month);
-			pStmt.setInt(4, year);
-			pStmt.setInt(5, month);
+			pStmt.setString(2, strDate);
+			pStmt.setString(3, strDate);
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
 				GoogledWord googledword = new GoogledWord(rs.getInt("id"), rs.getString("word"), rs.getString("memo"), rs.getDate("added_day"));

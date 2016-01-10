@@ -1,9 +1,12 @@
 package com.prrknh.servlet;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -21,7 +24,7 @@ import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.MonthCnt;
 import com.prrknh.entity.UserMaster;
-import com.sun.javafx.collections.MappingChange.Map;
+
 
 
 @WebServlet("/MainViewServlet")
@@ -59,11 +62,16 @@ public class MainViewServlet extends HttpServlet {
 //		setViewList(userMaster, request);
 		
 		GoogledWordListDao dao = new GoogledWordListDao();
-		HashMap<Date,Integer> countMap = dao.countAllMonthWord(userMaster);
+		Map<Date,Integer> countMap = dao.countAllMonthWord(userMaster);
 		List<MonthCnt> monthCntList = new ArrayList<>();
 		
+		DateFormat fmt = new SimpleDateFormat("yyyy年MM月");
 		for (Entry<Date, Integer> entry : countMap.entrySet()){
-			MonthCnt mcs = new MonthCnt(entry.getKey().toString(),entry.getValue()); 	
+			MonthCnt mcs = new MonthCnt(
+					entry.getKey(),
+					fmt.format(entry.getKey()),
+					entry.getValue()
+					); 	
 			monthCntList.add(mcs);
 		}
 		request.setAttribute("monthCntList", monthCntList);

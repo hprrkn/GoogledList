@@ -18,7 +18,8 @@
 	<div class="month-view-list">
 		<div class="month-view">
 		 	<c:forEach var="monthCntList" items="${monthCntList}">
-		 		${monthCntList.yearMonth}:${monthCntList.cnt}<br>
+		 		${monthCntList.strYearMonth}:${monthCntList.cnt}
+		 		<form action="MonthListViewServlet" method="get"><input type="hidden" name="date" value="${monthCntList.date}"><input type="submit" value="view"></form><br>
 			</c:forEach> 
 		</div>
 	</div>

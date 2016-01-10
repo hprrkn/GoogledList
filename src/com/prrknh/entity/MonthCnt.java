@@ -1,24 +1,35 @@
 package com.prrknh.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class MonthCnt implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	private  String yearMonth;
+	private Date date;
+	private  String strYearMonth;
 	private  int cnt;
 	
-	public MonthCnt(String yearMonth, int cnt){
-		this.yearMonth = yearMonth;
+	public MonthCnt(Date date, String strYearMonth, int cnt){
+		this.date = date;
+		this.strYearMonth = strYearMonth;
 		this.cnt = cnt;
 	}
 	
-	public String getYearMonth(){
-		return this.yearMonth;
+	public Date getDate(){
+		return this.date;
 	}
 	
-	public void setYearMonth(String yearMonth){
-		this.yearMonth = yearMonth;
+	public void setDat(Date date){
+		this.date = date;
+	}
+	
+	public String getstrYearMonth(){
+		return this.strYearMonth;
+	}
+	
+	public void setYearMonth(String strYearMonth){
+		this.strYearMonth = strYearMonth;
 	}
 	
 	public int getCnt(){

@@ -22,15 +22,28 @@ public class MonthListViewServlet extends HttpServlet {
     public MonthListViewServlet() {
         super();
     }
-
+    
+    // 指定月リストへ
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// セッションからユーザー情報を取得
+		HttpSession session = request.getSession();
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
+		request.setCharacterEncoding("UTF-8");
+		
+		GoogledWordListDao dao = new GoogledWordListDao();
+		String strDate = request.getParameter("date");
+		request.setAttribute("strDate", strDate);
+		List<GoogledWord> wordList = dao.findMonthList(userMaster, strDate);
+		request.setAttribute("wordList", wordList);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/monthListView.jsp");
+		dispatcher.forward(request,response);
 	}
 
+	// 新規ワード追加で当月リストへ
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// セッションからユーザー情報を取得
 		HttpSession session = request.getSession();
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		
 		request.setCharacterEncoding("UTF-8");
 		
 		String addWord = request.getParameter("addWord");
