@@ -20,9 +20,6 @@ public class DetailWordViewServlet extends HttpServlet {
         super();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		
 		Integer selectedId = Integer.parseInt(request.getParameter("id"));
@@ -32,6 +29,9 @@ public class DetailWordViewServlet extends HttpServlet {
 		request.setAttribute("detail", detail);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/detailview.jsp");
 		dispatcher.forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 
 }

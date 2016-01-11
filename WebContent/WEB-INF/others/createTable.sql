@@ -13,3 +13,18 @@ CREATE TABLE users (
   registered date default('now'::text)::date,
   activation boolean default true
 );
+
+CREATE TABLE tagMaster (
+  tag_id SERIAL primary key,
+  tag_name varchar(255) not null,
+  tag_regi_date date default 'now',
+  avtovation boolean default TRUE,
+  tag_color varchar(255)
+);
+
+CREATE TABLE rel_tag_word (
+  id int,
+  tag_id int,
+  registered_date date default 'now',
+  activation boolean default TRUE
+);

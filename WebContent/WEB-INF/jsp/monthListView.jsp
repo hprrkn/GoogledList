@@ -9,9 +9,11 @@
 </head>
 <body>
 
-<p>${strDate}"のググったリスト</p>
-<c:forEach var="monthList" items="${monthWord}">
-	${monthWord.word}/${monthWord.added_day}　　<form action="detailWordViewServlet" method="post"><input type="hidden" name="id" value="${nowMonthWord.id}"><input type="submit" value="detail"></form><br>
+<c:if test="${!empty msg}"><c:out value="${msg}"/></c:if>
+
+<p>${strDate}のググったリスト</p>
+<c:forEach var="wordList" items="${wordList}">
+	<a href="/GoogledList/detailWordViewServlet?id=${wordList.id}">${wordList.word}/${wordList.added_day}</a><br>
 </c:forEach> 
 
 </body>

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.UserMaster;
@@ -29,6 +31,12 @@ public class MonthListViewServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		request.setCharacterEncoding("UTF-8");
+		
+		// 更新後に戻ってきた時用のメッセージ設定
+		String msg = request.getParameter("msg");
+		if (StringUtils.isNotEmpty(msg)) {
+			request.setAttribute("msg", msg);
+		}
 		
 		GoogledWordListDao dao = new GoogledWordListDao();
 		String strDate = request.getParameter("date");

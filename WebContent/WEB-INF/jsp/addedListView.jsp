@@ -16,10 +16,9 @@
 <div class="now_month_list">
 	<div class="list_view">
  	<c:forEach var="nowMonthWord" items="${nowMonthList}">
-		${nowMonthWord.word}/${nowMonthWord.added_day}　　<form action="detailWordViewServlet" method="post"><input type="hidden" name="id" value="${nowMonthWord.id}"><input type="submit" value="detail"></form><br>
+		<a href = "/GoogledList/detailWordViewServlet?id=${nowMonthWord.id}">${nowMonthWord.word}/${nowMonthWord.added_day}</a><br>
 	</c:forEach> 
 	</div>
 </div>
-
 </body>
 </html>

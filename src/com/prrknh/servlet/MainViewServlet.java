@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.Map.Entry;
@@ -18,10 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.prrknh.dao.GoogledWordListDao;
-import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.MonthCnt;
 import com.prrknh.entity.UserMaster;
 
@@ -52,15 +48,7 @@ public class MainViewServlet extends HttpServlet {
 			dispatcher.forward(request,response);
 			return;
 		}
-		
-//		// 更新後に戻ってきた時用のメッセージ設定
-//		String msg = request.getParameter("msg");
-//		if (StringUtils.isNotEmpty(msg)) {
-//			request.setAttribute("msg", msg);
-//		}
-		
-//		setViewList(userMaster, request);
-		
+				
 		GoogledWordListDao dao = new GoogledWordListDao();
 		Map<Date,Integer> countMap = dao.countAllMonthWord(userMaster);
 		List<MonthCnt> monthCntList = new ArrayList<>();
@@ -80,12 +68,4 @@ public class MainViewServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mainview.jsp");
 		dispatcher.forward(request,response);
 	}
-	
-	// 月次リスト取得	
-	private void setViewList(UserMaster userMaster, HttpServletRequest request){
-		GoogledWordListDao dao =new GoogledWordListDao();
-		List<GoogledWord> wordlist = dao.findAll(userMaster);
-		request.setAttribute("wordlist", wordlist);
-	}
-
 }

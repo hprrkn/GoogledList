@@ -9,7 +9,6 @@
 	<title>ググったリスト</title>
 </head>
 <body>
-	<c:if test="${!empty msg}"><c:out value="${msg}"/></c:if>
 	<form action="MonthListViewServlet" method="post">
 		<input type="text" name="addWord">
 		<input type="text" name="memo">
@@ -18,8 +17,7 @@
 	<div class="month-view-list">
 		<div class="month-view">
 		 	<c:forEach var="monthCntList" items="${monthCntList}">
-		 		${monthCntList.strYearMonth}:${monthCntList.cnt}
-		 		<form action="MonthListViewServlet" method="get"><input type="hidden" name="date" value="${monthCntList.date}"><input type="submit" value="view"></form><br>
+		 		<a href = "/GoogledList/MonthListViewServlet?date=${monthCntList.date}">${monthCntList.strYearMonth}:${monthCntList.cnt}</a><br>
 			</c:forEach> 
 		</div>
 	</div>
