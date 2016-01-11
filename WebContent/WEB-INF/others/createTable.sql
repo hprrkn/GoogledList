@@ -1,6 +1,6 @@
 create table SearchHistory(
   id serial primary key,
-  searchword varchar(255) not null,
+  word varchar(255) not null,
   memo text,
   resister_day date default 'now',
   activation boolean default TRUE
