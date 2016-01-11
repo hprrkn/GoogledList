@@ -1,0 +1,35 @@
+package com.prrknh.entity;
+
+import java.io.Serializable;
+
+//import java.util.Date;
+
+public class TagMaster implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	private int tagId;
+	private String tagName;
+//	private String tagColor;
+//	private Date tagRegiDate;
+	
+	public TagMaster(){}
+	
+	public TagMaster(int tag_id, String tag_name){}
+	
+	public int getTagId(){
+		return this.tagId;
+	}
+	
+	public void setTagId(int tagId){
+		this.tagId = tagId;
+	}
+	
+	public String getTagName(){
+		return this.tagName;
+	}
+	
+	public void setTagName(String tagName){
+		this.tagName = tagName;
+	}
+	
+}
