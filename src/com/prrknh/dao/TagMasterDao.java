@@ -20,11 +20,11 @@ public class TagMasterDao {
 	
 	public List<TagMaster>getTagList(GoogledWord gw){
 		Connection conn = null;
-		List<TagMaster> tagList = new ArrayList<TagMaster>();
+		List<TagMaster> tagList = new ArrayList<>();
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT tm.tag_name FROM Searchhistory sh, rel_tag_word rtw, tagMaster tm WHERE sh.id = ? AND rtw.id = sh.id AND tm.tag_id = rtw.tag_id;";
+			String sql = "SELECT tm.tag_id, tm.tag_name FROM Searchhistory sh, rel_tag_word rtw, tagMaster tm WHERE sh.id = ? AND rtw.id = sh.id AND tm.tag_id = rtw.tag_id;";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, gw.getId());
 			ResultSet rs = pStmt.executeQuery();		
@@ -49,6 +49,62 @@ public class TagMasterDao {
 			}
 		}
 		return tagList;
+	}
+	
+	public List<TagMaster>getAllTagList(){
+		Connection conn = null;
+		List<TagMaster> allTagList = new ArrayList<>();
+		try{
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
+			String sql = "SELECT * FROM tagMaster";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()){
+				TagMaster tagMaster = new TagMaster(rs.getInt("tag_id"), rs.getString("tag_name"));
+				allTagList.add(tagMaster);
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+			return null;
+		}catch(ClassNotFoundException e){
+			e.printStackTrace();
+			return null;
+		}finally{
+			if(conn != null){
+				try{
+					conn.close();
+				}catch(SQLException e){
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+		return allTagList;
+	}
+	
+	public void setTagOnWord(List<Integer> tagIdList){
+		// todo : ワードの追加と同時に呼びたいメソッドだけど、そのワードのidがそのまま取得できない。。。
+		Connection conn = null;
+		try{
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
+			String sql = "";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}finally{
+			if(conn != null){
+				try{
+					conn.close();
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }

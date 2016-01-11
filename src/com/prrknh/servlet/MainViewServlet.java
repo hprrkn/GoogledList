@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.prrknh.dao.GoogledWordListDao;
+import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.MonthCnt;
+import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
 
 
@@ -48,7 +50,13 @@ public class MainViewServlet extends HttpServlet {
 			dispatcher.forward(request,response);
 			return;
 		}
-				
+		
+		// 追加時選択用のタグリスト取得
+		TagMasterDao tmDao = new TagMasterDao();
+		List<TagMaster> allTagList = tmDao.getAllTagList();
+		request.setAttribute("allTagList", allTagList);
+		
+		//月次カウントリスト取得
 		GoogledWordListDao dao = new GoogledWordListDao();
 		Map<Date,Integer> countMap = dao.countAllMonthWord(userMaster);
 		List<MonthCnt> monthCntList = new ArrayList<>();
@@ -63,6 +71,7 @@ public class MainViewServlet extends HttpServlet {
 			monthCntList.add(mcs);
 		}
 		request.setAttribute("monthCntList", monthCntList);
+		
 		
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mainview.jsp");

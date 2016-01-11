@@ -1,6 +1,7 @@
 package com.prrknh.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.StringUtils;
 
 import com.prrknh.dao.GoogledWordListDao;
+import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.UserMaster;
 
@@ -54,15 +56,29 @@ public class MonthListViewServlet extends HttpServlet {
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		request.setCharacterEncoding("UTF-8");
 		
+		// formからの受け取り
 		String addWord = request.getParameter("addWord");
 		String memo = request.getParameter("memo");
-	    
-		GoogledWordListDao dao =new GoogledWordListDao();
-		dao.addWord(userMaster, addWord, memo);
-		List<GoogledWord> nowMonthList = dao.findNowMonthView(userMaster);
+		List<Integer> tagIdList = new ArrayList<>();
+		do{
+			tagIdList.add(Integer.parseInt(request.getParameter("tagId")));	
+		}while(request.getParameter("tagId") == null);
+		
+		
+	    // wordのinsert
+		GoogledWordListDao gDao =new GoogledWordListDao();
+		gDao.addWord(userMaster, addWord, memo);
+		
+		List<GoogledWord> nowMonthList = gDao.findNowMonthView(userMaster);
 		request.setAttribute("nowMonthList", nowMonthList);
 	    request.setAttribute("addword", addWord);
 	    request.setAttribute("memo", memo);
+	    
+	    //setTagOnWord()の実装待ち
+//	    // tagのinsert
+//	    TagMasterDao tmDao = new TagMasterDao();
+//	    tmDao.setTagOnWord(tagIdList);
+	    
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/addedListView.jsp");
 		dispatcher.forward(request,response);
 		

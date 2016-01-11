@@ -14,7 +14,10 @@ public class TagMaster implements Serializable{
 	
 	public TagMaster(){}
 	
-	public TagMaster(int tag_id, String tag_name){}
+	public TagMaster(int tagId, String tagName){
+		this.tagId = tagId;
+		this.tagName = tagName;
+	}
 	
 	public int getTagId(){
 		return this.tagId;
