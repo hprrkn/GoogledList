@@ -265,4 +265,43 @@ public class GoogledWordListDao {
 			}
 		}
 	}
+	
+	public GoogledWord getLastAddWord(){
+		Connection conn = null;
+		GoogledWord googledWord = new GoogledWord();
+		try{
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
+			String maxIdSql = "SELECT MAX(id) FROM searchhistory;";
+			PreparedStatement maxIdpStmt = conn.prepareStatement(maxIdSql);
+			ResultSet maxIdRs = maxIdpStmt.executeQuery();
+			int maxId = 0;
+			while(maxIdRs.next()){
+				maxId = maxIdRs.getInt("max");
+			}
+			String sql = "SELECT * FROM searchhistory WHERE id = ?;";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, maxId);
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()){
+				googledWord = new GoogledWord(rs.getInt("id"), rs.getString("word"), rs.getString("memo"), rs.getDate("added_day"));
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+			return null;
+		}catch(ClassNotFoundException e){
+			e.printStackTrace();
+			return null;
+		}finally{
+			if(conn != null){
+				try{
+					conn.close();
+				}catch(SQLException e){
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+		return googledWord;
+	}
 }

@@ -2,6 +2,7 @@ package com.prrknh.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -58,26 +59,27 @@ public class MonthListViewServlet extends HttpServlet {
 		
 		// formからの受け取り
 		String addWord = request.getParameter("addWord");
+		
+		// 配列からlist、list<String>からlist<Integer>という無駄な変換の嵐　直す :TODO
 		String memo = request.getParameter("memo");
+		String[] strTagIds = request.getParameterValues("tagId");
+		List<String> strTagList = Arrays.asList(strTagIds);
 		List<Integer> tagIdList = new ArrayList<>();
-		do{
-			tagIdList.add(Integer.parseInt(request.getParameter("tagId")));	
-		}while(request.getParameter("tagId") == null);
+		for (String tagId : strTagList){
+			tagIdList.add(Integer.parseInt(tagId));
+		}
 		
-		
-	    // wordのinsert
+	    // wordとtagのinsert
 		GoogledWordListDao gDao =new GoogledWordListDao();
+		TagMasterDao tmDao = new TagMasterDao();
 		gDao.addWord(userMaster, addWord, memo);
+	    tmDao.setTagOnWord(gDao.getLastAddWord(),tagIdList);
 		
+		// 追加したものも含めて当月リスト取得
 		List<GoogledWord> nowMonthList = gDao.findNowMonthView(userMaster);
 		request.setAttribute("nowMonthList", nowMonthList);
 	    request.setAttribute("addword", addWord);
 	    request.setAttribute("memo", memo);
-	    
-	    //setTagOnWord()の実装待ち
-//	    // tagのinsert
-//	    TagMasterDao tmDao = new TagMasterDao();
-//	    tmDao.setTagOnWord(tagIdList);
 	    
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/addedListView.jsp");
 		dispatcher.forward(request,response);

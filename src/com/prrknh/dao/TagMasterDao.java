@@ -83,15 +83,18 @@ public class TagMasterDao {
 		return allTagList;
 	}
 	
-	public void setTagOnWord(List<Integer> tagIdList){
-		// todo : ワードの追加と同時に呼びたいメソッドだけど、そのワードのidがそのまま取得できない。。。
+	public void setTagOnWord(GoogledWord word, List<Integer> tagIdList){
 		Connection conn = null;
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "";
+			String sql = "INSERT INTO rel_tag_word(id, tag_id) VALUES (?, ?);";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.executeUpdate();
+			for(Integer tagId : tagIdList){
+				pStmt.setInt(1, word.getId());
+				pStmt.setInt(2, tagId);
+				pStmt.executeUpdate();
+			}
 		}catch(SQLException e){
 			e.printStackTrace();
 		}catch(ClassNotFoundException e){
