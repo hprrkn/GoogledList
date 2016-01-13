@@ -72,8 +72,7 @@ public class MonthListViewServlet extends HttpServlet {
 	    // wordとtagのinsert
 		GoogledWordListDao gDao =new GoogledWordListDao();
 		TagMasterDao tmDao = new TagMasterDao();
-		gDao.addWord(userMaster, addWord, memo);
-	    tmDao.setTagOnWord(gDao.getLastAddWord(),tagIdList);
+	    tmDao.setTagOnWord(gDao.addWord(userMaster, addWord, memo),tagIdList);
 		
 		// 追加したものも含めて当月リスト取得
 		List<GoogledWord> nowMonthList = gDao.findNowMonthView(userMaster);

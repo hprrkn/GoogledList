@@ -84,26 +84,24 @@ public class GoogledWordListDao {
 		return countMap;
 	}
 	
-	public boolean addWord(UserMaster userMaster, String addWord, String memo){
+	public int addWord(UserMaster userMaster, String addWord, String memo){
 		Connection conn = null;
+		int addedId = 0;
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "INSERT INTO searchhistory(user_id, word, memo) VALUES(?, ?, ?);";
+			String sql = "INSERT INTO searchhistory(user_id, word, memo) VALUES(?, ?, ?) RETURNING id;";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userMaster.getUserId());
 			pStmt.setString(2, addWord);
 			pStmt.setString(3, memo);
-			int result = pStmt.executeUpdate();
-			if (result != 1){
-				return false;
-			}
+			addedId = pStmt.executeUpdate();
 		}catch(SQLException e){
 			e.printStackTrace();
-			return false;
+			return 0;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			return false;
+			return 0;
 		}finally{
 			if (conn != null){
 				try{
@@ -113,7 +111,7 @@ public class GoogledWordListDao {
 				}
 			}
 		}
-		return true;
+		return addedId;
 	}
 	
 	public List<GoogledWord> findNowMonthView(UserMaster userMaster){
@@ -264,44 +262,5 @@ public class GoogledWordListDao {
 				}
 			}
 		}
-	}
-	
-	public GoogledWord getLastAddWord(){
-		Connection conn = null;
-		GoogledWord googledWord = new GoogledWord();
-		try{
-			Class.forName(DRIVER_NAME);
-			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String maxIdSql = "SELECT MAX(id) FROM searchhistory;";
-			PreparedStatement maxIdpStmt = conn.prepareStatement(maxIdSql);
-			ResultSet maxIdRs = maxIdpStmt.executeQuery();
-			int maxId = 0;
-			while(maxIdRs.next()){
-				maxId = maxIdRs.getInt("max");
-			}
-			String sql = "SELECT * FROM searchhistory WHERE id = ?;";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setInt(1, maxId);
-			ResultSet rs = pStmt.executeQuery();
-			while(rs.next()){
-				googledWord = new GoogledWord(rs.getInt("id"), rs.getString("word"), rs.getString("memo"), rs.getDate("added_day"));
-			}
-		}catch(SQLException e){
-			e.printStackTrace();
-			return null;
-		}catch(ClassNotFoundException e){
-			e.printStackTrace();
-			return null;
-		}finally{
-			if(conn != null){
-				try{
-					conn.close();
-				}catch(SQLException e){
-					e.printStackTrace();
-					return null;
-				}
-			}
-		}
-		return googledWord;
 	}
 }

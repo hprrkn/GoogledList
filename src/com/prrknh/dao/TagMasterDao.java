@@ -83,7 +83,7 @@ public class TagMasterDao {
 		return allTagList;
 	}
 	
-	public void setTagOnWord(GoogledWord word, List<Integer> tagIdList){
+	public void setTagOnWord(int wordId, List<Integer> tagIdList){
 		Connection conn = null;
 		try{
 			Class.forName(DRIVER_NAME);
@@ -91,7 +91,7 @@ public class TagMasterDao {
 			String sql = "INSERT INTO rel_tag_word(id, tag_id) VALUES (?, ?);";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			for(Integer tagId : tagIdList){
-				pStmt.setInt(1, word.getId());
+				pStmt.setInt(1, wordId);
 				pStmt.setInt(2, tagId);
 				pStmt.executeUpdate();
 			}
