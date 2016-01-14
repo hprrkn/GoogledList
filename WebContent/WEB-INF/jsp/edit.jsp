@@ -15,10 +15,11 @@
 		${detail.word}　→　<input type="text" name="editedword"><br>
 		${detail.memo}　→　<input type="text" name="editedmemo"><br>
 		<c:forEach var="allTagList" items="${allTagList}">
-			<c:forEach var="tagList" items="${tagList}">
-				<c:if test="${allTagList.tagId == tagList.tagId}" var="checked"/>
-			</c:forEach>
-			<input type="checkbox" name="tagId" value="${allTagList.tagId}"<c:if test="${checked}"> checked="checked"</c:if>>${allTagList.tagName}
+			<input type="checkbox" name="tagId" value="${allTagList.tagId}"
+				<c:forEach var="tagList" items="${tagList}">
+					<c:if test="${allTagList.tagId == tagList.tagId}"> checked="checked"</c:if>
+				</c:forEach>
+			>${allTagList.tagName} 
 		</c:forEach><br>
 		<input type="submit" value="ok"> 
 	</form>
