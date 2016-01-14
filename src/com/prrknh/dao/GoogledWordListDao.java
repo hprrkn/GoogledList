@@ -95,7 +95,10 @@ public class GoogledWordListDao {
 			pStmt.setInt(1, userMaster.getUserId());
 			pStmt.setString(2, addWord);
 			pStmt.setString(3, memo);
-			addedId = pStmt.executeUpdate();
+			ResultSet rs =pStmt.executeQuery();
+			while(rs.next()){
+				addedId = rs.getInt("id");
+			}
 		}catch(SQLException e){
 			e.printStackTrace();
 			return 0;

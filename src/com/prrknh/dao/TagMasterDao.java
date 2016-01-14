@@ -109,5 +109,37 @@ public class TagMasterDao {
 			}
 		}
 	}
+	
+	public List<TagMaster>getCheckedAllTagList(GoogledWord wordId){
+		Connection conn = null;
+		List<TagMaster> allTagList = new ArrayList<>();
+		try{
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
+			String sql = "SELECT * FROM tagMaster";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()){
+				TagMaster tagMaster = new TagMaster(rs.getInt("tag_id"), rs.getString("tag_name"));
+				allTagList.add(tagMaster);
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+			return null;
+		}catch(ClassNotFoundException e){
+			e.printStackTrace();
+			return null;
+		}finally{
+			if(conn != null){
+				try{
+					conn.close();
+				}catch(SQLException e){
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+		return allTagList;
+	}
 
 }
