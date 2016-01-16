@@ -12,8 +12,8 @@
 	<form action="EditServlet" method="POST"><br>
 		<input type="hidden" name="delete_flg" value="false">
 		<input type="hidden"  name="id" value="${detail.id}">
-		${detail.word}　→　<input type="text" name="editedword"><br>
-		${detail.memo}　→　<input type="text" name="editedmemo"><br>
+		${detail.word}　→　<input type="text" name="editedword" value="${detail.word}"><br>
+		${detail.memo}　→　<input type="text" name="editedmemo" value="${detail.memo}"><br>
 		<c:forEach var="allTagList" items="${allTagList}">
 			<input type="checkbox" name="tagId" value="${allTagList.tagId}"
 				<c:forEach var="tagList" items="${tagList}">
