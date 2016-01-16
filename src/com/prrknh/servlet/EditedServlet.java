@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 
 import com.prrknh.dao.GoogledWordListDao;
-import com.prrknh.dao.TagMasterDao;
+import com.prrknh.dao.RelTagWordDao;
 
 @WebServlet("/EditedServlet")
 public class EditedServlet extends HttpServlet {
@@ -28,10 +28,10 @@ public class EditedServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		int id = Integer.parseInt(request.getParameter("id"));
 		GoogledWordListDao gDao = new GoogledWordListDao();
-		TagMasterDao tDao = new TagMasterDao();
+		RelTagWordDao rDao = new RelTagWordDao();
 		if (StringUtils.isNotEmpty(request.getParameter("delete_flg")) && request.getParameter("delete_flg").equals("true")){
 			gDao.deleteDetail(id);
-			tDao.deleteTag(id);
+			rDao.deleteTag(id);
 			request.setAttribute("msg", "削除しました。");
 		} else {
 			String editedWord = request.getParameter("editedword");
@@ -43,12 +43,12 @@ public class EditedServlet extends HttpServlet {
 			List<Integer> tagIdList = new ArrayList<>();
 			for (String strTagId : strTagList){
 				int tagId = Integer.parseInt(strTagId);
-				tDao.deleteTag(tagId);
+				rDao.deleteTag(tagId);
 				tagIdList.add(tagId);
 			}
 			
 			gDao.updateDetail(id, editedWord, editedMemo);
-			tDao.setTagOnWord(id,tagIdList);
+			rDao.setTagOnWord(id,tagIdList);
 			request.setAttribute("msg", "更新しました。");
 		}
 		RequestDispatcher dispathcer = request.getRequestDispatcher("/MainViewServlet");
