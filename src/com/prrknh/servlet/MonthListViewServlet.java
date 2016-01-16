@@ -59,9 +59,9 @@ public class MonthListViewServlet extends HttpServlet {
 		
 		// formからの受け取り
 		String addWord = request.getParameter("addWord");
+		String memo = request.getParameter("memo");
 		
 		// 配列からlist、list<String>からlist<Integer>という無駄な変換の嵐　直す :TODO
-		String memo = request.getParameter("memo");
 		String[] strTagIds = request.getParameterValues("tagId");
 		List<String> strTagList = Arrays.asList(strTagIds);
 		List<Integer> tagIdList = new ArrayList<>();

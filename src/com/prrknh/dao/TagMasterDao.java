@@ -57,7 +57,7 @@ public class TagMasterDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM tagMaster";
+			String sql = "SELECT * FROM tagMaster WHERE activtion = t";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
@@ -110,36 +110,28 @@ public class TagMasterDao {
 		}
 	}
 	
-	public List<TagMaster>getCheckedAllTagList(GoogledWord wordId){
+	public void deleteTag(int wordId){
 		Connection conn = null;
-		List<TagMaster> allTagList = new ArrayList<>();
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM tagMaster";
+			String sql = "update rel_tag_word activation = f WHERE id = ?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-			ResultSet rs = pStmt.executeQuery();
-			while(rs.next()){
-				TagMaster tagMaster = new TagMaster(rs.getInt("tag_id"), rs.getString("tag_name"));
-				allTagList.add(tagMaster);
-			}
+			pStmt.setInt(1, wordId);
+			pStmt.executeUpdate();
 		}catch(SQLException e){
 			e.printStackTrace();
-			return null;
 		}catch(ClassNotFoundException e){
 			e.printStackTrace();
-			return null;
 		}finally{
 			if(conn != null){
 				try{
 					conn.close();
 				}catch(SQLException e){
 					e.printStackTrace();
-					return null;
 				}
 			}
 		}
-		return allTagList;
 	}
 
 }
