@@ -66,12 +66,12 @@ public class EditServlet extends HttpServlet {
 			List<String> strTagList = Arrays.asList(strTagIds);
 			List<Integer> tagIdList = new ArrayList<>();
 			for (String strTagId : strTagList){
-				int tagId = Integer.parseInt(strTagId);
-				rDao.deleteAllTagOnWord(tagId);
-				tagIdList.add(tagId);
+				tagIdList.add(Integer.parseInt(strTagId));
 			}
-			
 			gDao.updateDetail(id, editedWord, editedMemo);
+			
+			// 消して新たに追加し直してるから順番に注意　後で直す :TODO
+			rDao.deleteAllTagOnWord(id);
 			rDao.setTagOnWord(id,tagIdList);
 			request.setAttribute("msg", "更新しました。");
 		}
