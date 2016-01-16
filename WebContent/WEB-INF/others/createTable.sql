@@ -18,7 +18,7 @@ CREATE TABLE tagMaster (
   tag_id SERIAL primary key,
   tag_name varchar(255) not null,
   tag_regi_date date default 'now',
-  avtovation boolean default TRUE,
+  activation boolean default TRUE,
   tag_color varchar(255)
 );
 

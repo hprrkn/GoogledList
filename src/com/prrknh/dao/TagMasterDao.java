@@ -24,7 +24,7 @@ public class TagMasterDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT tm.tag_id, tm.tag_name FROM Searchhistory sh, rel_tag_word rtw, tagMaster tm WHERE sh.id = ? AND rtw.id = sh.id AND tm.tag_id = rtw.tag_id;";
+			String sql = "SELECT tm.tag_id, tm.tag_name,tm.activation,rtw.activation FROM rel_tag_word rtw INNER JOIN tagMaster tm ON tm.tag_id = rtw.tag_id WHERE rtw.id = ? AND tm.activation = true AND rtw.activation = true;";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, gw.getId());
 			ResultSet rs = pStmt.executeQuery();		
@@ -57,7 +57,7 @@ public class TagMasterDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM tagMaster WHERE activtion = t";
+			String sql = "SELECT * FROM tagMaster WHERE activation = true";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){

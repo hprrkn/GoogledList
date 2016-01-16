@@ -39,12 +39,12 @@ public class RelTagWordDao {
 			}
 		}
 		
-		public void deleteTag(int wordId){
+		public void deleteAllTagOnWord(int wordId){
 			Connection conn = null;
 			try{
 				Class.forName(DRIVER_NAME);
 				conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-				String sql = "update rel_tag_word activation = f WHERE id = ?";
+				String sql = "update rel_tag_word SET activation = false WHERE id = ?";
 				PreparedStatement pStmt = conn.prepareStatement(sql);
 				pStmt.setInt(1, wordId);
 				pStmt.executeUpdate();

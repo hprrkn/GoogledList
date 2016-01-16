@@ -1,6 +1,8 @@
 package com.prrknh.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -10,7 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.prrknh.dao.GoogledWordListDao;
+import com.prrknh.dao.RelTagWordDao;
 import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.TagMaster;
@@ -25,6 +30,7 @@ public class EditServlet extends HttpServlet {
         super();
     }
 
+    // 編集/削除前
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		int selectedId = Integer.parseInt(request.getParameter("selectedId"));
@@ -41,6 +47,35 @@ public class EditServlet extends HttpServlet {
 		dispathcer.forward(request,response);
 	}
 
+	// 編集/削除後
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		int id = Integer.parseInt(request.getParameter("id"));
+		GoogledWordListDao gDao = new GoogledWordListDao();
+		RelTagWordDao rDao = new RelTagWordDao();
+		if (StringUtils.isNotEmpty(request.getParameter("delete_flg")) && request.getParameter("delete_flg").equals("true")){
+			gDao.deleteDetail(id);
+			rDao.deleteAllTagOnWord(id);
+			request.setAttribute("msg", "削除しました。");
+		} else {
+			String editedWord = request.getParameter("editedword");
+			String editedMemo = request.getParameter("editedmemo");
+			
+			// 配列からlist、list<String>からlist<Integer>という無駄な変換の嵐　直す :TODO
+			String[] strTagIds = request.getParameterValues("tagId");
+			List<String> strTagList = Arrays.asList(strTagIds);
+			List<Integer> tagIdList = new ArrayList<>();
+			for (String strTagId : strTagList){
+				int tagId = Integer.parseInt(strTagId);
+				rDao.deleteAllTagOnWord(tagId);
+				tagIdList.add(tagId);
+			}
+			
+			gDao.updateDetail(id, editedWord, editedMemo);
+			rDao.setTagOnWord(id,tagIdList);
+			request.setAttribute("msg", "更新しました。");
+		}
+		RequestDispatcher dispathcer = request.getRequestDispatcher("/MainViewServlet");
+		dispathcer.forward(request,response);
 	}
 }

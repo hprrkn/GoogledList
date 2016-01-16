@@ -9,7 +9,7 @@
 </head>
 <body>
 	<p>編集</p>
-	<form action="EditedServlet" method="GET"><br>
+	<form action="EditServlet" method="POST"><br>
 		<input type="hidden" name="delete_flg" value="false">
 		<input type="hidden"  name="id" value="${detail.id}">
 		${detail.word}　→　<input type="text" name="editedword"><br>
@@ -24,7 +24,7 @@
 		<input type="submit" value="ok"> 
 	</form>
 
-	<form action="EditedServlet" method="GET"><br>
+	<form action="EditServlet" method="POST"><br>
 		<input type="hidden"  name="id" value="${detail.id}">
 		<input type="hidden" name="delete_flg" value="true"><br>
 		<input type="submit" value="delete">
