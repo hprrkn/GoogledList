@@ -122,7 +122,7 @@ public class TagMasterDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "UPDATE tagMaster SET activion = false WHERE tag_id = ?;";
+			String sql = "UPDATE tagmaster SET activation = false WHERE tag_id = ?;";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, tagId);
 			pStmt.executeUpdate();

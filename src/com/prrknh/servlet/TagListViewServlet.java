@@ -40,6 +40,7 @@ public class TagListViewServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/tagList.jsp");
 		dispatcher.forward(request,response);
 	}
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int tagId = Integer.parseInt(request.getParameter("tagId"));
 		TagMasterDao tDao = new TagMasterDao();
@@ -51,7 +52,7 @@ public class TagListViewServlet extends HttpServlet {
 			String tagName = request.getParameter("tagName");
 			tDao.editTag(tagId, tagName);
 			request.setAttribute("msg", "更新しました。");
-		}
+		} 
 		
 		// セッションからユーザー情報を取得
 		HttpSession session = request.getSession();

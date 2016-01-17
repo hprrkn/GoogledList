@@ -16,6 +16,10 @@
 			<button type="submit" name="tagId" value="${allTagList.tagId}">${allTagList.tagName}</button>
 		</c:forEach>
 	</form>
+	<form method="POST" action="/GoogledList/EditTagServlet">
+		新規タグ：<input type="text" name="addTagName">
+		<input type="submit" value="追加">
+	</form>
 	
 </body>
 </html>
