@@ -8,13 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.TagMaster;
-import com.prrknh.entity.UserMaster;
 
 @WebServlet("/EditTagServlet")
 public class EditTagServlet extends HttpServlet {
@@ -26,6 +22,7 @@ public class EditTagServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		
 		int tagId = Integer.parseInt(request.getParameter("tagId"));
 		
 		TagMasterDao tDao = new TagMasterDao();
@@ -37,20 +34,6 @@ public class EditTagServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int tagId = Integer.parseInt(request.getParameter("tagId"));
-		TagMasterDao tDao = new TagMasterDao();
-		
-		if (StringUtils.isNotEmpty(request.getParameter("delete_flg")) && request.getParameter("delete_flg").equals("true")){
-			tDao.deleteTag(tagId);
-			request.setAttribute("msg", "削除しました。");
-		} else {
-			String tagName = request.getParameter("tagName");
-			tDao.editTag(tagId, tagName);
-			request.setAttribute("msg", "更新しました。");
-		}
-		
-		RequestDispatcher dispathcer = request.getRequestDispatcher("/TagListViewServlet");
-		dispathcer.forward(request,response);
 	}
 
 }

@@ -11,9 +11,9 @@
 	<c:if test="${!empty msg}"><c:out value="${msg}"/></c:if><br>
 
 	<p>タグ編集</p>
-		<form method="GET" action="/editTagServlet">
-		<c:forEach var=allTagList items="${allTagList}">
-			<input type="button" value="${allTagList.tagName}">	
+	<form method="GET" action="/GoogledList/EditTagServlet">
+		<c:forEach var="allTagList" items="${allTagList}">
+			<button type="submit" name="tagId" value="${allTagList.tagId}">${allTagList.tagName}</button>
 		</c:forEach>
 	</form>
 	

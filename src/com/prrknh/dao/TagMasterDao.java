@@ -60,8 +60,8 @@ public class TagMasterDao {
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
 			String sql = "SELECT * FROM tagMaster WHERE user_id = ? AND activation = true";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-			ResultSet rs = pStmt.executeQuery();
 			pStmt.setInt(1, usermaster.getUserId());
+			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
 				TagMaster tagMaster = new TagMaster(rs.getInt("tag_id"), rs.getString("tag_name"));
 				allTagList.add(tagMaster);

@@ -25,6 +25,6 @@
 			</c:forEach> 
 		</div>
 	</div>
-	<a href="/EditTagServlet">タグ編集</a>
+	<a href="/GoogledList/TagListViewServlet">タグ編集</a>
 </body>
 </html>
