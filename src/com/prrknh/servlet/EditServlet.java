@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,6 +20,7 @@ import com.prrknh.dao.RelTagWordDao;
 import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.TagMaster;
+import com.prrknh.entity.UserMaster;
 
 
 @WebServlet("/EditServlet")
@@ -32,12 +34,16 @@ public class EditServlet extends HttpServlet {
 
     // 編集/削除前
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// セッションからユーザー情報を取得
+		HttpSession session = request.getSession();
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		request.setCharacterEncoding("UTF-8");
+		
 		int selectedId = Integer.parseInt(request.getParameter("selectedId"));
 		GoogledWordListDao gDao = new GoogledWordListDao();
 		TagMasterDao tDao = new TagMasterDao();
 		GoogledWord detail = gDao.findDetail(selectedId);
-		List<TagMaster> allTagList = tDao.getAllTagList();
+		List<TagMaster> allTagList = tDao.getAllTagList(userMaster);
 		List<TagMaster> tagList = tDao.getTagList(detail);
 		request.setAttribute("detail", detail);
 		request.setAttribute("allTagList", allTagList);

@@ -53,7 +53,7 @@ public class MainViewServlet extends HttpServlet {
 		
 		// 追加時選択用のタグリスト取得
 		TagMasterDao tmDao = new TagMasterDao();
-		List<TagMaster> allTagList = tmDao.getAllTagList();
+		List<TagMaster> allTagList = tmDao.getAllTagList(userMaster);
 		request.setAttribute("allTagList", allTagList);
 		
 		//月次カウントリスト取得
