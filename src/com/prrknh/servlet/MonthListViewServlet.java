@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.dao.RelTagWordDao;
+import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.UserMaster;
 
@@ -60,20 +62,31 @@ public class MonthListViewServlet extends HttpServlet {
 		// formからの受け取り
 		String addWord = request.getParameter("addWord");
 		String memo = request.getParameter("memo");
+		List<Integer> tagIdList = new ArrayList<>();
 		
 		// 配列からlist、list<String>からlist<Integer>という無駄な変換の嵐　直す :TODO
-		String[] strTagIds = request.getParameterValues("tagId");
-		List<String> strTagList = Arrays.asList(strTagIds);
-		List<Integer> tagIdList = new ArrayList<>();
-		for (String tagId : strTagList){
-			tagIdList.add(Integer.parseInt(tagId));
+		if (StringUtils.isNoneEmpty(request.getParameterValues("tagId"))){
+			String[] strTagIds = request.getParameterValues("tagId");
+			List<String> strTagList = Arrays.asList(strTagIds);
+			for (String tagId : strTagList){
+				tagIdList.add(Integer.parseInt(tagId));
+			}
 		}
-		
-	    // wordとtagのinsert
 		GoogledWordListDao gDao =new GoogledWordListDao();
 		RelTagWordDao rDao = new RelTagWordDao();
-	    rDao.setTagOnWord(gDao.addWord(userMaster, addWord, memo),tagIdList);
+		TagMasterDao tDao = new TagMasterDao();
 		
+		// 新規タグ追加
+		if (StringUtils.isNotEmpty(request.getParameter("newTag"))){
+			int tagId = tDao.createTag(userMaster, request.getParameter("newTag"));
+			tagIdList.add(tagId);
+		}
+		
+		int addedId = gDao.addWord(userMaster, addWord, memo);
+	    // wordとtagのinsert
+		if (CollectionUtils.isEmpty(tagIdList)){
+			rDao.setTagOnWord(addedId,tagIdList);
+		}
 		// 追加したものも含めて当月リスト取得
 		List<GoogledWord> nowMonthList = gDao.findNowMonthView(userMaster);
 		request.setAttribute("nowMonthList", nowMonthList);

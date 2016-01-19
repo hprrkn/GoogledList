@@ -15,6 +15,7 @@
 		<c:forEach var="allTagList" items="${allTagList}">
 			<input type="checkbox" name="tagId" value="${allTagList.tagId}">${allTagList.tagName}
 		</c:forEach><br>
+		+tag:<input type="text" name="newTag"><br>
 		<input type="submit" value="add">
 	</form>
 	<br>
