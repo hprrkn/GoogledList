@@ -24,11 +24,11 @@ import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
 
 
-@WebServlet("/MainViewServlet")
-public class MainViewServlet extends HttpServlet {
+@WebServlet("/TopPageServlet")
+public class TopPageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public MainViewServlet() {
+    public TopPageServlet() {
         super();
     }
 
@@ -73,7 +73,7 @@ public class MainViewServlet extends HttpServlet {
 		
 		
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/mainview.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/topPage.jsp");
 		dispatcher.forward(request,response);
 	}
 }

@@ -8,6 +8,7 @@
 <title>addedList</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
 
 <h6>${addword}を追加しました。</h6>
 <p>memo:${memo}</p>
@@ -16,7 +17,7 @@
 <div class="now_month_list">
 	<div class="list_view">
  	<c:forEach var="nowMonthWord" items="${nowMonthList}">
-		<a href = "/GoogledList/detailWordViewServlet?id=${nowMonthWord.id}">${nowMonthWord.word}/${nowMonthWord.added_day}</a><br>
+		<a href = "/GoogledList/WordDetailServlet?id=${nowMonthWord.id}">${nowMonthWord.word}/${nowMonthWord.added_day}</a><br>
 	</c:forEach> 
 	</div>
 </div>

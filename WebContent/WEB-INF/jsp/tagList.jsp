@@ -8,6 +8,8 @@
 <title>タグ編集</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
+
 	<c:if test="${!empty msg}"><c:out value="${msg}"/></c:if><br>
 
 	<p>タグ編集</p>

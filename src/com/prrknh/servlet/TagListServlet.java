@@ -18,11 +18,11 @@ import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
 
-@WebServlet("/TagListViewServlet")
-public class TagListViewServlet extends HttpServlet {
+@WebServlet("/TagListServlet")
+public class TagListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public TagListViewServlet() {
+    public TagListServlet() {
         super();
     }
 

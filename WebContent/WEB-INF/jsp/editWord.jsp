@@ -8,8 +8,10 @@
 	<title>編集・削除</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
+
 	<p>編集</p>
-	<form action="EditServlet" method="POST"><br>
+	<form action="EditWordServlet" method="POST"><br>
 		<input type="hidden" name="delete_flg" value="false">
 		<input type="hidden"  name="id" value="${detail.id}">
 		${detail.word}　→　<input type="text" name="editedword" value="${detail.word}"><br>
@@ -24,7 +26,7 @@
 		<input type="submit" value="ok"> 
 	</form>
 
-	<form action="EditServlet" method="POST"><br>
+	<form action="EditWordServlet" method="POST"><br>
 		<input type="hidden"  name="id" value="${detail.id}">
 		<input type="hidden" name="delete_flg" value="true"><br>
 		<input type="submit" value="delete">

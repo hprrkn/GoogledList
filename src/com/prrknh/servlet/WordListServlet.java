@@ -22,11 +22,11 @@ import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.UserMaster;
 
-@WebServlet("/MonthListViewServlet")
-public class MonthListViewServlet extends HttpServlet {
+@WebServlet("/WordListServlet")
+public class WordListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public MonthListViewServlet() {
+    public WordListServlet() {
         super();
     }
     
@@ -48,7 +48,7 @@ public class MonthListViewServlet extends HttpServlet {
 		request.setAttribute("strDate", strDate);
 		List<GoogledWord> wordList = dao.findMonthList(userMaster, strDate);
 		request.setAttribute("wordList", wordList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/monthListView.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/wordList.jsp");
 		dispatcher.forward(request,response);
 	}
 
@@ -93,7 +93,7 @@ public class MonthListViewServlet extends HttpServlet {
 	    request.setAttribute("addword", addWord);
 	    request.setAttribute("memo", memo);
 	    
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/addedListView.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/wordListThisMonth.jsp");
 		dispatcher.forward(request,response);
 		
 	}

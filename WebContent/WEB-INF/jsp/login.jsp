@@ -8,6 +8,8 @@
 <title>Login/Register</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
+
 <c:if test="${!empty msg}"><p><c:out value="${msg}"/></p><br></c:if>
 
 <p>ログイン</p>

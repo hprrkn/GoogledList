@@ -43,7 +43,7 @@ public class LoginServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("userMaster", userMaster);
 			// forward
-			RequestDispatcher dispatcher = request.getRequestDispatcher("MainViewServlet");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("TopPageServlet");
 			dispatcher.forward(request,response);
 		} else {
 			request.setAttribute("msg", "ユーザーネームかパスワードが間違っています。");

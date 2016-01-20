@@ -23,12 +23,12 @@ import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
 
 
-@WebServlet("/EditServlet")
-public class EditServlet extends HttpServlet {
+@WebServlet("/EditWordServlet")
+public class EditWordServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 
-    public EditServlet() {
+    public EditWordServlet() {
         super();
     }
 
@@ -49,7 +49,7 @@ public class EditServlet extends HttpServlet {
 		request.setAttribute("allTagList", allTagList);
 		request.setAttribute("tagList", tagList);
 		
-		RequestDispatcher dispathcer = request.getRequestDispatcher("/WEB-INF/jsp/edit.jsp");
+		RequestDispatcher dispathcer = request.getRequestDispatcher("/WEB-INF/jsp/editWord.jsp");
 		dispathcer.forward(request,response);
 	}
 
@@ -81,7 +81,7 @@ public class EditServlet extends HttpServlet {
 			rDao.setTagOnWord(id,tagIdList);
 			request.setAttribute("msg", "更新しました。");
 		}
-		RequestDispatcher dispathcer = request.getRequestDispatcher("/MainViewServlet");
+		RequestDispatcher dispathcer = request.getRequestDispatcher("/WordListServlet");
 		dispathcer.forward(request,response);
 	}
 }

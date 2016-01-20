@@ -8,12 +8,13 @@
 <title>${strDate}のググったリスト</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
 
 <c:if test="${!empty msg}"><c:out value="${msg}"/></c:if>
 
 <p>${strDate}のググったリスト</p>
 <c:forEach var="wordList" items="${wordList}">
-	<a href="/GoogledList/detailWordViewServlet?id=${wordList.id}">${wordList.word}/${wordList.added_day}</a><br>
+	<a href="/GoogledList/WordDetailServlet?id=${wordList.id}">${wordList.word}/${wordList.added_day}</a><br>
 </c:forEach> 
 
 </body>

@@ -8,15 +8,17 @@
 	<title>タグ編集・削除</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
+
 	<p>タグ編集</p>
-	<form action="TagListViewServlet" method="POST"><br>
+	<form action="TagListServlet" method="POST"><br>
 		<input type="hidden" name="delete_flg" value="false">
 		<input type="hidden"  name="tagId" value="${tagDetail.tagId}">
 		${tagDetail.tagName}　→　<input type="text" name="tagName" value="${tagDetail.tagName}"><br>
 		<input type="submit" value="Edit"> 
 	</form>
 
-	<form action="TagListViewServlet" method="POST"><br>
+	<form action="TagListServlet" method="POST"><br>
 		<input type="hidden"  name="tagId" value="${tagDetail.tagId}">
 		<input type="hidden" name="delete_flg" value="true"><br>
 		<input type="submit" value="delete">

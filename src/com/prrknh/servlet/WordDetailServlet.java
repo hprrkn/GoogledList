@@ -15,11 +15,11 @@ import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.TagMaster;
 
-@WebServlet("/detailWordViewServlet")
-public class DetailWordViewServlet extends HttpServlet {
+@WebServlet("/WordDetailServlet")
+public class WordDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public DetailWordViewServlet() {
+	public WordDetailServlet() {
         super();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,7 +33,7 @@ public class DetailWordViewServlet extends HttpServlet {
 		List<TagMaster> tagList = tDao.getTagList(detail);
 		request.setAttribute("detail", detail);
 		request.setAttribute("tagList", tagList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/detailview.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/wordDetail.jsp");
 		dispatcher.forward(request, response);
 	}
 

@@ -8,6 +8,8 @@
 <title>${detail.word}</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
+
 	<p>ググったもの：${detail.word}</p><br>
 	<p>メモ：${detail.memo}</p><br>
 	<p>ググった日：${detail.added_day}</p><br>
@@ -16,7 +18,7 @@
  		${tagList.tagName}
 	</c:forEach> 
 	<br>
-	<form action="EditServlet" method="get">
+	<form action="EditWordServlet" method="get">
 		<input type="hidden" name="selectedId" value="${detail.id}"> 
 		<input type="submit" value="編集・削除">
 	</form>

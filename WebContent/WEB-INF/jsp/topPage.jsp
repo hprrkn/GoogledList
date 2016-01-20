@@ -8,7 +8,9 @@
 	<title>ググったリスト</title>
 </head>
 <body>
-	<form action="MonthListViewServlet" method="post">
+<jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
+
+	<form action="WordListServlet" method="post">
 		word:<input type="text" name="addWord"><br>
 		memo:<input type="text" name="memo"><br>
 		tag:
@@ -22,10 +24,10 @@
 	<div class="month-view-list">
 		<div class="month-view">
 		 	<c:forEach var="monthCntList" items="${monthCntList}">
-		 		<a href = "/GoogledList/MonthListViewServlet?date=${monthCntList.date}">${monthCntList.strYearMonth}:${monthCntList.cnt}</a><br>
+		 		<a href = "/GoogledList/WordListServlet?date=${monthCntList.date}">${monthCntList.strYearMonth}:${monthCntList.cnt}</a><br>
 			</c:forEach> 
 		</div>
 	</div>
-	<a href="/GoogledList/TagListViewServlet">タグ編集</a>
+	<a href="/GoogledList/TagListServlet">タグ編集</a>
 </body>
 </html>
