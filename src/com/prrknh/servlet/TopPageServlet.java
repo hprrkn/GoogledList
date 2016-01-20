@@ -1,8 +1,6 @@
 package com.prrknh.servlet;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -22,6 +20,7 @@ import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.MonthCnt;
 import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
+import com.prrknh.logic.GoogledWordUtils;
 
 
 @WebServlet("/TopPageServlet")
@@ -60,11 +59,10 @@ public class TopPageServlet extends HttpServlet {
 		Map<Date,Integer> countMap = dao.countAllMonthWord(userMaster);
 		List<MonthCnt> monthCntList = new ArrayList<>();
 		
-		DateFormat fmt = new SimpleDateFormat("yyyy年MM月");
 		for (Entry<Date, Integer> entry : countMap.entrySet()){
 			MonthCnt mcs = new MonthCnt(
 					entry.getKey(),
-					fmt.format(entry.getKey()),
+					GoogledWordUtils.dateFormat(entry.getKey()),
 					entry.getValue()
 					); 	
 			monthCntList.add(mcs);

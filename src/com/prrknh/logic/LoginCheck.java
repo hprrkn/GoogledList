@@ -10,10 +10,9 @@ public class LoginCheck {
 	public  static boolean checkUser(UserMaster userMaster){
 		UsersDao dao = new UsersDao();
 		String gotPass = dao.getUserInfo(userMaster.getUserName()).getUserPass();
-		if (StringUtils.isEmpty(gotPass)) 
-			{
-				return false;
-			}
+		if (StringUtils.isEmpty(gotPass)) {
+			return false;
+		}
 		return gotPass.equals(userMaster.getUserPass()); 
 	}
 }

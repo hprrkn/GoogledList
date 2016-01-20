@@ -21,6 +21,7 @@ import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
+import com.prrknh.logic.GoogledWordUtils;
 
 
 @WebServlet("/EditWordServlet")
@@ -59,6 +60,10 @@ public class EditWordServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		GoogledWordListDao gDao = new GoogledWordListDao();
 		RelTagWordDao rDao = new RelTagWordDao();
+		
+		GoogledWord changedWord = gDao.findDetail(id);
+		request.setAttribute("strDate", GoogledWordUtils.dateFormat(changedWord.getAdded_day()));
+		
 		if (StringUtils.isNotEmpty(request.getParameter("delete_flg")) && request.getParameter("delete_flg").equals("true")){
 			gDao.deleteDetail(id);
 			rDao.deleteAllTagOnWord(id);
@@ -79,7 +84,7 @@ public class EditWordServlet extends HttpServlet {
 			// 消して新たに追加し直してるから順番に注意　後で直す :TODO
 			rDao.deleteAllTagOnWord(id);
 			rDao.setTagOnWord(id,tagIdList);
-			request.setAttribute("msg", "更新しました。");
+			request.setAttribute("msg", "更新しました");
 		}
 		RequestDispatcher dispathcer = request.getRequestDispatcher("/WEB-INF/jsp/wordList.jsp");
 		dispathcer.forward(request,response);
