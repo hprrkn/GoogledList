@@ -84,7 +84,7 @@ public class WordListServlet extends HttpServlet {
 		
 		int addedId = gDao.addWord(userMaster, addWord, memo);
 	    // wordとtagのinsert
-		if (CollectionUtils.isEmpty(tagIdList)){
+		if (CollectionUtils.isNotEmpty(tagIdList)){
 			rDao.setTagOnWord(addedId,tagIdList);
 		}
 		// 追加したものも含めて当月リスト取得
