@@ -5,14 +5,20 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>${strDate}のググったリスト</title>
+<title>
+	<c:if test="${!empty addWord}"><p>今月のググったリスト</p></c:if>
+	<c:if test="${empty addWord}"><p>${strDate}のググったリスト</p></c:if>
+</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
 
 <c:if test="${!empty msg}"><c:out value="${msg}"/></c:if>
+<c:if test="${!empty addWord}"><h6>${addWord}を追加しました。</h6></c:if>
+<c:if test="${!empty memo}"><p>memo:${memo}</p></c:if>
 
-<p>${strDate}のググったリスト</p>
+<c:if test="${!empty addWord}"><p>今月のググったリスト</p></c:if>
+<c:if test="${empty addWord}"><p>${strDate}のググったリスト</p></c:if>
 <c:forEach var="wordList" items="${wordList}">
 	<a href="/GoogledList/WordDetailServlet?id=${wordList.id}">${wordList.word}/${wordList.added_day}</a><br>
 </c:forEach> 

@@ -88,12 +88,12 @@ public class WordListServlet extends HttpServlet {
 			rDao.setTagOnWord(addedId,tagIdList);
 		}
 		// 追加したものも含めて当月リスト取得
-		List<GoogledWord> nowMonthList = gDao.findNowMonthView(userMaster);
-		request.setAttribute("nowMonthList", nowMonthList);
-	    request.setAttribute("addword", addWord);
+		List<GoogledWord> wordList = gDao.findNowMonthView(userMaster);
+		request.setAttribute("wordList", wordList);
+	    request.setAttribute("addWord", addWord);
 	    request.setAttribute("memo", memo);
 	    
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/wordListThisMonth.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/wordList.jsp");
 		dispatcher.forward(request,response);
 		
 	}

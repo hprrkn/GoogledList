@@ -53,7 +53,7 @@ public class EditWordServlet extends HttpServlet {
 		dispathcer.forward(request,response);
 	}
 
-	// 編集/削除後
+	// ワード編集/削除後にwordListへ
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		int id = Integer.parseInt(request.getParameter("id"));
@@ -81,7 +81,7 @@ public class EditWordServlet extends HttpServlet {
 			rDao.setTagOnWord(id,tagIdList);
 			request.setAttribute("msg", "更新しました。");
 		}
-		RequestDispatcher dispathcer = request.getRequestDispatcher("/WordListServlet");
+		RequestDispatcher dispathcer = request.getRequestDispatcher("/WEB-INF/jsp/wordList.jsp");
 		dispathcer.forward(request,response);
 	}
 }
