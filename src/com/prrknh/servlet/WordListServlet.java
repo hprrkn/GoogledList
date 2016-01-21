@@ -21,6 +21,7 @@ import com.prrknh.dao.RelTagWordDao;
 import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.UserMaster;
+import com.prrknh.logic.GoogledWordUtils;
 
 @WebServlet("/WordListServlet")
 public class WordListServlet extends HttpServlet {
@@ -52,46 +53,60 @@ public class WordListServlet extends HttpServlet {
 		dispatcher.forward(request,response);
 	}
 
-	// 新規ワード追加で当月リストへ
+	// ワード追加/編集で該当月リストへ
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// セッションからユーザー情報を取得
 		HttpSession session = request.getSession();
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		request.setCharacterEncoding("UTF-8");
 		
-		// formからの受け取り
-		String addWord = request.getParameter("addWord");
-		String memo = request.getParameter("memo");
-		List<Integer> tagIdList = new ArrayList<>();
-		
-		// 配列からlist、list<String>からlist<Integer>という無駄な変換の嵐　直す :TODO
-		if (StringUtils.isNoneEmpty(request.getParameterValues("tagId"))){
-			String[] strTagIds = request.getParameterValues("tagId");
-			List<String> strTagList = Arrays.asList(strTagIds);
-			for (String tagId : strTagList){
-				tagIdList.add(Integer.parseInt(tagId));
-			}
-		}
 		GoogledWordListDao gDao =new GoogledWordListDao();
 		RelTagWordDao rDao = new RelTagWordDao();
 		TagMasterDao tDao = new TagMasterDao();
 		
-		// 新規タグ追加
-		if (StringUtils.isNotEmpty(request.getParameter("newTag"))){
-			int tagId = tDao.createTag(userMaster, request.getParameter("newTag"));
-			tagIdList.add(tagId);
+		// 新規ワード追加の場合
+		if (StringUtils.isNotEmpty(request.getParameter("addWord"))){	
+			// formからの受け取り
+			String addWord = request.getParameter("addWord");
+			String memo = request.getParameter("memo");
+			List<Integer> tagIdList = new ArrayList<>();
+			
+			// 配列からlist、list<String>からlist<Integer>という無駄な変換の嵐　直す :TODO
+			if (StringUtils.isNoneEmpty(request.getParameterValues("tagId"))){
+				for (String strTagId : Arrays.asList(request.getParameter("tagId"))){
+					tagIdList.add(Integer.parseInt(strTagId));
+				}
+			}
+			
+			// 新規タグ追加
+			if (StringUtils.isNotEmpty(request.getParameter("newTag"))){
+				int tagId = tDao.createTag(userMaster, request.getParameter("newTag"));
+				tagIdList.add(tagId);
+			}
+			
+			int addedId = gDao.addWord(userMaster, addWord, memo);
+			String strDate = GoogledWordUtils.dateFormat(gDao.findDetail(addedId).getAdded_day());
+			request.setAttribute("strDate",strDate);
+		    // wordとtagのinsert
+			if (CollectionUtils.isNotEmpty(tagIdList)){
+				rDao.setTagOnWord(addedId,tagIdList);
+			}
+			request.setAttribute("addWord", addWord);
+		    request.setAttribute("memo", memo);
 		}
 		
-		int addedId = gDao.addWord(userMaster, addWord, memo);
-	    // wordとtagのinsert
-		if (CollectionUtils.isNotEmpty(tagIdList)){
-			rDao.setTagOnWord(addedId,tagIdList);
+		// ワード編集/削除の場合
+		if (StringUtils.isNotEmpty(request.getParameter("id"))){
+			String strDate = GoogledWordUtils.dateFormat(gDao.findDetail(Integer.parseInt(request.getParameter("id"))).getAdded_day());
+			request.setAttribute("strDate",strDate);
+			if (StringUtils.isNotEmpty(request.getParameter("msg"))){
+				request.setAttribute("msg", request.getParameter("msg"));
+			}
 		}
-		// 追加したものも含めて当月リスト取得
+		
+		// 追加/編集したものも含めて該当月リスト取得
 		List<GoogledWord> wordList = gDao.findNowMonthView(userMaster);
 		request.setAttribute("wordList", wordList);
-	    request.setAttribute("addWord", addWord);
-	    request.setAttribute("memo", memo);
 	    
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/wordList.jsp");
 		dispatcher.forward(request,response);

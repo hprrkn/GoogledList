@@ -21,7 +21,6 @@ import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
-import com.prrknh.logic.GoogledWordUtils;
 
 
 @WebServlet("/EditWordServlet")
@@ -58,11 +57,9 @@ public class EditWordServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		int id = Integer.parseInt(request.getParameter("id"));
+		request.setAttribute("id", id);
 		GoogledWordListDao gDao = new GoogledWordListDao();
 		RelTagWordDao rDao = new RelTagWordDao();
-		
-		GoogledWord changedWord = gDao.findDetail(id);
-		request.setAttribute("strDate", GoogledWordUtils.dateFormat(changedWord.getAdded_day()));
 		
 		if (StringUtils.isNotEmpty(request.getParameter("delete_flg")) && request.getParameter("delete_flg").equals("true")){
 			gDao.deleteDetail(id);
@@ -72,21 +69,21 @@ public class EditWordServlet extends HttpServlet {
 			String editedWord = request.getParameter("editedword");
 			String editedMemo = request.getParameter("editedmemo");
 			
-			// 配列からlist、list<String>からlist<Integer>という無駄な変換の嵐　直す :TODO
-			String[] strTagIds = request.getParameterValues("tagId");
-			List<String> strTagList = Arrays.asList(strTagIds);
-			List<Integer> tagIdList = new ArrayList<>();
-			for (String strTagId : strTagList){
-				tagIdList.add(Integer.parseInt(strTagId));
-			}
 			gDao.updateDetail(id, editedWord, editedMemo);
 			
-			// 消して新たに追加し直してるから順番に注意　後で直す :TODO
-			rDao.deleteAllTagOnWord(id);
-			rDao.setTagOnWord(id,tagIdList);
+			if (StringUtils.isNotEmpty(request.getParameter("tagId"))){
+				List<Integer> tagIdList = new ArrayList<>();
+				for (String strTagId : Arrays.asList(request.getParameter("tagId"))){
+					tagIdList.add(Integer.parseInt(strTagId));
+				}
+				// 消して新たに追加し直してるから順番に注意　後で直す :TODO
+				rDao.deleteAllTagOnWord(id);
+				rDao.setTagOnWord(id,tagIdList);
+			}
+			
 			request.setAttribute("msg", "更新しました");
 		}
-		RequestDispatcher dispathcer = request.getRequestDispatcher("/WEB-INF/jsp/wordList.jsp");
+		RequestDispatcher dispathcer = request.getRequestDispatcher("/WordListServlet");
 		dispathcer.forward(request,response);
 	}
 }

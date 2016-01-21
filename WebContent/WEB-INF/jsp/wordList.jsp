@@ -6,8 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>
-	<c:if test="${!empty addWord}"><p>今月のググったリスト</p></c:if>
-	<c:if test="${empty addWord}"><p>${strDate}のググったリスト</p></c:if>
+	<c:if test="${!empty addWord}">今月のググったリスト</c:if>
+	<c:if test="${empty addWord}">${strDate}のググったリスト</c:if>
 </title>
 </head>
 <body>
