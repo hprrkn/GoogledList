@@ -12,6 +12,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
+<a href="/TopPageServlet">戻る</a>
 
 <c:if test="${!empty msg}"><c:out value="${msg}"/></c:if>
 <c:if test="${!empty addWord}"><h6>${addWord}を追加しました。</h6></c:if>
