@@ -34,9 +34,13 @@ public class EditWordServlet extends HttpServlet {
 
     // 編集/削除前
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// セッションからユーザー情報を取得
+		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
 		HttpSession session = request.getSession();
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
+		if (userMaster == null){
+			response.sendRedirect("/GoogledList/TopPageServlet");
+			return;
+		}
 		request.setCharacterEncoding("UTF-8");
 		
 		int selectedId = Integer.parseInt(request.getParameter("selectedId"));
@@ -55,6 +59,14 @@ public class EditWordServlet extends HttpServlet {
 
 	// ワード編集/削除後にwordListへ
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
+		HttpSession session = request.getSession();
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
+		if (userMaster == null){
+			response.sendRedirect("/GoogledList/TopPageServlet");
+			return;
+		}
+		
 		request.setCharacterEncoding("UTF-8");
 		int id = Integer.parseInt(request.getParameter("id"));
 		request.setAttribute("id", id);

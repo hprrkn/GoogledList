@@ -26,8 +26,14 @@ public class EditTagServlet extends HttpServlet {
     
     // 選択タグの編集ページへ
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		
+		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
+		HttpSession session = request.getSession();
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
+		if (userMaster == null){
+			response.sendRedirect("/GoogledList/TopPageServlet");
+			return;
+		}
+		request.setCharacterEncoding("UTF-8");		
 		int tagId = Integer.parseInt(request.getParameter("tagId"));
 		
 		TagMasterDao tDao = new TagMasterDao();
@@ -40,11 +46,14 @@ public class EditTagServlet extends HttpServlet {
 	
 	//　新規タグ追加にタグリストへ
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		// セッションからユーザー情報を取得
+		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
 		HttpSession session = request.getSession();
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		request.setCharacterEncoding("UTF-8");
+		if (userMaster == null){
+			response.sendRedirect("/GoogledList/TopPageServlet");
+			return;
+		}
+		request.setCharacterEncoding("UTF-8");		
 		
 		String addTagName = request.getParameter("addTagName");
 		TagMasterDao tDao = new TagMasterDao();

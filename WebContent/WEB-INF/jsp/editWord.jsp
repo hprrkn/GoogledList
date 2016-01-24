@@ -9,7 +9,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
-<a href="/WordDetailServlet?id=${detail.id}">戻る</a>
+<a href="/GoogledList/WordDetailServlet?id=${detail.id}">戻る</a>
 	<p>編集</p>
 	<form action="EditWordServlet" method="POST"><br>
 		<input type="hidden" name="delete_flg" value="false">

@@ -9,7 +9,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
-<a href="/WordListServlet">戻る</a>
+<a href="/GoogledList/WordListServlet">戻る</a>
 
 	<p>ググったもの：${detail.word}</p><br>
 	<p>メモ：${detail.memo}</p><br>

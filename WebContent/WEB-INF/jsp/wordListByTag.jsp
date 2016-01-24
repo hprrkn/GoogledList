@@ -8,6 +8,9 @@
 <title>${tag.tagName}のワードリスト</title>
 </head>
 <body>
+<jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
+<a href="/GoogledList/TagListServlet">戻る</a>
+
 <c:forEach var="wordList" items="${wordList}">
 	<a href="/GoogledList/WordDetailServlet?id=${wordList.id}">${wordList.word}/${wordList.added_day}</a><br>
 </c:forEach>

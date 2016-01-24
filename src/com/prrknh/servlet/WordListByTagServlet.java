@@ -24,10 +24,14 @@ public class WordListByTagServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// セッションからユーザー情報を取得
+		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
 		HttpSession session = request.getSession();
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		request.setCharacterEncoding("UTF-8");
+		if (userMaster == null){
+			response.sendRedirect("/GoogledList/TopPageServlet");
+			return;
+		}
+		request.setCharacterEncoding("UTF-8");		
 		
 		// 指定タグのワードリスト取得
 		int tagId = Integer.parseInt(request.getParameter("tagId"));

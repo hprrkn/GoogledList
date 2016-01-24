@@ -27,10 +27,14 @@ public class TagListServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// セッションからユーザー情報を取得
+		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
 		HttpSession session = request.getSession();
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		request.setCharacterEncoding("UTF-8");
+		if (userMaster == null){
+			response.sendRedirect("/GoogledList/TopPageServlet");
+			return;
+		}
+		request.setCharacterEncoding("UTF-8");		
 		
 		TagMasterDao tDao = new TagMasterDao();
 		List<TagMaster> allTagList = new ArrayList<>();
@@ -42,6 +46,14 @@ public class TagListServlet extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
+		HttpSession session = request.getSession();
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
+		if (userMaster == null){
+			response.sendRedirect("/GoogledList/TopPageServlet");
+			return;
+		}
+		
 		int tagId = Integer.parseInt(request.getParameter("tagId"));
 		TagMasterDao tDao = new TagMasterDao();
 		
@@ -53,11 +65,6 @@ public class TagListServlet extends HttpServlet {
 			tDao.editTag(tagId, tagName);
 			request.setAttribute("msg", "更新しました。");
 		} 
-		
-		// セッションからユーザー情報を取得
-		HttpSession session = request.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		request.setCharacterEncoding("UTF-8");
 		
 		List<TagMaster> allTagList = new ArrayList<>();
 		allTagList = tDao.getAllTagList(userMaster);

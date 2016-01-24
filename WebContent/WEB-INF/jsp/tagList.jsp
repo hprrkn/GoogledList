@@ -9,7 +9,7 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
-<a href="/TopPageServlt">戻る</a>
+<a href="/GoogledList/TopPageServlet">戻る</a>
 	<c:if test="${!empty msg}"><c:out value="${msg}"/></c:if><br>
 
 	<p>タグリスト</p>
