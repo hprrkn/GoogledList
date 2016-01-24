@@ -5,17 +5,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>タグ編集</title>
+<title>タグリスト</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
 <a href="/TopPageServlt">戻る</a>
 	<c:if test="${!empty msg}"><c:out value="${msg}"/></c:if><br>
 
-	<p>タグ編集</p>
+	<p>タグリスト</p>
 	<form method="GET" action="/GoogledList/EditTagServlet">
 		<c:forEach var="allTagList" items="${allTagList}">
-			<button type="submit" name="tagId" value="${allTagList.tagId}">${allTagList.tagName}</button>
+			<a href="/GoogledList/WordListByTagServlet?tagId=${allTagList.tagId}">${allTagList.tagName}</a><button type="submit" name="tagId" value="${allTagList.tagId}">編集</button>
 		</c:forEach>
 	</form>
 	<form method="POST" action="/GoogledList/EditTagServlet">

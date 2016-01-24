@@ -28,6 +28,6 @@
 			</c:forEach> 
 		</div>
 	</div>
-	<a href="/GoogledList/TagListServlet">タグ編集</a>
+	<a href="/GoogledList/TagListServlet">タグリスト</a>
 </body>
 </html>

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+
 public class RelTagWordDao {
 		private final String DRIVER_NAME = "org.postgresql.Driver";
 		private final String URL ="jdbc:postgresql://127.0.0.1:5432/testdb";
@@ -62,5 +63,4 @@ public class RelTagWordDao {
 				}
 			}
 		}
-
 }

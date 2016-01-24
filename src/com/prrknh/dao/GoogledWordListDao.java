@@ -266,4 +266,38 @@ public class GoogledWordListDao {
 			}
 		}
 	}
+	
+	public List<GoogledWord> findWordListByTag(UserMaster userMaster, int tagId){
+		Connection conn = null;
+		List<GoogledWord> wordList = new ArrayList<GoogledWord>();
+		try{
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
+			String sql = "SELECT sh.id,sh.word,sh.word, sh.memo, sh.added_day FROM searchhistory sh INNER JOIN rel_tag_word rtw ON rtw.id = sh.id INNER JOIN tagmaster tm ON tm.tag_id = rtw.tag_id WHERE sh.user_id = ? AND sh.activation = true AND rtw.activation = true AND rtw.tag_id = ?;";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, userMaster.getUserId());
+			pStmt.setInt(2, tagId);
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()){
+				GoogledWord googledword = new GoogledWord(rs.getInt("id"), rs.getString("word"), rs.getString("memo"), rs.getDate("added_day"));
+				wordList.add(googledword);
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+			return null;
+		}catch(ClassNotFoundException e){
+			e.printStackTrace();
+			return null;
+		}finally{
+			if(conn != null){
+				try{
+					conn.close();
+				}catch(SQLException e){
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+		return wordList;
+	}
 }

@@ -41,6 +41,7 @@ public class TopPageServlet extends HttpServlet {
 	
 	private void doBoth(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		// セッションからユーザー情報を取得
+		// ログインチェック
 		HttpSession session = request.getSession();
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		if (userMaster == null){
