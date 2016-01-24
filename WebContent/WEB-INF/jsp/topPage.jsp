@@ -6,6 +6,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>ググったリスト</title>
+	<link href="/GoogledList/Bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
@@ -29,5 +30,8 @@
 		</div>
 	</div>
 	<a href="/GoogledList/TagListServlet">タグリスト</a>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/GoogledList/Bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
