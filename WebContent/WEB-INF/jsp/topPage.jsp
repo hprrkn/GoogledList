@@ -12,6 +12,13 @@
 <div class="container">
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
 
+<div class="panel panel-primary">
+  <div class="panel-heading">
+  	<div class="col-xs-offset-2">
+  		Add New GoogledWord!!
+  	</div>
+  </div>
+  <div class="panel-body">
 	<form class="form-horizontal"action="WordListServlet" method="post">
 		<div class="form-group">
 			<label for="name" class="col-xs-2 control-label">word</label>
@@ -25,7 +32,7 @@
 			<label for="name" class="col-xs-2 control-label">tag</label>
 			<c:forEach var="allTagList" items="${allTagList}">
 	            <label class="checkbox-inline">
- 	               <input type="checkbox" name="tagId" value="${allTagList.tagId}">${allTagList.tagName} 
+ 	               　<input type="checkbox" name="tagId" value="${allTagList.tagId}">${allTagList.tagName} 
 	            </label>
 			</c:forEach>
 		</div>
@@ -39,22 +46,24 @@
 			</div>
 		</div>
 	</form>
+  </div>
+</div>
 
 	<ul class="list-group">
  		<c:forEach var="monthCntList" items="${monthCntList}">
 	    	<li class="list-group-item">
-	    		<a href = "/GoogledList/WordListServlet?date=${monthCntList.date}">
-	    			${monthCntList.strYearMonth}　　<span class="badge">${monthCntList.cnt}</span>
+	    		<span class="glyphicon glyphicon-search"></span>
+	    		<a href="/GoogledList/WordListServlet?date=${monthCntList.date}">
+	    			<strong>　${monthCntList.strYearMonth}</strong>のググったリスト
     			</a>
+    			<span class="badge">${monthCntList.cnt}</span>
 	    	</li>
     	</c:forEach>
 	</ul>
 		
 	
-	<div class="panel panel-default">
-	  <div class="panel-body">
+	<div class="well">
 		<a href="/GoogledList/TagListServlet">タグリスト</a>
-	  </div>
 	</div>
 </div>
 	

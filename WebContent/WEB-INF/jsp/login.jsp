@@ -20,10 +20,10 @@
 		<li><a data-toggle="tab" href="#register">Register</a></li>
 	</ul>
 	<div class="tab-content">
-		<div class="tab-pane" id="login">
+		<div class="tab-pane active" id="login">
 	        <div class="page-header">
 	      		    <h1>Login</h1>
-	      		</div>
+	      	</div>
 			<form action=LoginServlet method=post class="form-horizontal">
 				<div class="form-group">
 					<label for="name" class="col-xs-2 control-label">name</label>
@@ -40,7 +40,7 @@
 				</div>
 			</form>
 		</div>
-		<div class="tab-pane active" id="register">
+		<div class="tab-pane" id="register">
 	        <div class="page-header">
 	      		    <h1>Register</h1>
 	      		</div>
