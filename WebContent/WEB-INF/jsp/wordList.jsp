@@ -17,7 +17,7 @@
 <c:if test="${!empty msg}"><c:out value="${msg}"/></c:if>
 <c:if test="${!empty addWord}"><h6>${addWord}を追加しました。</h6></c:if>
 <c:if test="${!empty memo}"><p>memo:${memo}</p></c:if>
-
+<div class="container">
 <div class="panel panel-primary">
   <div class="panel-heading">
 	<c:if test="${!empty addWord}"><p>今月のググったリスト</p></c:if>
@@ -33,6 +33,7 @@
 	  	</c:forEach> 
 	</ul>
   </div>
+</div>
 </div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
