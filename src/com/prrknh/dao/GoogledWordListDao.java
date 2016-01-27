@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.UserMaster;
@@ -26,7 +27,7 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM searchhistory WHERE activation = true AND user_id = ?;";
+			String sql = ResourceBundle.getBundle("GoogledWordList").getString("find_all");
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userMaster.getUserId());
 			ResultSet rs = pStmt.executeQuery();		
@@ -59,7 +60,8 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT date_trunc('month',added_day) AS date, COUNT(id) AS count FROM searchhistory WHERE user_id = ? AND activation = true GROUP BY date_trunc('month',added_day) ORDER BY date_trunc('month',added_day) DESC";
+			String sql = ResourceBundle.getBundle("GoogledWordList").getString("get_cnt_word");
+//			String sql = "SELECT date_trunc('month',added_day) AS date, COUNT(id) AS count FROM searchhistory WHERE user_id = ? AND activation = true GROUP BY date_trunc('month',added_day) ORDER BY date_trunc('month',added_day) DESC";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userMaster.getUserId());
 			ResultSet rs = pStmt.executeQuery();
