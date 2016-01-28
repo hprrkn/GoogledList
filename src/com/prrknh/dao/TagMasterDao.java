@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.TagMaster;
@@ -25,7 +26,7 @@ public class TagMasterDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT tm.tag_id, tm.tag_name,tm.activation,rtw.activation FROM rel_tag_word rtw INNER JOIN tagMaster tm ON tm.tag_id = rtw.tag_id WHERE rtw.id = ? AND tm.activation = true AND rtw.activation = true;";
+			String sql = ResourceBundle.getBundle("TagMaster").getString("get_tag_list");			
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, gw.getId());
 			ResultSet rs = pStmt.executeQuery();		
@@ -58,8 +59,7 @@ public class TagMasterDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM tagMaster WHERE user_id = ? AND activation = true";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("TagMaster").getString("get_all_tag_list");			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, usermaster.getUserId());
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
@@ -91,8 +91,7 @@ public class TagMasterDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM tagMaster WHERE tag_id = ? AND activation = true";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("TagMaster").getString("get_tag_detail");			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, tagId);
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
@@ -122,8 +121,7 @@ public class TagMasterDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "UPDATE tagmaster SET activation = false WHERE tag_id = ?;";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("TagMaster").getString("delete_tag");			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, tagId);
 			pStmt.executeUpdate();
 		}catch(SQLException e){
@@ -147,8 +145,7 @@ public class TagMasterDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "INSERT INTO tagMaster(tag_name,user_id) VALUES (?,?) RETURNING tag_id;";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("TagMaster").getString("create_tag");			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, newTagName);
 			pStmt.setInt(2, userMaster.getUserId());
 			ResultSet rs =pStmt.executeQuery();
@@ -177,8 +174,7 @@ public class TagMasterDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "UPDATE tagMaster SET tag_name = ? WHERE tag_id = ? RETURNING tag_name;";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("TagMaster").getString("edit_tag");			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, editTagName);
 			pStmt.setInt(2, tagId);
 			ResultSet rs =pStmt.executeQuery();

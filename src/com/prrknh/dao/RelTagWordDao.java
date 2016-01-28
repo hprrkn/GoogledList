@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ResourceBundle;
 
 
 public class RelTagWordDao {
@@ -18,7 +19,7 @@ public class RelTagWordDao {
 			try{
 				Class.forName(DRIVER_NAME);
 				conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-				String sql = "INSERT INTO rel_tag_word(id, tag_id) VALUES (?, ?);";
+				String sql = ResourceBundle.getBundle("RelTagWord").getString("set_tag_on_word");				
 				PreparedStatement pStmt = conn.prepareStatement(sql);
 				for(Integer tagId : tagIdList){
 					pStmt.setInt(1, wordId);
@@ -45,7 +46,7 @@ public class RelTagWordDao {
 			try{
 				Class.forName(DRIVER_NAME);
 				conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-				String sql = "update rel_tag_word SET activation = false WHERE id = ?";
+				String sql = ResourceBundle.getBundle("RelTagWord").getString("delete_all_tag_on_word");				
 				PreparedStatement pStmt = conn.prepareStatement(sql);
 				pStmt.setInt(1, wordId);
 				pStmt.executeUpdate();

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 import com.prrknh.entity.UserMaster;
 
@@ -20,8 +21,7 @@ public class UsersDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM users WHERE activation = true AND user_name = ?;";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("users").getString("get_user_info");			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1,paramName);
 			ResultSet rs = pStmt.executeQuery();		
 			while(rs.next()){
@@ -53,8 +53,7 @@ public class UsersDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "INSERT INTO users(user_name, pw) VALUES ( ?, ? );";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("users").getString("register_user");			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, registerUser.getUserName());
 			pStmt.setString(2, registerUser.getUserPass());
 			int result = pStmt.executeUpdate();

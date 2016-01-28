@@ -20,7 +20,7 @@ public class GoogledWordListDao {
 	private final String URL ="jdbc:postgresql://127.0.0.1:5432/testdb";
 	private final String DB_USER="testuser";
 	private final String DB_PASS="1234";
-
+	
 	public List<GoogledWord>findAll(UserMaster userMaster){
 		Connection conn = null;
 		List<GoogledWord> wordList = new ArrayList<GoogledWord>();
@@ -61,7 +61,6 @@ public class GoogledWordListDao {
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
 			String sql = ResourceBundle.getBundle("GoogledWordList").getString("get_cnt_word");
-//			String sql = "SELECT date_trunc('month',added_day) AS date, COUNT(id) AS count FROM searchhistory WHERE user_id = ? AND activation = true GROUP BY date_trunc('month',added_day) ORDER BY date_trunc('month',added_day) DESC";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userMaster.getUserId());
 			ResultSet rs = pStmt.executeQuery();
@@ -92,7 +91,7 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "INSERT INTO searchhistory(user_id, word, memo) VALUES(?, ?, ?) RETURNING id;";
+			String sql = ResourceBundle.getBundle("GoogledWordList").getString("add_word");
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userMaster.getUserId());
 			pStmt.setString(2, addWord);
@@ -125,7 +124,7 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM searchhistory WHERE user_id = ? AND activation = true AND added_day >= DATE_TRUNC('month', now())::date AND added_day < (DATE_TRUNC('month', now() + '1 month'))::date";
+			String sql = ResourceBundle.getBundle("GoogledWordList").getString("find_now_month_view");
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userMaster.getUserId());
 			ResultSet rs = pStmt.executeQuery();
@@ -158,8 +157,7 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM searchhistory WHERE user_id = ? AND activation = true AND added_day >= to_date(?,'YYYY-MM-DD') AND added_day < (DATE_TRUNC('month', to_timestamp(?,'YYYY-MM-DD') + '1 month'))::date";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("GoogledWordList").getString("find_month_view");			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userMaster.getUserId());
 			pStmt.setString(2, strDate);
 			pStmt.setString(3, strDate);
@@ -193,7 +191,7 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT * FROM searchhistory WHERE activation = true AND id = ?;";
+			String sql = ResourceBundle.getBundle("GoogledWordList").getString("find_detail");
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, selectedId);
 			ResultSet rs = pStmt.executeQuery();
@@ -224,8 +222,7 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "UPDATE searchhistory SET word = ?, memo = ? WHERE id = ?;";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("GoogledWordList").getString("update_detail");			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, EditedWord);
 			pStmt.setString(2, EditedMemo);
 			pStmt.setInt(3, id);
@@ -250,8 +247,7 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "UPDATE searchhistory SET activation = false WHERE id = ?;";
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("GoogledWordList").getString("delete_detail");			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, id);
 			pStmt.executeUpdate();
 		}catch(SQLException e){
@@ -275,7 +271,7 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = "SELECT sh.id,sh.word,sh.word, sh.memo, sh.added_day FROM searchhistory sh INNER JOIN rel_tag_word rtw ON rtw.id = sh.id INNER JOIN tagmaster tm ON tm.tag_id = rtw.tag_id WHERE sh.user_id = ? AND sh.activation = true AND rtw.activation = true AND rtw.tag_id = ?;";
+			String sql = ResourceBundle.getBundle("GoogledWordList").getString("find_word_list_by_tag");			
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userMaster.getUserId());
 			pStmt.setInt(2, tagId);
