@@ -53,6 +53,7 @@ public class WordListServlet extends HttpServlet {
 		request.setAttribute("strDate", strDate);
 		List<GoogledWord> wordList = dao.findMonthList(userMaster, strDate);
 		request.setAttribute("wordList", wordList);
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/wordList.jsp");
 		dispatcher.forward(request,response);
 	}
@@ -117,8 +118,6 @@ public class WordListServlet extends HttpServlet {
 		request.setAttribute("wordList", wordList);
 	    
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/wordList.jsp");
-		dispatcher.forward(request,response);
-		
+		dispatcher.forward(request,response);	
 	}
-
 }

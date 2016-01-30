@@ -9,7 +9,7 @@
 		<c:if test="${!empty addWord}">今月のググったリスト</c:if>
 		<c:if test="${empty addWord}">${strDate}のググったリスト</c:if>
 	</title>
-	<link href="/GoogledList/Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/GoogledList/Lib/Bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
@@ -48,6 +48,6 @@
 </div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="/GoogledList/Bootstrap/js/bootstrap.min.js"></script>
+    <script src="/GoogledList/Lib/Bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

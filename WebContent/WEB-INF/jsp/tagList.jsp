@@ -4,12 +4,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>タグリスト</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>タグリスト</title>
+	<link href="/GoogledList/Lib/Bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
-<a href="/GoogledList/TopPageServlet">戻る</a>
 
 <c:if test="${!empty msg}">
 	<div class="alert alert-warning alert-dismissible" role="alert">
@@ -27,6 +28,7 @@
 		新規タグ：<input type="text" name="addTagName">
 		<input type="submit" value="追加">
 	</form>
-	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/GoogledList/Lib/Bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

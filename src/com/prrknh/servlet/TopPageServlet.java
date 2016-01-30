@@ -70,8 +70,6 @@ public class TopPageServlet extends HttpServlet {
 		}
 		request.setAttribute("monthCntList", monthCntList);
 		
-		
-		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/topPage.jsp");
 		dispatcher.forward(request,response);
 	}
