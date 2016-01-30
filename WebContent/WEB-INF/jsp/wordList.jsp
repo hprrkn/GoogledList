@@ -14,9 +14,20 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
 
-<c:if test="${!empty msg}"><c:out value="${msg}"/></c:if>
-<c:if test="${!empty addWord}"><h6>${addWord}を追加しました。</h6></c:if>
-<c:if test="${!empty memo}"><p>memo:${memo}</p></c:if>
+<c:if test="${!empty msg}">
+	<div class="alert alert-warning alert-dismissible" role="alert">
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	  <c:out value="${msg}"/>
+	</div>
+</c:if>
+<c:if test="${!empty addWord}">
+	<div class="alert alert-warning alert-dismissible" role="alert">
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	  <strong>${addWord}</strong>を追加しました。
+	  <c:if test="${!empty memo}"><p>　memo:<strong>${memo}</strong></p></c:if>
+	</div>
+</c:if>
+
 <div class="container">
 <div class="panel panel-primary">
   <div class="panel-heading">

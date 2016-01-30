@@ -157,7 +157,8 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = ResourceBundle.getBundle("GoogledWordList").getString("find_month_view");			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("GoogledWordList").getString("find_month_list");			
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userMaster.getUserId());
 			pStmt.setString(2, strDate);
 			pStmt.setString(3, strDate);

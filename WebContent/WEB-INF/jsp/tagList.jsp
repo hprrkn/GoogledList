@@ -10,8 +10,13 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
 <a href="/GoogledList/TopPageServlet">戻る</a>
-	<c:if test="${!empty msg}"><c:out value="${msg}"/></c:if><br>
 
+<c:if test="${!empty msg}">
+	<div class="alert alert-warning alert-dismissible" role="alert">
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	  <c:out value="${msg}"/>
+	</div>
+</c:if>
 	<p>タグリスト</p>
 	<form method="GET" action="/GoogledList/EditTagServlet">
 		<c:forEach var="allTagList" items="${allTagList}">

@@ -12,7 +12,14 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
 
-<c:if test="${!empty msg}"><p><c:out value="${msg}"/></p><br></c:if>
+
+
+<c:if test="${!empty msg}">
+	<div class="alert alert-warning alert-dismissible" role="alert">
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	  <c:out value="${msg}"/>
+	</div>
+</c:if>
 
 <div class="container">
 	<ul class="nav nav-tabs">
