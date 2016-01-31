@@ -6,7 +6,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>編集・削除</title>
-	<link href="/GoogledList/Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/GoogledList/Lib/Bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
@@ -34,6 +34,6 @@
 	</form>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="/GoogledList/Bootstrap/js/bootstrap.min.js"></script>
+    <script src="/GoogledList/Lib/Bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

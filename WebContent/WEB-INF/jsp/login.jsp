@@ -7,6 +7,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Login/Register</title>
 	<link href="/GoogledList/Lib/Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/GoogledList/Lib/Jquery.validationEngene/validationEngine.jquery.css" type="text/css"/>
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
@@ -75,5 +76,7 @@
 　　</script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="/GoogledList/Lib/Bootstrap/js/bootstrap.min.js"></script>
+    <script src="/GoogledList/Lib/Jquery.validationEngene/jquery.validationEngine-ja.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/GoogledList/Lib/Jquery.validationEngene/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>
