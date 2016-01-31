@@ -9,13 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.TagMaster;
-import com.prrknh.entity.UserMaster;
+import com.prrknh.logic.LoginCheck;
 
 @WebServlet("/WordDetailServlet")
 public class WordDetailServlet extends HttpServlet {
@@ -25,13 +24,9 @@ public class WordDetailServlet extends HttpServlet {
         super();
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
-		HttpSession session = request.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
-			response.sendRedirect("/GoogledList/TopPageServlet");
-			return;
-		}
+		// ログインチェック
+		LoginCheck.loginCheck(request, response);
+		
 		request.setCharacterEncoding("UTF-8");				
 		Integer selectedId = Integer.parseInt(request.getParameter("id"));
 		

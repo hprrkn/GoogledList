@@ -10,29 +10,60 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
-<a href="/GoogledList/WordDetailServlet?id=${detail.id}">戻る</a>
-	<p>編集</p>
-	<form action="EditWordServlet" method="POST"><br>
-		<input type="hidden" name="delete_flg" value="false">
-		<input type="hidden"  name="id" value="${detail.id}">
-		${detail.word}　→　<input type="text" name="editedword" value="${detail.word}"><br>
-		${detail.memo}　→　<input type="text" name="editedmemo" value="${detail.memo}"><br>
-		<c:forEach var="allTagList" items="${allTagList}">
-			<input type="checkbox" name="tagId" value="${allTagList.tagId}"
-				<c:forEach var="tagList" items="${tagList}">
-					<c:if test="${allTagList.tagId == tagList.tagId}"> checked="checked"</c:if>
+<div class="container">
+	<div class="panel panel-primary">
+	  <div class="panel-heading">
+	  	<div class="col-xs-offset-2">
+	 		Edit Word
+	  	</div>
+	  </div>
+	  <div class="panel-body">
+		<form class="form-horizontal"action="EditWordServlet" method="post">
+			<div class="form-group">
+				<label for="name" class="col-xs-2 control-label">word</label>
+				<div class="col-xs-4"><input type="text" name="editedword" value="${detail.word}" class="form-control"></div>
+			</div>
+			<div class="form-group">
+				<label for="name" class="col-xs-2 control-label">memo</label>
+				<div class="col-xs-4"><input type="text" name="editedmemo" value="${detail.memo}" class="form-control"></div>
+				<input type="hidden" name="delete_flg" value="false">
+				<input type="hidden"  name="id" value="${detail.id}">
+			</div>
+			<div class="form-group">
+				<label for="name" class="col-xs-2 control-label">tag</label>
+				<c:forEach var="allTagList" items="${allTagList}">
+		            <label class="checkbox-inline">
+						<input type="checkbox" name="tagId" value="${allTagList.tagId}"
+							<c:forEach var="tagList" items="${tagList}">
+								<c:if test="${allTagList.tagId == tagList.tagId}"> checked="checked"</c:if>
+							</c:forEach>
+						>${allTagList.tagName}  
+		            </label>
 				</c:forEach>
-			>${allTagList.tagName} 
-		</c:forEach><br>
-		<input type="submit" value="ok"> 
-	</form>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label">+tag:</label>
+				<div class="col-xs-4"><input type="text" name="newTag" class="form-control"></div>
+			</div>
+			<div class="form-group">
+				<div class="col-xs-offset-2 col-xs-10">
+					<input type="submit" value="Edit" class="btn btn-primary">
+				</div>
+			</div>
+		</form>
+		<form  class="form-horizontal" action="EditWordServlet" method="POST">
+			<div class="form-group">
+				<div class="col-xs-offset-2 col-xs-10">
+					<input type="hidden"  name="id" value="${detail.id}">
+					<input type="hidden" name="delete_flg" value="true"><br>
+					<input type="submit" value="delete" class="btn btn-primary">
+				</div>
+			</div>
+		</form>	
+	  </div>
+	</div>
+</div>
 
-	<form action="EditWordServlet" method="POST"><br>
-		<input type="hidden"  name="id" value="${detail.id}">
-		<input type="hidden" name="delete_flg" value="true"><br>
-		<input type="submit" value="delete">
-	</form>
-	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="/GoogledList/Lib/Bootstrap/js/bootstrap.min.js"></script>
 </body>
