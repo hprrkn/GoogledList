@@ -13,7 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.dao.TagMasterDao;
@@ -21,6 +20,7 @@ import com.prrknh.entity.MonthCnt;
 import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
 import com.prrknh.logic.GoogledWordUtils;
+import com.prrknh.logic.LoginCheck;
 
 
 @WebServlet("/TopPageServlet")
@@ -40,15 +40,8 @@ public class TopPageServlet extends HttpServlet {
 	}
 	
 	private void doBoth(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		// セッションからユーザー情報を取得
 		// ログインチェック
-		HttpSession session = request.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
-			RequestDispatcher dispatcher = request.getRequestDispatcher("LoginServlet");
-			dispatcher.forward(request,response);
-			return;
-		}
+		UserMaster userMaster = LoginCheck.loginCheck(request, response);
 		
 		// 追加時選択用のタグリスト取得
 		TagMasterDao tmDao = new TagMasterDao();

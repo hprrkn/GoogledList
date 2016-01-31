@@ -10,11 +10,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
+import com.prrknh.logic.LoginCheck;
 
 @WebServlet("/EditTagServlet")
 public class EditTagServlet extends HttpServlet {
@@ -26,13 +26,9 @@ public class EditTagServlet extends HttpServlet {
     
     // 選択タグの編集ページへ
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
-		HttpSession session = request.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
-			response.sendRedirect("/GoogledList/TopPageServlet");
-			return;
-		}
+		// ログインチェック
+		LoginCheck.loginCheck(request, response);
+		
 		request.setCharacterEncoding("UTF-8");		
 		int tagId = Integer.parseInt(request.getParameter("tagId"));
 		
@@ -46,13 +42,8 @@ public class EditTagServlet extends HttpServlet {
 	
 	//　新規タグ追加にタグリストへ
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
-		HttpSession session = request.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
-			response.sendRedirect("/GoogledList/TopPageServlet");
-			return;
-		}
+		// ログインチェック
+		UserMaster userMaster = LoginCheck.loginCheck(request, response);
 		request.setCharacterEncoding("UTF-8");		
 		
 		String addTagName = request.getParameter("addTagName");

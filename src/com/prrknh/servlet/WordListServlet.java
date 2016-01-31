@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +21,7 @@ import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.UserMaster;
 import com.prrknh.logic.GoogledWordUtils;
+import com.prrknh.logic.LoginCheck;
 
 @WebServlet("/WordListServlet")
 public class WordListServlet extends HttpServlet {
@@ -33,13 +33,8 @@ public class WordListServlet extends HttpServlet {
     
     // 指定月リストへ
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
-		HttpSession session = request.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
-			response.sendRedirect("/GoogledList/TopPageServlet");
-			return;
-		}
+		// ログインチェック
+		UserMaster userMaster = LoginCheck.loginCheck(request, response);
 		request.setCharacterEncoding("UTF-8");
 		
 		// 更新後に戻ってきた時用のメッセージ設定
@@ -60,13 +55,8 @@ public class WordListServlet extends HttpServlet {
 
 	// ワード追加/編集で該当月リストへ
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
-		HttpSession session = request.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
-			response.sendRedirect("/GoogledList/TopPageServlet");
-			return;
-		}
+		// ログインチェック
+		UserMaster userMaster = LoginCheck.loginCheck(request, response);
 		request.setCharacterEncoding("UTF-8");
 		
 		GoogledWordListDao gDao =new GoogledWordListDao();

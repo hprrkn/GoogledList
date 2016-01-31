@@ -10,13 +10,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
+import com.prrknh.logic.LoginCheck;
 
 @WebServlet("/TagListServlet")
 public class TagListServlet extends HttpServlet {
@@ -27,13 +27,8 @@ public class TagListServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
-		HttpSession session = request.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
-			response.sendRedirect("/GoogledList/TopPageServlet");
-			return;
-		}
+		// ログインチェック
+		UserMaster userMaster = LoginCheck.loginCheck(request, response);
 		request.setCharacterEncoding("UTF-8");		
 		
 		TagMasterDao tDao = new TagMasterDao();
@@ -46,13 +41,8 @@ public class TagListServlet extends HttpServlet {
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
-		HttpSession session = request.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
-			response.sendRedirect("/GoogledList/TopPageServlet");
-			return;
-		}
+		// ログインチェック
+		UserMaster userMaster = LoginCheck.loginCheck(request, response);
 		
 		int tagId = Integer.parseInt(request.getParameter("tagId"));
 		TagMasterDao tDao = new TagMasterDao();
