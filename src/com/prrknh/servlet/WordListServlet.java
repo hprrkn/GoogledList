@@ -72,7 +72,7 @@ public class WordListServlet extends HttpServlet {
 			
 			// 配列からlist、list<String>からlist<Integer>という無駄な変換の嵐　直す :TODO
 			if (StringUtils.isNoneEmpty(request.getParameterValues("tagId"))){
-				for (String strTagId : Arrays.asList(request.getParameter("tagId"))){
+				for (String strTagId : Arrays.asList(request.getParameterValues("tagId"))){
 					tagIdList.add(Integer.parseInt(strTagId));
 				}
 			}
