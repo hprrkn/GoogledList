@@ -12,22 +12,37 @@
 
 <jsp:include page="/WEB-INF/jsp/components/header.jsp"></jsp:include>
 
-<c:if test="${!empty msg}">
-	<div class="alert alert-warning alert-dismissible" role="alert">
-	  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	  <c:out value="${msg}"/>
+	<c:if test="${!empty msg}">
+		<div class="alert alert-warning alert-dismissible" role="alert">
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		  <c:out value="${msg}"/>
+		</div>
+	</c:if>
+
+	<div class="container">
+	<div class="panel panel-primary">
+	  <div class="panel-heading">
+		<h4>TagList</h4>
+	  </div>
+	  <div class="panel-body">
+	  <form method="GET" action="/GoogledList/EditTagServlet">
+	  	<ul class="list-group">
+			<c:forEach var="allTagList" items="${allTagList}">
+				<li class="list-group-item">
+					<span class="glyphicon glyphicon-search"></span><a href="/GoogledList/WordListByTagServlet?tagId=${allTagList.tagId}"><strong>　${allTagList.tagName}</strong></a>
+					<p class="text-right"><button type="submit" class="btn btn-primary" name="tagId" value="${allTagList.tagId}">Edit</button></p>
+				</li>
+		  	</c:forEach> 
+		</ul>
+		</form>
+			<form method="POST" action="/GoogledList/EditTagServlet">
+				NewTag：<input type="text" name="addTagName">
+			<input type="submit" value="Add" class="btn btn-primary">
+		</form>
+	  </div>
 	</div>
-</c:if>
-	<p>タグリスト</p>
-	<form method="GET" action="/GoogledList/EditTagServlet">
-		<c:forEach var="allTagList" items="${allTagList}">
-			<a href="/GoogledList/WordListByTagServlet?tagId=${allTagList.tagId}">${allTagList.tagName}</a><button type="submit" name="tagId" value="${allTagList.tagId}">編集</button>
-		</c:forEach>
-	</form>
-	<form method="POST" action="/GoogledList/EditTagServlet">
-		新規タグ：<input type="text" name="addTagName">
-		<input type="submit" value="追加">
-	</form>
+	</div>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="/GoogledList/Lib/Bootstrap/js/bootstrap.min.js"></script>
 </body>
