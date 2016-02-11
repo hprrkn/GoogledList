@@ -17,6 +17,8 @@
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/postgresql-9.4-1205.jdbc4.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/commons-lang3-3.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-collections4-4.1.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-dbutils-1.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/taglibs-standard-jstlel-1.2.5.jar" sourcepath="WebContent/WEB-INF/lib/taglibs-standard-jstlel-1.2.5.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.servlet.jsp.jstl-api-1.2.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.servlet.jsp.jstl-1.2.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

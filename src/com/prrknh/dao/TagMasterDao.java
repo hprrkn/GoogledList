@@ -59,11 +59,12 @@ public class TagMasterDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = ResourceBundle.getBundle("TagMaster").getString("get_all_tag_list");			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("TagMaster").getString("get_all_tag_list");			
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, usermaster.getUserId());
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
-				TagMaster tagMaster = new TagMaster(rs.getInt("tag_id"), rs.getString("tag_name"));
+				TagMaster tagMaster = new TagMaster(rs.getInt("tag_id"), rs.getString("tag_name"), rs.getInt("cnt"));
 				allTagList.add(tagMaster);
 			}
 		}catch(SQLException e){

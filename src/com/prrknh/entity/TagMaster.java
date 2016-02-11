@@ -11,12 +11,19 @@ public class TagMaster implements Serializable{
 	private String tagName;
 //	private String tagColor;
 //	private Date tagRegiDate;
+	private int cnt;
 	
 	public TagMaster(){}
 	
 	public TagMaster(int tagId, String tagName){
 		this.tagId = tagId;
+		this.tagName = tagName;		
+	}
+	
+	public TagMaster(int tagId, String tagName, int cnt){
+		this.tagId = tagId;
 		this.tagName = tagName;
+		this.cnt = cnt;
 	}
 	
 	public int getTagId(){
@@ -33,6 +40,14 @@ public class TagMaster implements Serializable{
 	
 	public void setTagName(String tagName){
 		this.tagName = tagName;
+	}
+	
+	public int getCnt(){
+		return this.cnt;
+	}
+	
+	public void setCnt(int cnt){
+		this.cnt = cnt;
 	}
 	
 }
