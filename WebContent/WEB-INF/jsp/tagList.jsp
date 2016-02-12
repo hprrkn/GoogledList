@@ -29,7 +29,7 @@
 	  	<ul class="list-group">
 			<c:forEach var="allTagList" items="${allTagList}">
 				<li class="list-group-item">
-					<span class="glyphicon glyphicon-search"></span><a href="/GoogledList/WordListByTagServlet?tagId=${allTagList.tagId}"><strong>　${allTagList.tagName}</strong><span class="badge">　${allTagList.cnt}</span></a>
+					<span class="glyphicon glyphicon-search"></span><a href="/GoogledList/WordListByTagServlet?tagId=${allTagList.tagId}"><strong>　${allTagList.tagName}</strong>　<span class="badge">${allTagList.cnt}</span></a>
 					<p class="text-right"><button type="submit" class="btn btn-primary" name="tagId" value="${allTagList.tagId}">Edit</button></p>
 				</li>
 		  	</c:forEach> 

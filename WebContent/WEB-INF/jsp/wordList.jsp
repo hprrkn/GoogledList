@@ -29,22 +29,22 @@
 </c:if>
 
 <div class="container">
-<div class="panel panel-primary">
-  <div class="panel-heading">
-	<c:if test="${!empty addWord}"><p>今月のググったリスト</p></c:if>
-	<c:if test="${empty addWord}"><p>${strDate}のググったリスト</p></c:if>
-  </div>
-  <div class="panel-body">
-  	<ul class="list-group">
-		<c:forEach var="wordList" items="${wordList}">
-			<li class="list-group-item">
-				<span class="glyphicon glyphicon-search"></span><a href="/GoogledList/WordDetailServlet?id=${wordList.id}"><strong>　${wordList.word}</strong></a>
-				<p class="text-right">${wordList.added_day}</p>
-			</li>
-	  	</c:forEach> 
-	</ul>
-  </div>
-</div>
+	<div class="panel panel-primary">
+	  <div class="panel-heading">
+		<c:if test="${!empty addWord}"><p>今月のググったリスト</p></c:if>
+		<c:if test="${empty addWord}"><p>${strDate}のググったリスト</p></c:if>
+	  </div>
+	  <div class="panel-body">
+	  	<ul class="list-group">
+			<c:forEach var="wordList" items="${wordList}">
+				<li class="list-group-item">
+					<span class="glyphicon glyphicon-search"></span><a href="/GoogledList/WordDetailServlet?id=${wordList.id}"><strong>　${wordList.word}</strong></a>
+					<p class="text-right">${wordList.added_day}</p>
+				</li>
+		  	</c:forEach> 
+		</ul>
+	  </div>
+	</div>
 </div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
