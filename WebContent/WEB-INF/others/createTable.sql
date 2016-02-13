@@ -11,8 +11,7 @@ CREATE TABLE users (
   user_name varchar(008) not null,
   pw varchar(008) not null,
   registered date default('now'::text)::date,
-  activation boolean default true,
-  word_count int defalt 0 not null
+  activation boolean default true
 );
 
 CREATE TABLE tagMaster (

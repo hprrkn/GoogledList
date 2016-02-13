@@ -21,13 +21,15 @@ public class UsersDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = ResourceBundle.getBundle("users").getString("get_user_info");			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("users").getString("get_user_info");			
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1,paramName);
 			ResultSet rs = pStmt.executeQuery();		
 			while(rs.next()){
 				userMaster.setUserId(rs.getInt("user_id"));
 				userMaster.setUserName(rs.getString("user_name"));
 				userMaster.setUserPass(rs.getString("pw"));
+				userMaster.setRegisterDate(rs.getDate("registered").toString());
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -53,7 +55,8 @@ public class UsersDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = ResourceBundle.getBundle("users").getString("register_user");			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("users").getString("register_user");			
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, registerUser.getUserName());
 			pStmt.setString(2, registerUser.getUserPass());
 			int result = pStmt.executeUpdate();

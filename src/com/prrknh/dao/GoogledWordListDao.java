@@ -299,4 +299,34 @@ public class GoogledWordListDao {
 		}
 		return wordList;
 	}
+	
+	public int getCountByUser(UserMaster userMaster){
+		Connection conn = null;
+		int count = 0;
+		try{
+			Class.forName(DRIVER_NAME);
+			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
+			String sql = ResourceBundle.getBundle("GoogledWordList").getString("get_count_by_user");			
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, userMaster.getUserId());
+			ResultSet rs = pStmt.executeQuery();
+			while(rs.next()){
+				count = rs.getInt("count");
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}finally{
+			if(conn != null){
+				try{
+					conn.close();
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+		}
+		return count;
+	}
+	
 }

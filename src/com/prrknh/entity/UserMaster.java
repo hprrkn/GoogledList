@@ -1,14 +1,15 @@
 package com.prrknh.entity;
 
-public class UserMaster {
+import java.io.Serializable;
+
+public class UserMaster implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private int userId;
 	private String userName;
 	private String userPass;
 	private String registerDate;
-	private int wordCount;
 	
 	public UserMaster(){
-		
 	}
 	
 	public UserMaster(String userName, String userPass){
@@ -45,13 +46,5 @@ public class UserMaster {
 
 	public void setRegisterDate(String registerDate){
 		this.registerDate = registerDate;
-	}
-
-	public int getWordCount(){
-		return this.wordCount;
-	}
-
-	public void setWordCount(int wordCount){
-		this.wordCount = wordCount;
 	}
 }

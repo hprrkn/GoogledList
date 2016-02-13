@@ -92,7 +92,8 @@ public class TagMasterDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = ResourceBundle.getBundle("TagMaster").getString("get_tag_detail");			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("TagMaster").getString("get_tag_detail");			
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, tagId);
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
@@ -146,7 +147,8 @@ public class TagMasterDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = ResourceBundle.getBundle("TagMaster").getString("create_tag");			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("TagMaster").getString("create_tag");			
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, newTagName);
 			pStmt.setInt(2, userMaster.getUserId());
 			ResultSet rs =pStmt.executeQuery();
@@ -175,7 +177,8 @@ public class TagMasterDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = ResourceBundle.getBundle("TagMaster").getString("edit_tag");			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("TagMaster").getString("edit_tag");			
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, editTagName);
 			pStmt.setInt(2, tagId);
 			ResultSet rs =pStmt.executeQuery();
