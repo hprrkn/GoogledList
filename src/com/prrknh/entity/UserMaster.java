@@ -4,6 +4,8 @@ public class UserMaster {
 	private int userId;
 	private String userName;
 	private String userPass;
+	private String registerDate;
+	private int wordCount;
 	
 	public UserMaster(){
 		
@@ -37,4 +39,19 @@ public class UserMaster {
 		this.userPass = userPass;
 	}
 
+	public String getRegisterDate(){
+		return registerDate;
+	}
+
+	public void setRegisterDate(String registerDate){
+		this.registerDate = registerDate;
+	}
+
+	public int getWordCount(){
+		return this.wordCount;
+	}
+
+	public void setWordCount(int wordCount){
+		this.wordCount = wordCount;
+	}
 }
