@@ -14,7 +14,7 @@ import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.TagMaster;
-import com.prrknh.logic.LoginCheck;
+import com.prrknh.logic.CheckUtils;
 
 @WebServlet("/WordDetailServlet")
 public class WordDetailServlet extends HttpServlet {
@@ -23,24 +23,22 @@ public class WordDetailServlet extends HttpServlet {
 	public WordDetailServlet() {
         super();
     }
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// ログインチェック
-		LoginCheck.loginCheck(request, response);
-		
-		request.setCharacterEncoding("UTF-8");				
-		Integer selectedId = Integer.parseInt(request.getParameter("id"));
-		
+		CheckUtils.loginCheck(req, res);
+
+		int selectedId = Integer.parseInt(CheckUtils.getParamChecker(req, res, "id"));
 		GoogledWordListDao gDao = new GoogledWordListDao(); 
 		GoogledWord detail = gDao.findDetail(selectedId);
 		TagMasterDao tDao = new TagMasterDao();
 		List<TagMaster> tagList = tDao.getTagList(detail);
-		request.setAttribute("detail", detail);
-		request.setAttribute("tagList", tagList);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/wordDetail.jsp");
-		dispatcher.forward(request, response);
+		req.setAttribute("detail", detail);
+		req.setAttribute("tagList", tagList);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/wordDetail.jsp");
+		dispatcher.forward(req, res);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 	}
 
 }

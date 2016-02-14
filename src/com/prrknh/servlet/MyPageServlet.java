@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.entity.UserMaster;
-import com.prrknh.logic.LoginCheck;
+import com.prrknh.logic.CheckUtils;
 
 @WebServlet("/MyPageServlet")
 public class MyPageServlet extends HttpServlet {
@@ -20,18 +20,18 @@ public class MyPageServlet extends HttpServlet {
         super();
     }
 	
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
     	// ログインチェック
-    	UserMaster userMaster = LoginCheck.loginCheck(request, response);
+    	UserMaster userMaster = CheckUtils.loginCheck(req, res);
     	GoogledWordListDao gDao = new GoogledWordListDao();
     	int wordCount = gDao.getCountByUser(userMaster);
-    	request.setAttribute("userMaster", userMaster);
-    	request.setAttribute("wordCount", wordCount);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/mypage.jsp");
-		dispatcher.forward(request,response);
+    	req.setAttribute("userMaster", userMaster);
+    	req.setAttribute("wordCount", wordCount);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/mypage.jsp");
+		dispatcher.forward(req,res);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 	}
 
 }

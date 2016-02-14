@@ -21,6 +21,7 @@ import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
+import com.prrknh.logic.CheckUtils;
 
 
 @WebServlet("/EditWordServlet")
@@ -33,59 +34,53 @@ public class EditWordServlet extends HttpServlet {
     }
 
     // 編集/削除前
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
-		HttpSession session = request.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
-			response.sendRedirect("/GoogledList/TopPageServlet");
-			return;
-		}
-		request.setCharacterEncoding("UTF-8");
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		UserMaster userMaster = CheckUtils.loginCheck(req, res);
+		req.setCharacterEncoding("UTF-8");
 		
-		int selectedId = Integer.parseInt(request.getParameter("selectedId"));
+		int selectedId = Integer.parseInt(CheckUtils.getParamChecker(req, res, "selectedId"));
 		GoogledWordListDao gDao = new GoogledWordListDao();
 		TagMasterDao tDao = new TagMasterDao();
 		GoogledWord detail = gDao.findDetail(selectedId);
 		List<TagMaster> allTagList = tDao.getAllTagList(userMaster);
 		List<TagMaster> tagList = tDao.getTagList(detail);
-		request.setAttribute("detail", detail);
-		request.setAttribute("allTagList", allTagList);
-		request.setAttribute("tagList", tagList);
+		req.setAttribute("detail", detail);
+		req.setAttribute("allTagList", allTagList);
+		req.setAttribute("tagList", tagList);
 		
-		RequestDispatcher dispathcer = request.getRequestDispatcher("/WEB-INF/jsp/editWord.jsp");
-		dispathcer.forward(request,response);
+		RequestDispatcher dispathcer = req.getRequestDispatcher("/WEB-INF/jsp/editWord.jsp");
+		dispathcer.forward(req,res);
 	}
 
 	// ワード編集/削除後にwordListへ
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
-		HttpSession session = request.getSession();
+		HttpSession session = req.getSession();
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		if (userMaster == null){
-			response.sendRedirect("/GoogledList/TopPageServlet");
+			res.sendRedirect("/GoogledList/TopPageServlet");
 			return;
 		}
 		
-		request.setCharacterEncoding("UTF-8");
-		int id = Integer.parseInt(request.getParameter("id"));
-		request.setAttribute("id", id);
+		req.setCharacterEncoding("UTF-8");
+		int id = Integer.parseInt(req.getParameter("id"));
+		req.setAttribute("id", id);
 		GoogledWordListDao gDao = new GoogledWordListDao();
 		RelTagWordDao rDao = new RelTagWordDao();
 		
-		if (StringUtils.isNotEmpty(request.getParameter("delete_flg")) && request.getParameter("delete_flg").equals("true")){
+		if (StringUtils.isNotEmpty(req.getParameter("delete_flg")) && req.getParameter("delete_flg").equals("true")){
 			gDao.deleteDetail(id);
 			rDao.deleteAllTagOnWord(id);
-			request.setAttribute("msg", "削除しました。");
+			req.setAttribute("msg", "削除しました。");
 		} else {
-			String editedWord = request.getParameter("editedword");
-			String editedMemo = request.getParameter("editedmemo");
+			String editedWord = req.getParameter("editedword");
+			String editedMemo = req.getParameter("editedmemo");
 			
 			gDao.updateDetail(id, editedWord, editedMemo);
 			
-			if (StringUtils.isNotEmpty(request.getParameter("tagId"))){
+			if (StringUtils.isNotEmpty(req.getParameter("tagId"))){
 				List<Integer> tagIdList = new ArrayList<>();
-				for (String strTagId : Arrays.asList(request.getParameter("tagId"))){
+				for (String strTagId : Arrays.asList(req.getParameter("tagId"))){
 					tagIdList.add(Integer.parseInt(strTagId));
 				}
 				// 消して新たに追加し直してるから順番に注意　後で直す :TODO
@@ -93,9 +88,9 @@ public class EditWordServlet extends HttpServlet {
 				rDao.setTagOnWord(id,tagIdList);
 			}
 			
-			request.setAttribute("msg", "更新しました");
+			req.setAttribute("msg", "更新しました");
 		}
-		RequestDispatcher dispathcer = request.getRequestDispatcher("/WordListServlet");
-		dispathcer.forward(request,response);
+		RequestDispatcher dispathcer = req.getRequestDispatcher("/WordListServlet");
+		dispathcer.forward(req,res);
 	}
 }

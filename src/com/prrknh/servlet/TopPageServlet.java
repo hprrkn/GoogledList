@@ -20,7 +20,7 @@ import com.prrknh.entity.MonthCnt;
 import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
 import com.prrknh.logic.GoogledWordUtils;
-import com.prrknh.logic.LoginCheck;
+import com.prrknh.logic.CheckUtils;
 
 
 @WebServlet("/TopPageServlet")
@@ -31,22 +31,22 @@ public class TopPageServlet extends HttpServlet {
         super();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doBoth(request, response);
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		doBoth(req, res);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doBoth(request, response);
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		doBoth(req, res);
 	}
 	
-	private void doBoth(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	private void doBoth(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
 		// ログインチェック
-		UserMaster userMaster = LoginCheck.loginCheck(request, response);
+		UserMaster userMaster = CheckUtils.loginCheck(req, res);
 		
 		// 追加時選択用のタグリスト取得
 		TagMasterDao tmDao = new TagMasterDao();
 		List<TagMaster> allTagList = tmDao.getAllTagList(userMaster);
-		request.setAttribute("allTagList", allTagList);
+		req.setAttribute("allTagList", allTagList);
 		
 		//月次カウントリスト取得
 		GoogledWordListDao dao = new GoogledWordListDao();
@@ -61,9 +61,9 @@ public class TopPageServlet extends HttpServlet {
 					); 	
 			monthCntList.add(mcs);
 		}
-		request.setAttribute("monthCntList", monthCntList);
+		req.setAttribute("monthCntList", monthCntList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("WEB-INF/jsp/topPage.jsp");
-		dispatcher.forward(request,response);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/jsp/topPage.jsp");
+		dispatcher.forward(req,res);
 	}
 }

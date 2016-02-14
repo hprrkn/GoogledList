@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.prrknh.dao.UsersDao;
 import com.prrknh.entity.UserMaster;
-import com.prrknh.logic.LoginCheck;
+import com.prrknh.logic.CheckUtils;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -23,32 +23,32 @@ public class LoginServlet extends HttpServlet {
         
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
-		dispatcher.forward(request,response);	
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
+		dispatcher.forward(req,res);
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// ユーザー情報を取得
-		String checkName = request.getParameter("userName");
-		String checkPass = request.getParameter("userPass");
+		String checkName = req.getParameter("userName");
+		String checkPass = req.getParameter("userPass");
 		UserMaster checkUser = new UserMaster(checkName, checkPass);
 		
 		// ユーザーチェック
-		if(LoginCheck.checkUser(checkUser)){
+		if(CheckUtils.checkUser(checkUser)){
 			//月リストを取得
 			UsersDao usersDao = new UsersDao();
 			UserMaster userMaster = usersDao.getUserInfo(checkName);
 			// sessionにユーザーマスターをセット
-			HttpSession session = request.getSession();
+			HttpSession session = req.getSession();
 			session.setAttribute("userMaster", userMaster);
 			// forward
-			RequestDispatcher dispatcher = request.getRequestDispatcher("TopPageServlet");
-			dispatcher.forward(request,response);
+			RequestDispatcher dispatcher = req.getRequestDispatcher("TopPageServlet");
+			dispatcher.forward(req,res);
 		} else {
-			request.setAttribute("msg", "ユーザーネームかパスワードが間違っています。");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
-			dispatcher.forward(request,response);
+			req.setAttribute("msg", "ユーザーネームかパスワードが間違っています。");
+			RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
+			dispatcher.forward(req,res);
 		}
 	}
 

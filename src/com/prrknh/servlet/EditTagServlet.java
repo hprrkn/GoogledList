@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
-import com.prrknh.logic.LoginCheck;
+import com.prrknh.logic.CheckUtils;
 
 @WebServlet("/EditTagServlet")
 public class EditTagServlet extends HttpServlet {
@@ -25,38 +25,36 @@ public class EditTagServlet extends HttpServlet {
     }
     
     // 選択タグの編集ページへ
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// ログインチェック
-		LoginCheck.loginCheck(request, response);
-		
-		request.setCharacterEncoding("UTF-8");		
-		int tagId = Integer.parseInt(request.getParameter("tagId"));
+		CheckUtils.loginCheck(req, res);
+		int tagId = Integer.parseInt(CheckUtils.getParamChecker(req, res, "tagId"));
 		
 		TagMasterDao tDao = new TagMasterDao();
 		TagMaster tagDetail = tDao.getTagDetail(tagId);
-		request.setAttribute("tagDetail",tagDetail);
+		req.setAttribute("tagDetail",tagDetail);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/editTag.jsp");
-		dispatcher.forward(request,response);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/editTag.jsp");
+		dispatcher.forward(req,res);
 	}
 	
-	//　新規タグ追加にタグリストへ
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	// 新規タグ追加にタグリストへ
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// ログインチェック
-		UserMaster userMaster = LoginCheck.loginCheck(request, response);
-		request.setCharacterEncoding("UTF-8");		
+		UserMaster userMaster = CheckUtils.loginCheck(req, res);
+		req.setCharacterEncoding("UTF-8");
 		
-		String addTagName = request.getParameter("addTagName");
+		String addTagName = req.getParameter("addTagName");
 		TagMasterDao tDao = new TagMasterDao();
 		tDao.createTag(userMaster, addTagName);
 		
-		request.setAttribute("msg", "新規タグを追加しました。");
+		req.setAttribute("msg", "新規タグを追加しました。");
 		
 		List<TagMaster> allTagList = new ArrayList<>();
 		allTagList = tDao.getAllTagList(userMaster);
-		request.setAttribute("allTagList",allTagList);
+		req.setAttribute("allTagList",allTagList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/tagList.jsp");
-		dispatcher.forward(request,response);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/tagList.jsp");
+		dispatcher.forward(req,res);
 	}
 }

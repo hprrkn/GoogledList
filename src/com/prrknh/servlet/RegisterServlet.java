@@ -22,25 +22,25 @@ public class RegisterServlet extends HttpServlet {
         super();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String registerName = request.getParameter("userName");
-		String registerPass = request.getParameter("userPass");
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		String registerName = req.getParameter("userName");
+		String registerPass = req.getParameter("userPass");
 		if (StringUtils.isBlank(registerName) || StringUtils.isBlank(registerPass)){
-			request.setAttribute("msg", "ユーザーネームとパスワードを正しく入力してください。");		
+			req.setAttribute("msg", "ユーザーネームとパスワードを正しく入力してください。");
 		} else { 
 			UserMaster regiterUser = new UserMaster(registerName, registerPass);
 			UsersDao usersDao = new UsersDao();
 			if (usersDao.register(regiterUser)){
-				request.setAttribute("msg", "新規登録できました。");
+				req.setAttribute("msg", "新規登録できました。");
 			} else {
-				request.setAttribute("msg", "正しく登録できませんでした。");
+				req.setAttribute("msg", "正しく登録できませんでした。");
 			}
 		}
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
-		dispatcher.forward(request,response);	
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/login.jsp");
+		dispatcher.forward(req,res);
 	}
 
 }

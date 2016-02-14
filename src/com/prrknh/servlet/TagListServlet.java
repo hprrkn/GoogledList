@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
-import com.prrknh.logic.LoginCheck;
+import com.prrknh.logic.CheckUtils;
 
 @WebServlet("/TagListServlet")
 public class TagListServlet extends HttpServlet {
@@ -26,41 +26,41 @@ public class TagListServlet extends HttpServlet {
         super();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// ログインチェック
-		UserMaster userMaster = LoginCheck.loginCheck(request, response);
-		request.setCharacterEncoding("UTF-8");		
+		UserMaster userMaster = CheckUtils.loginCheck(req, res);
+		req.setCharacterEncoding("UTF-8");
 		
 		TagMasterDao tDao = new TagMasterDao();
 		List<TagMaster> allTagList = new ArrayList<>();
 		allTagList = tDao.getAllTagList(userMaster);
-		request.setAttribute("allTagList",allTagList);
+		req.setAttribute("allTagList",allTagList);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/tagList.jsp");
-		dispatcher.forward(request,response);
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/tagList.jsp");
+		dispatcher.forward(req,res);
 	}
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// ログインチェック
-		UserMaster userMaster = LoginCheck.loginCheck(request, response);
+		UserMaster userMaster = CheckUtils.loginCheck(req, res);
 		
-		int tagId = Integer.parseInt(request.getParameter("tagId"));
+		int tagId = Integer.parseInt(req.getParameter("tagId"));
 		TagMasterDao tDao = new TagMasterDao();
 		
-		if (StringUtils.isNotEmpty(request.getParameter("delete_flg")) && request.getParameter("delete_flg").equals("true")){
+		if (StringUtils.isNotEmpty(req.getParameter("delete_flg")) && req.getParameter("delete_flg").equals("true")){
 			tDao.deleteTag(tagId);
-			request.setAttribute("msg", "削除しました。");
+			req.setAttribute("msg", "削除しました。");
 		} else {
-			String tagName = request.getParameter("tagName");
+			String tagName = req.getParameter("tagName");
 			tDao.editTag(tagId, tagName);
-			request.setAttribute("msg", "更新しました。");
+			req.setAttribute("msg", "更新しました。");
 		} 
 		
 		List<TagMaster> allTagList = new ArrayList<>();
 		allTagList = tDao.getAllTagList(userMaster);
-		request.setAttribute("allTagList",allTagList);
+		req.setAttribute("allTagList",allTagList);
 		
-		RequestDispatcher dispathcer = request.getRequestDispatcher("/WEB-INF/jsp/tagList.jsp");
-		dispathcer.forward(request,response);		
+		RequestDispatcher dispathcer = req.getRequestDispatcher("/WEB-INF/jsp/tagList.jsp");
+		dispathcer.forward(req,res);
 	}
 }

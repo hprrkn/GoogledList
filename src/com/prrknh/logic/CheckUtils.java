@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.prrknh.dao.UsersDao;
 import com.prrknh.entity.UserMaster;
 
-public class LoginCheck {
+public class CheckUtils {
 	
 	public  static boolean checkUser(UserMaster userMaster){
 		UsersDao dao = new UsersDao();
@@ -21,14 +21,21 @@ public class LoginCheck {
 		}
 		return gotPass.equals(userMaster.getUserPass()); 
 	}
-	
-	public static UserMaster loginCheck(HttpServletRequest request, HttpServletResponse response) throws IOException{
+
+	public static UserMaster loginCheck(HttpServletRequest req, HttpServletResponse res) throws IOException{
 		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
-		HttpSession session = request.getSession();
+		HttpSession session = req.getSession();
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		if (userMaster == null){
-			response.sendRedirect("/GoogledList/TopPageServlet");
+			res.sendRedirect("/GoogledList/TopPageServlet");
 		}
 		return userMaster;
+	}
+
+	public static String getParamChecker(HttpServletRequest req, HttpServletResponse res, String paramName) throws IOException{
+		if (req.getParameter(paramName) == null){
+			res.sendRedirect("/GoogledList/TopPageServlet");
+		}
+		return req.getParameter(paramName);
 	}
 }
