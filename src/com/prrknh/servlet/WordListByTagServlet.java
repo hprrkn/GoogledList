@@ -38,7 +38,6 @@ public class WordListByTagServlet extends HttpServlet {
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/wordListByTag.jsp");
 		dispatcher.forward(req,res);
-		
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
