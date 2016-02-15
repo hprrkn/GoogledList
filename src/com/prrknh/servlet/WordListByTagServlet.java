@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.dao.TagMasterDao;
@@ -24,8 +25,13 @@ public class WordListByTagServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// ログインチェック
-		UserMaster userMaster = CheckUtils.loginCheck(req, res);
+		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
+		HttpSession session = req.getSession();
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
+		if (userMaster == null){
+			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+		}
+		
 		req.setCharacterEncoding("UTF-8");
 		
 		// 指定タグのワードリスト取得

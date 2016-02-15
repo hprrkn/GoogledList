@@ -35,7 +35,12 @@ public class EditWordServlet extends HttpServlet {
 
     // 編集/削除前
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		UserMaster userMaster = CheckUtils.loginCheck(req, res);
+		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
+		HttpSession session = req.getSession();
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
+		if (userMaster == null){
+			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+		}
 		req.setCharacterEncoding("UTF-8");
 		
 		int selectedId = Integer.parseInt(CheckUtils.getParamChecker(req, res, "selectedId"));
@@ -54,12 +59,11 @@ public class EditWordServlet extends HttpServlet {
 
 	// ワード編集/削除後にwordListへ
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリファイレクト
+		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
 		HttpSession session = req.getSession();
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		if (userMaster == null){
-			res.sendRedirect("/GoogledList/TopPageServlet");
-			return;
+			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 		}
 		
 		req.setCharacterEncoding("UTF-8");

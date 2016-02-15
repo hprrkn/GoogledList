@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.TagMaster;
@@ -26,8 +27,13 @@ public class EditTagServlet extends HttpServlet {
     
     // 選択タグの編集ページへ
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// ログインチェック
-		CheckUtils.loginCheck(req, res);
+		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
+		HttpSession session = req.getSession();
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
+		if (userMaster == null){
+			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+		}
+		
 		int tagId = Integer.parseInt(CheckUtils.getParamChecker(req, res, "tagId"));
 		
 		TagMasterDao tDao = new TagMasterDao();
@@ -40,8 +46,12 @@ public class EditTagServlet extends HttpServlet {
 	
 	// 新規タグ追加にタグリストへ
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// ログインチェック
-		UserMaster userMaster = CheckUtils.loginCheck(req, res);
+		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
+		HttpSession session = req.getSession();
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
+		if (userMaster == null){
+			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+		}
 		req.setCharacterEncoding("UTF-8");
 		
 		String addTagName = req.getParameter("addTagName");
