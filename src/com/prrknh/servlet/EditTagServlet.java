@@ -32,6 +32,7 @@ public class EditTagServlet extends HttpServlet {
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		if (userMaster == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;
 		}
 		
 		int tagId = Integer.parseInt(CheckUtils.getParamChecker(req, res, "tagId"));
@@ -51,6 +52,7 @@ public class EditTagServlet extends HttpServlet {
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		if (userMaster == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;
 		}
 		req.setCharacterEncoding("UTF-8");
 		

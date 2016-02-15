@@ -27,6 +27,7 @@ public class MyPageServlet extends HttpServlet {
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		if (userMaster == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;
 		}
     	GoogledWordListDao gDao = new GoogledWordListDao();
     	int wordCount = gDao.getCountByUser(userMaster);

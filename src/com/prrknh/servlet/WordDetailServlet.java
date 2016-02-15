@@ -31,6 +31,7 @@ public class WordDetailServlet extends HttpServlet {
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		if (userMaster == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;
 		}
 
 		int selectedId = Integer.parseInt(CheckUtils.getParamChecker(req, res, "id"));

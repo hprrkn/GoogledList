@@ -25,7 +25,7 @@ public class CheckUtils {
 
 	public static String getParamChecker(HttpServletRequest req, HttpServletResponse res, String paramName) throws IOException{
 		if (req.getParameter(paramName) == null){
-			res.sendRedirect("/GoogledList/TopPageServlet");
+			//res.sendRedirect("/GoogledList/TopPageServlet");
 		}
 		return req.getParameter(paramName);
 	}

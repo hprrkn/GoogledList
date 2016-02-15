@@ -30,6 +30,7 @@ public class WordListByTagServlet extends HttpServlet {
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		if (userMaster == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;
 		}
 		
 		req.setCharacterEncoding("UTF-8");

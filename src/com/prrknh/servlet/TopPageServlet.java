@@ -46,6 +46,7 @@ public class TopPageServlet extends HttpServlet {
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		if (userMaster == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;
 		}
 		
 		// 追加時選択用のタグリスト取得
