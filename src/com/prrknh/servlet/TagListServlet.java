@@ -57,7 +57,6 @@ public class TagListServlet extends HttpServlet {
 		
 		int tagId = Integer.parseInt(req.getParameter("tagId"));
 		TagMasterDao tDao = new TagMasterDao();
-		
 		if (StringUtils.isNotEmpty(req.getParameter("delete_flg")) && req.getParameter("delete_flg").equals("true")){
 			tDao.deleteTag(tagId);
 			req.setAttribute("msg", "削除しました。");

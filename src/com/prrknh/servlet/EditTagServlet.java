@@ -35,7 +35,11 @@ public class EditTagServlet extends HttpServlet {
 			return;
 		}
 		
-		int tagId = Integer.parseInt(CheckUtils.getParamChecker(req, res, "tagId"));
+		if (req.getParameter("tagId") == null){
+			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;
+		}
+		int tagId = Integer.parseInt(req.getParameter("tagId"));
 		
 		TagMasterDao tDao = new TagMasterDao();
 		TagMaster tagDetail = tDao.getTagDetail(tagId);
@@ -56,6 +60,10 @@ public class EditTagServlet extends HttpServlet {
 		}
 		req.setCharacterEncoding("UTF-8");
 		
+		if (req.getParameter("addTagName") == null){
+			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;
+		}
 		String addTagName = req.getParameter("addTagName");
 		TagMasterDao tDao = new TagMasterDao();
 		tDao.createTag(userMaster, addTagName);

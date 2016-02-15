@@ -36,7 +36,11 @@ public class WordListByTagServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		
 		// 指定タグのワードリスト取得
-		int tagId = Integer.parseInt(CheckUtils.getParamChecker(req, res, "tagId"));
+		if (req.getParameter("tagId") == null){
+			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;
+		}
+		int tagId = Integer.parseInt(req.getParameter("tagId"));
 		GoogledWordListDao gDao = new GoogledWordListDao();
 		req.setAttribute("wordList", gDao.findWordListByTag(userMaster, tagId));
 		TagMasterDao tDao = new TagMasterDao();

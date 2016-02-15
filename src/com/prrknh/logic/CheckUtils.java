@@ -1,10 +1,5 @@
 package com.prrknh.logic;
 
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.prrknh.dao.UsersDao;
@@ -21,12 +16,5 @@ public class CheckUtils {
 			return false;
 		}
 		return gotPass.equals(userMaster.getUserPass()); 
-	}
-
-	public static String getParamChecker(HttpServletRequest req, HttpServletResponse res, String paramName) throws IOException{
-		if (req.getParameter(paramName) == null){
-			//res.sendRedirect("/GoogledList/TopPageServlet");
-		}
-		return req.getParameter(paramName);
 	}
 }

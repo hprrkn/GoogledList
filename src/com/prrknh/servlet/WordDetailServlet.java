@@ -34,7 +34,11 @@ public class WordDetailServlet extends HttpServlet {
 			return;
 		}
 
-		int selectedId = Integer.parseInt(CheckUtils.getParamChecker(req, res, "id"));
+		if (req.getParameter("id") == null){
+			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;
+		}
+		int selectedId = Integer.parseInt(req.getParameter("id"));
 		GoogledWordListDao gDao = new GoogledWordListDao(); 
 		GoogledWord detail = gDao.findDetail(selectedId);
 		TagMasterDao tDao = new TagMasterDao();

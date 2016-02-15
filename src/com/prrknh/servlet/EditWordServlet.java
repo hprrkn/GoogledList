@@ -44,7 +44,11 @@ public class EditWordServlet extends HttpServlet {
 		}
 		req.setCharacterEncoding("UTF-8");
 		
-		int selectedId = Integer.parseInt(CheckUtils.getParamChecker(req, res, "selectedId"));
+		if (req.getParameter("selectedId") == null){
+			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;
+		}
+		int selectedId = Integer.parseInt(req.getParameter("selectedId"));
 		GoogledWordListDao gDao = new GoogledWordListDao();
 		TagMasterDao tDao = new TagMasterDao();
 		GoogledWord detail = gDao.findDetail(selectedId);
@@ -69,6 +73,10 @@ public class EditWordServlet extends HttpServlet {
 		}
 		
 		req.setCharacterEncoding("UTF-8");
+		if (req.getParameter("id") == null){
+			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;
+		}
 		int id = Integer.parseInt(req.getParameter("id"));
 		req.setAttribute("id", id);
 		GoogledWordListDao gDao = new GoogledWordListDao();

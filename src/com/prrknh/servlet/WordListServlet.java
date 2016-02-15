@@ -39,7 +39,7 @@ public class WordListServlet extends HttpServlet {
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		if (userMaster == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
-			return;
+			return;	
 		}
 		req.setCharacterEncoding("UTF-8");
 		
@@ -49,13 +49,14 @@ public class WordListServlet extends HttpServlet {
 			req.setAttribute("msg", msg);
 		}
 		
-		String strDate = CheckUtils.getParamChecker(req, res, "date");
-		GoogledWordListDao dao = new GoogledWordListDao();
-
+		String strDate = req.getParameter("date");
 		// 直接URL叩かれた時用
 		if (strDate == null){
-			res.sendRedirect("/GoogledList/TopPageServlet");
+			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;
 		}
+		
+		GoogledWordListDao dao = new GoogledWordListDao();
 		List<GoogledWord> wordList = dao.findMonthList(userMaster, strDate);
 		req.setAttribute("strDate", strDate);
 		req.setAttribute("wordList", wordList);
@@ -108,15 +109,17 @@ public class WordListServlet extends HttpServlet {
 			}
 			req.setAttribute("addWord", addWord);
 		    req.setAttribute("memo", memo);
-		}
-		
+		    
 		// ワード編集/削除の場合
-		if (StringUtils.isNotEmpty(req.getParameter("id"))){
+		} else if (StringUtils.isNotEmpty(req.getParameter("id"))){
 			String strDate = GoogledWordUtils.dateFormat(gDao.findDetail(Integer.parseInt(req.getParameter("id"))).getAdded_day());
 			req.setAttribute("strDate",strDate);
 			if (StringUtils.isNotEmpty(req.getParameter("msg"))){
 				req.setAttribute("msg", req.getParameter("msg"));
 			}
+		} else {
+			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;
 		}
 		
 		// 追加/編集したものも含めて該当月リスト取得
