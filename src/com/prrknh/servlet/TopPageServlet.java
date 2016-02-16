@@ -45,8 +45,8 @@ public class TopPageServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		if (userMaster == null){
-			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
-			return;
+			RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/jsp/login.jsp");
+			dispatcher.forward(req,res);
 		}
 		
 		// 追加時選択用のタグリスト取得

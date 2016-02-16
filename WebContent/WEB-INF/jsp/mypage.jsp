@@ -21,6 +21,12 @@
 		<li class="list-group-item">
 			<span class="glyphicon glyphicon-search"></span> TotalWordCount : ${wordCount}
 		</li>
+		<li class="list-group-item">
+			<span class="glyphicon glyphicon-search"></span> <a href ="/GoogledList/SettingServlet">Setting</a>
+		</li>
+		<li class="list-group-item">
+			<span class="glyphicon glyphicon-search"></span> <a href ="/GoogledList/LogOutServlet">LogOut</a>
+		</li>		
 	</ul>
 </div>	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
