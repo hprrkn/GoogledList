@@ -19,7 +19,7 @@
 			<span class="glyphicon glyphicon-search"></span> RegisterDate : ${userMaster.registerDate}
 		</li>
 		<li class="list-group-item">
-			<span class="glyphicon glyphicon-search"></span> WordCount : ${wordCount}
+			<span class="glyphicon glyphicon-search"></span> TotalWordCount : ${wordCount}
 		</li>
 	</ul>
 </div>	

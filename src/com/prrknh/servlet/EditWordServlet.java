@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.prrknh.dao.GoogledWordListDao;
@@ -92,9 +93,9 @@ public class EditWordServlet extends HttpServlet {
 			
 			gDao.updateDetail(id, editedWord, editedMemo);
 			
-			if (StringUtils.isNotEmpty(req.getParameter("tagId"))){
+			if (ArrayUtils.isNotEmpty(req.getParameterValues("tagId"))){
 				List<Integer> tagIdList = new ArrayList<>();
-				for (String strTagId : Arrays.asList(req.getParameter("tagId"))){
+				for (String strTagId : Arrays.asList(req.getParameterValues("tagId"))){
 					tagIdList.add(Integer.parseInt(strTagId));
 				}
 				// 消して新たに追加し直してるから順番に注意　後で直す :TODO
