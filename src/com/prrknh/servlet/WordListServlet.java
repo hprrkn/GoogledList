@@ -34,32 +34,26 @@ public class WordListServlet extends HttpServlet {
     
     // 指定月リストへ
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
+		// ログインチェック/パラムチェック
 		HttpSession session = req.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
+		if (session.getAttribute("userMaster") == null || req.getParameter("date") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;	
 		}
 		req.setCharacterEncoding("UTF-8");
+		
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
+		String strDate =  req.getParameter("date");
+		GoogledWordListDao dao = new GoogledWordListDao();
+		List<GoogledWord> wordList = dao.findMonthList(userMaster, strDate);
+		req.setAttribute("strDate", strDate);
+		req.setAttribute("wordList", wordList);
 		
 		// 更新後に戻ってきた時用のメッセージ設定
 		String msg = req.getParameter("msg");
 		if (StringUtils.isNotEmpty(msg)) {
 			req.setAttribute("msg", msg);
 		}
-		
-		String strDate = req.getParameter("date");
-		// 直接URL叩かれた時用
-		if (strDate == null){
-			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
-			return;
-		}
-		
-		GoogledWordListDao dao = new GoogledWordListDao();
-		List<GoogledWord> wordList = dao.findMonthList(userMaster, strDate);
-		req.setAttribute("strDate", strDate);
-		req.setAttribute("wordList", wordList);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/wordList.jsp");
 		dispatcher.forward(req,res);

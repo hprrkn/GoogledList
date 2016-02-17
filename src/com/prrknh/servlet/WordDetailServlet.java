@@ -26,18 +26,14 @@ public class WordDetailServlet extends HttpServlet {
         super();
     }
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
+		// ログインチェック/パラムチェック　
 		HttpSession session = req.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
+		if (session.getAttribute("userMaster") == null || req.getParameter("id") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;
 		}
+		req.setCharacterEncoding("UTF-8");
 
-		if (req.getParameter("id") == null){
-			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
-			return;
-		}
 		int selectedId = Integer.parseInt(req.getParameter("id"));
 		GoogledWordListDao gDao = new GoogledWordListDao(); 
 		GoogledWord detail = gDao.findDetail(selectedId);

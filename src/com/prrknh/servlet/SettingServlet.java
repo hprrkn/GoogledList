@@ -22,10 +22,9 @@ public class SettingServlet extends HttpServlet {
     }
     
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
+		// ログインチェック
 		HttpSession session = req.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
+		if (session.getAttribute("userMaster") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;
 		}
@@ -35,13 +34,13 @@ public class SettingServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
+		// ログインチェック
 		HttpSession session = req.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
+		if (session.getAttribute("userMaster") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;
 		}
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 	}
 
 }

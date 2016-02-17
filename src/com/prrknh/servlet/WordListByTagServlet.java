@@ -25,21 +25,16 @@ public class WordListByTagServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
+		// ログインチェック/パラムチェック
 		HttpSession session = req.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
+		if (session.getAttribute("userMaster") == null || req.getParameter("tagId") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;
-		}
-		
+		}		
 		req.setCharacterEncoding("UTF-8");
 		
 		// 指定タグのワードリスト取得
-		if (req.getParameter("tagId") == null){
-			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
-			return;
-		}
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		int tagId = Integer.parseInt(req.getParameter("tagId"));
 		GoogledWordListDao gDao = new GoogledWordListDao();
 		req.setAttribute("wordList", gDao.findWordListByTag(userMaster, tagId));

@@ -28,15 +28,15 @@ public class TagListServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
+		// ログインチェック
 		HttpSession session = req.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
+		if (session.getAttribute("userMaster") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;
 		}
 		req.setCharacterEncoding("UTF-8");
 		
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		TagMasterDao tDao = new TagMasterDao();
 		List<TagMaster> allTagList = new ArrayList<>();
 		allTagList = tDao.getAllTagList(userMaster);

@@ -27,20 +27,14 @@ public class EditTagServlet extends HttpServlet {
     
     // 選択タグの編集ページへ
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
+		// ログイン/パラムチェック
 		HttpSession session = req.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
+		if (session.getAttribute("userMaster") == null || req.getParameter("tagId") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;
 		}
 		
-		if (req.getParameter("tagId") == null){
-			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
-			return;
-		}
 		int tagId = Integer.parseInt(req.getParameter("tagId"));
-		
 		TagMasterDao tDao = new TagMasterDao();
 		TagMaster tagDetail = tDao.getTagDetail(tagId);
 		req.setAttribute("tagDetail",tagDetail);
@@ -51,19 +45,15 @@ public class EditTagServlet extends HttpServlet {
 	
 	// 新規タグ追加にタグリストへ
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
+		// ログイン/パラムチェック
 		HttpSession session = req.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
+		if (session.getAttribute("userMaster") == null || req.getParameter("addTagName") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;
 		}
 		req.setCharacterEncoding("UTF-8");
 		
-		if (req.getParameter("addTagName") == null){
-			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
-			return;
-		}
+		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
 		String addTagName = req.getParameter("addTagName");
 		TagMasterDao tDao = new TagMasterDao();
 		tDao.createTag(userMaster, addTagName);

@@ -21,7 +21,6 @@ import com.prrknh.entity.MonthCnt;
 import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
 import com.prrknh.logic.GoogledWordUtils;
-import com.prrknh.logic.CheckUtils;
 
 
 @WebServlet("/TopPageServlet")
