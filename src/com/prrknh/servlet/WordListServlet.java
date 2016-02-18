@@ -45,15 +45,16 @@ public class WordListServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		Date date = null;
+		String strDate = req.getParameter("date");
+		String dbDate = null;
 		try {
-			date = GoogledWordUtils.dateReformat(req.getParameter("date"));
+			dbDate = GoogledWordUtils.dateReformat(strDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		GoogledWordListDao dao = new GoogledWordListDao();
-		List<GoogledWord> wordList = dao.findMonthList(userMaster, date);
-		req.setAttribute("strDate", date);
+		List<GoogledWord> wordList = dao.findMonthList(userMaster, dbDate);
+		req.setAttribute("strDate", strDate);
 		req.setAttribute("wordList", wordList);
 		
 		// 更新後に戻ってきた時用のメッセージ設定

@@ -152,7 +152,7 @@ public class GoogledWordListDao {
 		return monthList;
 	}
 	
-	public List<GoogledWord> findMonthList(UserMaster userMaster, Date date){
+	public List<GoogledWord> findMonthList(UserMaster userMaster, String dbDate){
 		Connection conn = null;
 		List<GoogledWord> monthList = new ArrayList<GoogledWord>();
 		try{
@@ -161,8 +161,8 @@ public class GoogledWordListDao {
 			String sql = ResourceBundle.getBundle("GoogledWordList").getString("find_month_list");			
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userMaster.getUserId());
-			pStmt.setString(2, date.toString());
-			pStmt.setString(3, date.toString());
+			pStmt.setString(2, dbDate);
+			pStmt.setString(3, dbDate);
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
 				GoogledWord googledword = new GoogledWord(rs.getInt("id"), rs.getString("word"), rs.getString("memo"), rs.getDate("added_day"));
