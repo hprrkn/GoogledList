@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.UserMaster;
+import com.prrknh.logic.GoogledWordUtils;
 
 public class GoogledWordListDao {
 	private final String DRIVER_NAME = "org.postgresql.Driver";
@@ -54,9 +55,9 @@ public class GoogledWordListDao {
 		return wordList;
 	}
 	
-	public Map<Date,Integer> countAllMonthWord(UserMaster userMaster){
+	public Map<String,Integer> countAllMonthWord(UserMaster userMaster){
 		Connection conn = null;
-		Map<Date, Integer> countMap = new LinkedHashMap<Date, Integer>();
+		Map<String, Integer> countMap = new LinkedHashMap<String, Integer>();
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
@@ -65,7 +66,7 @@ public class GoogledWordListDao {
 			pStmt.setInt(1, userMaster.getUserId());
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
-				countMap.put(rs.getDate("date"),(rs.getInt("count")));
+				countMap.put(GoogledWordUtils.dateFormat(rs.getDate("date")),(rs.getInt("count")));
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -151,7 +152,7 @@ public class GoogledWordListDao {
 		return monthList;
 	}
 	
-	public List<GoogledWord> findMonthList(UserMaster userMaster, String strDate){
+	public List<GoogledWord> findMonthList(UserMaster userMaster, Date date){
 		Connection conn = null;
 		List<GoogledWord> monthList = new ArrayList<GoogledWord>();
 		try{
@@ -160,8 +161,8 @@ public class GoogledWordListDao {
 			String sql = ResourceBundle.getBundle("GoogledWordList").getString("find_month_list");			
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, userMaster.getUserId());
-			pStmt.setString(2, strDate);
-			pStmt.setString(3, strDate);
+			pStmt.setString(2, date.toString());
+			pStmt.setString(3, date.toString());
 			ResultSet rs = pStmt.executeQuery();
 			while(rs.next()){
 				GoogledWord googledword = new GoogledWord(rs.getInt("id"), rs.getString("word"), rs.getString("memo"), rs.getDate("added_day"));

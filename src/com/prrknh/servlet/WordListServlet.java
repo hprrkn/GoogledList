@@ -1,8 +1,10 @@
 package com.prrknh.servlet;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -43,10 +45,15 @@ public class WordListServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		
 		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		String strDate =  req.getParameter("date");
+		Date date = null;
+		try {
+			date = GoogledWordUtils.dateReformat(req.getParameter("date"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		GoogledWordListDao dao = new GoogledWordListDao();
-		List<GoogledWord> wordList = dao.findMonthList(userMaster, strDate);
-		req.setAttribute("strDate", strDate);
+		List<GoogledWord> wordList = dao.findMonthList(userMaster, date);
+		req.setAttribute("strDate", date);
 		req.setAttribute("wordList", wordList);
 		
 		// 更新後に戻ってきた時用のメッセージ設定

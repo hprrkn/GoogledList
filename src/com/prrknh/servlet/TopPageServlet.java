@@ -1,11 +1,8 @@
 package com.prrknh.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Map;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,10 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.dao.TagMasterDao;
-import com.prrknh.entity.MonthCnt;
 import com.prrknh.entity.TagMaster;
 import com.prrknh.entity.UserMaster;
-import com.prrknh.logic.GoogledWordUtils;
 
 
 @WebServlet("/TopPageServlet")
@@ -46,6 +41,7 @@ public class TopPageServlet extends HttpServlet {
 		if (userMaster == null){
 			RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/jsp/login.jsp");
 			dispatcher.forward(req,res);
+			return;
 		}
 		
 		// 追加時選択用のタグリスト取得
@@ -55,18 +51,8 @@ public class TopPageServlet extends HttpServlet {
 		
 		//月次カウントリスト取得
 		GoogledWordListDao dao = new GoogledWordListDao();
-		Map<Date,Integer> countMap = dao.countAllMonthWord(userMaster);
-		List<MonthCnt> monthCntList = new ArrayList<>();
-		
-		for (Entry<Date, Integer> entry : countMap.entrySet()){
-			MonthCnt mcs = new MonthCnt(
-					entry.getKey(),
-					GoogledWordUtils.dateFormat(entry.getKey()),
-					entry.getValue()
-					); 	
-			monthCntList.add(mcs);
-		}
-		req.setAttribute("monthCntList", monthCntList);
+		Map<String,Integer> countMap = dao.countAllMonthWord(userMaster);
+		req.setAttribute("countMap", countMap);
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/jsp/topPage.jsp");
 		dispatcher.forward(req,res);

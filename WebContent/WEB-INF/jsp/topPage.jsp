@@ -50,13 +50,13 @@
 </div>
 
 	<ul class="list-group">
- 		<c:forEach var="monthCntList" items="${monthCntList}">
+ 		<c:forEach var="countMap" items="${countMap}">
 	    	<li class="list-group-item">
 	    		<span class="glyphicon glyphicon-search"></span>
-	    		<a href="/GoogledList/WordListServlet?date=${monthCntList.date}">
-	    			<strong>　${monthCntList.strYearMonth}</strong>のググったリスト
+	    		<a href="/GoogledList/WordListServlet?date=<c:out value="${countMap.key}"/><">
+	    			<strong>　<c:out value="${countMap.key}"/></strong>のググったリスト
     			</a>
-    			<span class="badge">${monthCntList.cnt}</span>
+    			<span class="badge"><c:out value="${obj.value}"/></span>
 	    	</li>
     	</c:forEach>
 	</ul>
