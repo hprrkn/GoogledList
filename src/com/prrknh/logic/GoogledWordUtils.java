@@ -8,8 +8,8 @@ import java.util.Date;
 public class GoogledWordUtils {
 
 	private static final String DATE_FORMAT = "yyyy年MM月";
-	private static final String DATE_REFORMAT = "YYYY年MM月DD日";
-	private static final String DATE_DB_FORMAT = "YYYY/MM/DD";
+	private static final String DATE_REFORMAT = "yyyy年MM月dd日";
+	private static final String DATE_DB_FORMAT = "yyyy/MM/dd";
 
 	private static String recoveryFormatedDate (String formatedDate){
 		return formatedDate + "01日";
