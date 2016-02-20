@@ -31,7 +31,14 @@ public class WordListServlet extends HttpServlet {
         super();
     }
     
-    // 指定月リストへ
+    /**
+     *  指定月リストへ
+     *  req : date(指定月、形式："2016年02月")
+     *  
+     *  res : date(指定月、形式："2016年02月")
+     *  	  wordList(指定月のList<GoogledWord>のワードリスト)
+     *  	  msg(更新後戻ってきた時のメッセージ nullable)
+     */
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// ログインチェック/パラムチェック
 		if (req.getSession().getAttribute("userMaster") == null || req.getParameter("date") == null){
@@ -46,9 +53,7 @@ public class WordListServlet extends HttpServlet {
 		try {
 			dbDate = GoogledWordUtils.dateReformat(strDate);
 		} catch (ParseException e) {
-			e.printStackTrace();
-			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
-			return;	
+			e.printStackTrace();	
 		}
 		GoogledWordListDao dao = new GoogledWordListDao();
 		List<GoogledWord> wordList = dao.findMonthList(userMaster, dbDate);
@@ -65,7 +70,17 @@ public class WordListServlet extends HttpServlet {
 		dispatcher.forward(req,res);
 	}
 
-	// ワード追加/編集で該当月リストへ
+	/**
+	 *  ワード新規追加/編集or削除から当月リストへ
+	 *  req : addWord(新規追加のワード)
+	 *        memo(新規追加ワードへのメモ　nullable)
+	 *        tagIdList(新規追加ワードへのタグID(s) nullable)
+	 *        newTag(新規追加ワードへの新規追加タグネーム nullable)
+	 *        
+	 *  res : addedWord(新規追加の<GoogledWord>のワード nullable)
+	 *        wordList(当月ワードリストList<GoogeldWord>)
+	 *        msg(編集・削除後のメッセージを引き渡す nullable) 
+	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// ログインチェック
 		if (req.getSession().getAttribute("userMaster") == null){
@@ -81,32 +96,25 @@ public class WordListServlet extends HttpServlet {
 		
 		// 新規ワード追加の場合
 		if (StringUtils.isNotEmpty(req.getParameter("addWord"))){
-			// formからの受け取り
+			// ワード登録処理
 			String addWord = req.getParameter("addWord");
 			String memo = req.getParameter("memo");
+			int addedId = gDao.addWord(userMaster, addWord, memo);
+			GoogledWord addedWord = gDao.findDetail(addedId);
+			req.setAttribute("addedWord", addedWord);
+			
+			//　タグ追加処理
 			List<Integer> tagIdList = new ArrayList<>();
 			tagIdList = GoogledWordUtils.returnTagIdList(req);
-			
-			// 新規タグ追加
 			if (StringUtils.isNotEmpty(req.getParameter("newTag"))){
 				int tagId = tDao.createTag(userMaster, req.getParameter("newTag"));
 				tagIdList.add(tagId);
 			}
-			
-			int addedId = gDao.addWord(userMaster, addWord, memo);
-			String strDate = GoogledWordUtils.dateFormat(gDao.findDetail(addedId).getAdded_day());
-		    // wordとtagのinsert
 			if (CollectionUtils.isNotEmpty(tagIdList)){
 				rDao.setTagOnWord(addedId,tagIdList);
 			}
-			req.setAttribute("addWord", addWord);
-		    req.setAttribute("memo", memo);
-		    req.setAttribute("strDate",strDate);
-		    
 		// ワード編集/削除の場合
 		} else if (StringUtils.isNotEmpty(req.getParameter("id"))){
-			String strDate = GoogledWordUtils.dateFormat(gDao.findDetail(Integer.parseInt(req.getParameter("id"))).getAdded_day());
-			req.setAttribute("strDate",strDate);
 			if (StringUtils.isNotEmpty(req.getParameter("msg"))){
 				req.setAttribute("msg", req.getParameter("msg"));
 			}
