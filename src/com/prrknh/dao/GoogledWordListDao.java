@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -224,7 +223,8 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = ResourceBundle.getBundle("GoogledWordList").getString("update_detail");			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("GoogledWordList").getString("update_detail");			
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, EditedWord);
 			pStmt.setString(2, EditedMemo);
 			pStmt.setInt(3, id);
@@ -249,7 +249,8 @@ public class GoogledWordListDao {
 		try{
 			Class.forName(DRIVER_NAME);
 			conn = DriverManager.getConnection(URL, DB_USER, DB_PASS);
-			String sql = ResourceBundle.getBundle("GoogledWordList").getString("delete_detail");			PreparedStatement pStmt = conn.prepareStatement(sql);
+			String sql = ResourceBundle.getBundle("GoogledWordList").getString("delete_detail");			
+			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, id);
 			pStmt.executeUpdate();
 		}catch(SQLException e){

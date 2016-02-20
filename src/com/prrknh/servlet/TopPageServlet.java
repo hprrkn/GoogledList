@@ -10,7 +10,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.dao.TagMasterDao;
@@ -35,15 +34,14 @@ public class TopPageServlet extends HttpServlet {
 	}
 	
 	private void doBoth(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
-		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
-		HttpSession session = req.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
+		// ログインチェック
+		if (req.getSession().getAttribute("userMaster") == null){
 			RequestDispatcher dispatcher = req.getRequestDispatcher("WEB-INF/jsp/login.jsp");
 			dispatcher.forward(req,res);
 			return;
 		}
-		
+
+		UserMaster userMaster = (UserMaster)req.getSession().getAttribute("userMaster");
 		// 追加時選択用のタグリスト取得
 		TagMasterDao tmDao = new TagMasterDao();
 		List<TagMaster> allTagList = tmDao.getAllTagList(userMaster);

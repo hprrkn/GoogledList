@@ -3,7 +3,14 @@ package com.prrknh.logic;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class GoogledWordUtils {
 
@@ -32,8 +39,17 @@ public class GoogledWordUtils {
 
 	public static String dateReformat (String formatedDate) throws ParseException{
 		SimpleDateFormat format = new SimpleDateFormat(DATE_REFORMAT);
-		String a = recoveryFormatedDate(formatedDate);
-		Date date = format.parse(a);
-		return dateDBFormat(date);
+		return dateDBFormat(format.parse(recoveryFormatedDate(formatedDate)));
+	}
+	
+	public static List<Integer> returnTagIdList (HttpServletRequest req){
+		// 選択されたタグ
+		List<Integer> tagIdList = new ArrayList<>();
+		if (StringUtils.isNoneEmpty(req.getParameterValues("tagId"))){
+			for (String strTagId : Arrays.asList(req.getParameterValues("tagId"))){
+				tagIdList.add(Integer.parseInt(strTagId));
+			}
+		}
+		return tagIdList;
 	}
 }

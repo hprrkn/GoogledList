@@ -9,13 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.dao.TagMasterDao;
 import com.prrknh.entity.GoogledWord;
 import com.prrknh.entity.TagMaster;
-import com.prrknh.entity.UserMaster;
 import com.prrknh.logic.CheckUtils;
 
 @WebServlet("/WordDetailServlet")
@@ -27,8 +25,7 @@ public class WordDetailServlet extends HttpServlet {
     }
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// ログインチェック/パラムチェック　
-		HttpSession session = req.getSession();
-		if (session.getAttribute("userMaster") == null || req.getParameter("id") == null){
+		if (req.getSession().getAttribute("userMaster") == null || req.getParameter("id") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;
 		}

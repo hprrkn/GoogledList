@@ -3,8 +3,6 @@ package com.prrknh.servlet;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -13,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -37,20 +34,21 @@ public class WordListServlet extends HttpServlet {
     // 指定月リストへ
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// ログインチェック/パラムチェック
-		HttpSession session = req.getSession();
-		if (session.getAttribute("userMaster") == null || req.getParameter("date") == null){
+		if (req.getSession().getAttribute("userMaster") == null || req.getParameter("date") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;	
 		}
 		req.setCharacterEncoding("UTF-8");
 		
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
+		UserMaster userMaster = (UserMaster)req.getSession().getAttribute("userMaster");
 		String strDate = req.getParameter("date");
 		String dbDate = null;
 		try {
 			dbDate = GoogledWordUtils.dateReformat(strDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
+			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
+			return;	
 		}
 		GoogledWordListDao dao = new GoogledWordListDao();
 		List<GoogledWord> wordList = dao.findMonthList(userMaster, dbDate);
@@ -69,15 +67,14 @@ public class WordListServlet extends HttpServlet {
 
 	// ワード追加/編集で該当月リストへ
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
-		HttpSession session = req.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
+		// ログインチェック
+		if (req.getSession().getAttribute("userMaster") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;
 		}
 		req.setCharacterEncoding("UTF-8");
 		
+		UserMaster userMaster = (UserMaster)req.getSession().getAttribute("userMaster");
 		GoogledWordListDao gDao =new GoogledWordListDao();
 		RelTagWordDao rDao = new RelTagWordDao();
 		TagMasterDao tDao = new TagMasterDao();
@@ -88,13 +85,7 @@ public class WordListServlet extends HttpServlet {
 			String addWord = req.getParameter("addWord");
 			String memo = req.getParameter("memo");
 			List<Integer> tagIdList = new ArrayList<>();
-			
-			// 配列からlist、list<String>からlist<Integer>という無駄な変換の嵐　直す :TODO
-			if (StringUtils.isNoneEmpty(req.getParameterValues("tagId"))){
-				for (String strTagId : Arrays.asList(req.getParameterValues("tagId"))){
-					tagIdList.add(Integer.parseInt(strTagId));
-				}
-			}
+			tagIdList = GoogledWordUtils.returnTagIdList(req);
 			
 			// 新規タグ追加
 			if (StringUtils.isNotEmpty(req.getParameter("newTag"))){
@@ -104,13 +95,13 @@ public class WordListServlet extends HttpServlet {
 			
 			int addedId = gDao.addWord(userMaster, addWord, memo);
 			String strDate = GoogledWordUtils.dateFormat(gDao.findDetail(addedId).getAdded_day());
-			req.setAttribute("strDate",strDate);
 		    // wordとtagのinsert
 			if (CollectionUtils.isNotEmpty(tagIdList)){
 				rDao.setTagOnWord(addedId,tagIdList);
 			}
 			req.setAttribute("addWord", addWord);
 		    req.setAttribute("memo", memo);
+		    req.setAttribute("strDate",strDate);
 		    
 		// ワード編集/削除の場合
 		} else if (StringUtils.isNotEmpty(req.getParameter("id"))){

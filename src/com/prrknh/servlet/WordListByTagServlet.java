@@ -8,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.dao.TagMasterDao;
@@ -26,15 +25,14 @@ public class WordListByTagServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// ログインチェック/パラムチェック
-		HttpSession session = req.getSession();
-		if (session.getAttribute("userMaster") == null || req.getParameter("tagId") == null){
+		if (req.getSession().getAttribute("userMaster") == null || req.getParameter("tagId") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;
 		}		
 		req.setCharacterEncoding("UTF-8");
 		
 		// 指定タグのワードリスト取得
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
+		UserMaster userMaster = (UserMaster)req.getSession().getAttribute("userMaster");
 		int tagId = Integer.parseInt(req.getParameter("tagId"));
 		GoogledWordListDao gDao = new GoogledWordListDao();
 		req.setAttribute("wordList", gDao.findWordListByTag(userMaster, tagId));

@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -36,19 +35,14 @@ public class EditWordServlet extends HttpServlet {
 
     // 編集/削除前
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
-		HttpSession session = req.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
+		// ログイン/パラムチェック
+		if (req.getSession().getAttribute("userMaster") == null || req.getParameter("selectedId") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;
 		}
 		req.setCharacterEncoding("UTF-8");
 		
-		if (req.getParameter("selectedId") == null){
-			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
-			return;
-		}
+		UserMaster userMaster = (UserMaster)req.getSession().getAttribute("userMaster");
 		int selectedId = Integer.parseInt(req.getParameter("selectedId"));
 		GoogledWordListDao gDao = new GoogledWordListDao();
 		TagMasterDao tDao = new TagMasterDao();
@@ -65,19 +59,13 @@ public class EditWordServlet extends HttpServlet {
 
 	// ワード編集/削除後にwordListへ
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		// セッションからユーザー情報を取得　なかったらログイン画面へリダイレクト
-		HttpSession session = req.getSession();
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
-		if (userMaster == null){
+		// ログイン/パラムチェック
+		if (req.getSession().getAttribute("userMaster") == null || req.getParameter("id") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;
-		}
-		
+		}		
 		req.setCharacterEncoding("UTF-8");
-		if (req.getParameter("id") == null){
-			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
-			return;
-		}
+
 		int id = Integer.parseInt(req.getParameter("id"));
 		req.setAttribute("id", id);
 		GoogledWordListDao gDao = new GoogledWordListDao();

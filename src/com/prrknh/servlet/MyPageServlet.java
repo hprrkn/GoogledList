@@ -8,7 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.prrknh.dao.GoogledWordListDao;
 import com.prrknh.entity.UserMaster;
@@ -23,13 +22,12 @@ public class MyPageServlet extends HttpServlet {
 	
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// ログインチェック
-		HttpSession session = req.getSession();
-		if (session.getAttribute("userMaster") == null){
+		if (req.getSession().getAttribute("userMaster") == null){
 			res.sendRedirect(CheckUtils.TOP_PAGE_URL);
 			return;
 		}
 		
-		UserMaster userMaster = (UserMaster)session.getAttribute("userMaster");
+		UserMaster userMaster = (UserMaster)req.getSession().getAttribute("userMaster");
     	GoogledWordListDao gDao = new GoogledWordListDao();
     	int wordCount = gDao.getCountByUser(userMaster);
     	req.setAttribute("userMaster", userMaster);
