@@ -23,7 +23,7 @@
 <c:if test="${!empty addedWord}">
 	<div class="alert alert-warning alert-dismissible" role="alert">
 	  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	  <strong>${addWorded.word}</strong>を追加しました。
+	  <strong>${addedWorded.word}</strong>を追加しました。
 	  <c:if test="${!empty addedWord.memo}"><p>　memo:<strong>${addedWord.memo}</strong></p></c:if>
 	</div>
 </c:if>
