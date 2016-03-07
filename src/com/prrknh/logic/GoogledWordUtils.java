@@ -12,11 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class GoogledWordUtils {
+public final class GoogledWordUtils {
 
 	private static final String DATE_FORMAT = "yyyy年MM月";
 	private static final String DATE_REFORMAT = "yyyy年MM月dd日";
 	private static final String DATE_DB_FORMAT = "yyyy/MM/dd";
+	
+	private GoogledWordUtils(){};
 
 	private static String recoveryFormatedDate (String formatedDate){
 		return formatedDate + "01日";

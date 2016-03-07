@@ -36,8 +36,8 @@ public class WordListServlet extends HttpServlet {
      *  req : date(指定月、形式："2016年02月")
      *  
      *  res : date(指定月、形式："2016年02月")
-     *  	  wordList(指定月のList<GoogledWord>のワードリスト)
-     *  	  msg(更新後戻ってきた時のメッセージ nullable)
+     *        wordList(指定月のList<GoogledWord>のワードリスト)
+     *        msg(更新後戻ってきた時のメッセージ nullable)
      */
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// ログインチェック/パラムチェック

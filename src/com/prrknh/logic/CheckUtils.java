@@ -5,9 +5,11 @@ import org.apache.commons.lang3.StringUtils;
 import com.prrknh.dao.UsersDao;
 import com.prrknh.entity.UserMaster;
 
-public class CheckUtils {
+public final class CheckUtils {
 	
-	public static final String TOP_PAGE_URL = "/GoogledList/TopPageServlet"; 
+	public static final String TOP_PAGE_URL = "/GoogledList/TopPageServlet";
+	
+	private CheckUtils(){};
 	
 	public  static boolean checkUser(UserMaster userMaster){
 		UsersDao dao = new UsersDao();
